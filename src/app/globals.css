@@ -8,7 +8,7 @@ body {
 }
 
 :root {
-  color-scheme: dark;
+  /* color-scheme: dark; */
   color: CanvasText;
   background-color: Canvas;
 }
