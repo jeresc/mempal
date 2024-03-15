@@ -1,8 +1,7 @@
 import type {Metadata} from "next";
 
-import Link from "next/link";
-
 import "./globals.css";
+import {Logo} from "@/assets/logo";
 
 export const metadata: Metadata = {
   title: "mempal-web",
@@ -12,12 +11,22 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body className="bg-background dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] px-4 font-sans antialiased">
-        <header className="text-xl font-bold leading-[4rem]">
-          <Link href="/">mempal-web</Link>
+      <body className="bg-background dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] font-sans antialiased">
+        <header className="flex items-center justify-between p-2 text-xl font-bold leading-[4rem]">
+          <Logo className="h-8" />
+          <nav>
+            <ul className="flex gap-2">
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a href="/cards">Cards</a>
+              </li>
+            </ul>
+          </nav>
         </header>
-        <main className="py-8">{children}</main>
-        <footer className="text-center leading-[4rem] opacity-70">
+        <main className="h-full px-2 py-8">{children}</main>
+        <footer className="px-2 text-center leading-[4rem] opacity-70">
           © {new Date().getFullYear()} mempal-web
         </footer>
       </body>
