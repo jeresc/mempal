@@ -6,9 +6,11 @@ const config: Config = {
     extend: {
       colors: {
         primary: "#4B73FF",
+        background: "#fff",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
+        outfit: ["var(--font-outfit)", "sans-serif"],
       },
     },
   },

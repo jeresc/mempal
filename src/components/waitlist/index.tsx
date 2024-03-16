@@ -1,10 +1,13 @@
 "use client";
 
 import type {z} from "zod";
+import type {SubmitErrorHandler} from "react-hook-form";
 
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import confetti from "canvas-confetti";
+import {toast} from "sonner";
+import {MailCheck, MailWarning} from "lucide-react";
 
 import {
   Form,
@@ -19,7 +22,7 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {waitlistSchema} from "@/schemas";
 
-export function WaitlistForm() {
+function WaitlistForm() {
   //   // 1. Define your form.
   const form = useForm<z.infer<typeof waitlistSchema>>({
     resolver: zodResolver(waitlistSchema),
@@ -32,19 +35,35 @@ export function WaitlistForm() {
   function onSubmit(values: z.infer<typeof waitlistSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+
     confetti({
       particleCount: 120,
       spread: 80,
       origin: {y: 0.6},
       colors: ["#cffafe", "#bae6fd", "#4b73ff"],
     });
+
+    toast.info(
+      <div className="flex items-center gap-2 font-outfit text-base leading-none text-sky-600">
+        <MailCheck className="h-6 w-6" />
+        <p> Thanks for joining our waitlist, we&apos;ll be in touch shortly.</p>
+      </div>,
+    );
   }
+
+  const onError: SubmitErrorHandler<z.infer<typeof waitlistSchema>> = (errors) => {
+    if (errors.email)
+      toast(
+        <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+          <MailWarning size={18} /> <p>{errors.email.message}</p>
+        </div>,
+      );
+  };
 
   return (
     <Form {...form}>
       {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className="mt-3 flex gap-2" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="mt-3 flex gap-2" onSubmit={form.handleSubmit(onSubmit, onError)}>
         <FormField
           control={form.control}
           name="email"
@@ -55,7 +74,6 @@ export function WaitlistForm() {
                 <Input
                   className="bg-[rgb(255,255,255,.3)] text-base placeholder:text-base"
                   placeholder="juani@papu.com"
-                  type="email"
                   {...field}
                 />
               </FormControl>
@@ -74,3 +92,5 @@ export function WaitlistForm() {
     </Form>
   );
 }
+
+export {WaitlistForm};

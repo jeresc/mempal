@@ -5,9 +5,10 @@ import {Inter} from "next/font/google";
 
 import "./globals.css";
 import {Header} from "@/components/ui/header";
+import {Toaster} from "@/components/ui/sonner";
 import {cn} from "@/lib/utils";
 
-const outfit = Outfit({subsets: ["latin"]});
+const outfit = Outfit({subsets: ["latin"], variable: "--font-outfit"});
 
 const inter = Inter({subsets: ["latin"], variable: "--font-inter"});
 
@@ -22,8 +23,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({children}: RootLayoutProps) {
   return (
-    <html className={cn(inter.variable, outfit.className)} lang="en">
-      <body className="bg-background dark m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8">
+    <html className={cn(inter.variable, outfit.variable, "font-outfit")} lang="en">
+      <body className="m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8">
         <Header />
         <main className="h-full py-12">
           {children}
@@ -54,6 +55,7 @@ export default function RootLayout({children}: RootLayoutProps) {
             </div>
           </div>
         </main>
+        <Toaster />
         <div className="min-h-screen" />{" "}
         <footer className="px-2 text-center leading-[4rem] opacity-70">
           © {new Date().getFullYear()} mempal-web

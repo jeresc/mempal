@@ -5,7 +5,7 @@ import {WaitlistForm} from "@/components/waitlist";
 
 import {transition, variants} from "./anim";
 
-export function Hero() {
+function Hero() {
   return (
     <motion.section
       animate="animate"
@@ -28,3 +28,5 @@ export function Hero() {
     </motion.section>
   );
 }
+
+export {Hero};

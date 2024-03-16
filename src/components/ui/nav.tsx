@@ -1,3 +1,5 @@
-export function Nav() {
+function Nav() {
   return <nav />;
 }
+
+export {Nav};
