@@ -4,6 +4,7 @@ import type {z} from "zod";
 
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
+import confetti from "canvas-confetti";
 
 import {
   Form,
@@ -12,7 +13,7 @@ import {
   FormField,
   FormItem,
   // FormLabel,
-  FormMessage,
+  // FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
@@ -32,6 +33,12 @@ export function WaitlistForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: {y: 0.6},
+      colors: ["#cffafe", "#bae6fd", "#4b73ff"],
+    });
   }
 
   return (
