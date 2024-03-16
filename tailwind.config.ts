@@ -7,6 +7,9 @@ const config: Config = {
       colors: {
         primary: "#4B73FF",
       },
+      fontFamily: {
+        inter: ["var(--font-inter)", "sans-serif"],
+      },
     },
   },
   plugins: [],

@@ -1,11 +1,15 @@
 import type {Metadata} from "next";
 
 import {Outfit} from "next/font/google";
+import {Inter} from "next/font/google";
 
 import "./globals.css";
 import {Header} from "@/components/ui/header";
+import {cn} from "@/lib/utils";
 
 const outfit = Outfit({subsets: ["latin"]});
+
+const inter = Inter({subsets: ["latin"], variable: "--font-inter"});
 
 export const metadata: Metadata = {
   title: "mempal-web",
@@ -18,7 +22,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({children}: RootLayoutProps) {
   return (
-    <html className={outfit.className} lang="en">
+    <html className={cn(inter.variable, outfit.className)} lang="en">
       <body className="bg-background dark m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8">
         <Header />
         <main className="h-full py-12">

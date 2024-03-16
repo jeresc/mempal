@@ -45,14 +45,22 @@ export function WaitlistForm() {
             <FormItem>
               {/* <FormLabel className="sr-only">Email</FormLabel> */}
               <FormControl>
-                <Input className="text-base" placeholder="juani@papu.com" {...field} />
+                <Input
+                  className="bg-[rgb(255,255,255,.3)] text-base placeholder:text-base"
+                  placeholder="juani@papu.com"
+                  type="email"
+                  {...field}
+                />
               </FormControl>
               {/* <FormDescription>This is your public display name.</FormDescription> */}
-              <FormMessage />
+              {/* <FormMessage /> */}
             </FormItem>
           )}
         />
-        <Button className="bg-blue-400 px-3 py-2 text-lg text-white" type="submit">
+        <Button
+          className="bg-primary px-3 py-2 text-lg text-white transition-all duration-300"
+          type="submit"
+        >
           Join Waitlist
         </Button>
       </form>
