@@ -20,38 +20,60 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {waitlistSchema} from "@/schemas";
+import {WaitlistSchema} from "@/schemas";
+
+import {registerWaitlistUser} from "./actions";
 
 function WaitlistForm() {
   //   // 1. Define your form.
-  const form = useForm<z.infer<typeof waitlistSchema>>({
-    resolver: zodResolver(waitlistSchema),
+  const form = useForm<z.infer<typeof WaitlistSchema>>({
+    resolver: zodResolver(WaitlistSchema),
     defaultValues: {
       email: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof waitlistSchema>) {
+  function onSubmit(values: z.infer<typeof WaitlistSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    registerWaitlistUser(values)
+      .then((data) => {
+        if (data.error) {
+          toast(
+            <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+              <MailWarning size={18} /> <p>{data.error}</p>
+            </div>,
+          );
+        }
 
-    confetti({
-      particleCount: 120,
-      spread: 80,
-      origin: {y: 0.6},
-      colors: ["#cffafe", "#bae6fd", "#4b73ff"],
-    });
+        if (data.success) {
+          confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: {y: 0.6},
+            colors: ["#cffafe", "#bae6fd", "#4b73ff"],
+          });
 
-    toast.info(
-      <div className="flex items-center gap-2 font-outfit text-base leading-none text-sky-600">
-        <MailCheck className="h-6 w-6" />
-        <p> Thanks for joining our waitlist, we&apos;ll be in touch shortly.</p>
-      </div>,
-    );
+          toast.info(
+            <div className="flex items-center gap-2 font-outfit text-base leading-none text-sky-600">
+              <MailCheck className="h-6 w-6" />
+              <p> Thanks for joining our waitlist, we&apos;ll be in touch shortly.</p>
+            </div>,
+          );
+        }
+      })
+      .catch(() => {
+        form.reset();
+        toast(
+          <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+            <MailWarning size={18} /> <p>Something went wrong, try again later</p>
+          </div>,
+        );
+      });
   }
 
-  const onError: SubmitErrorHandler<z.infer<typeof waitlistSchema>> = (errors) => {
+  const onError: SubmitErrorHandler<z.infer<typeof WaitlistSchema>> = (errors) => {
     if (errors.email)
       toast(
         <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
