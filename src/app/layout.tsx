@@ -3,7 +3,7 @@ import type {Metadata} from "next";
 import {Outfit} from "next/font/google";
 
 import "./globals.css";
-import {Logo} from "@/assets/logo";
+import {Header} from "@/components/ui/header";
 
 const outfit = Outfit({subsets: ["latin"]});
 
@@ -19,23 +19,11 @@ interface RootLayoutProps {
 export default function RootLayout({children}: RootLayoutProps) {
   return (
     <html className={outfit.className} lang="en">
-      <body className="bg-background dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] antialiased">
-        <header className="flex items-center justify-between p-2 text-xl font-bold leading-[4rem]">
-          <Logo className="h-8" />
-          {/* <nav> */}
-          {/*   <ul className="flex gap-2"> */}
-          {/*     <li> */}
-          {/*       <a href="/">Home</a> */}
-          {/*     </li> */}
-          {/*     <li> */}
-          {/*       <a href="/cards">Cards</a> */}
-          {/*     </li> */}
-          {/*   </ul> */}
-          {/* </nav> */}
-        </header>
-        <main className="h-full px-4 py-8">
+      <body className="bg-background dark m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8">
+        <Header />
+        <main className="h-full py-12">
           {children}
-          <div className="absolute left-0 top-0 -z-10 h-full w-full overflow-hidden">
+          <div className="absolute left-0 top-0 -z-10 h-full w-full">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-x-0 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -62,6 +50,7 @@ export default function RootLayout({children}: RootLayoutProps) {
             </div>
           </div>
         </main>
+        <div className="min-h-screen" />{" "}
         <footer className="px-2 text-center leading-[4rem] opacity-70">
           © {new Date().getFullYear()} mempal-web
         </footer>

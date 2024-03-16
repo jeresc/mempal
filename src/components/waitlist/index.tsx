@@ -45,7 +45,7 @@ export function WaitlistForm() {
             <FormItem>
               {/* <FormLabel className="sr-only">Email</FormLabel> */}
               <FormControl>
-                <Input placeholder="juani@papu.com" {...field} />
+                <Input className="text-base" placeholder="juani@papu.com" {...field} />
               </FormControl>
               {/* <FormDescription>This is your public display name.</FormDescription> */}
               <FormMessage />
