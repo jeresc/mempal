@@ -1,11 +1,14 @@
 "use client";
-import {motion} from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 
 import {WaitlistForm} from "@/components/waitlist";
+import {useWaitlistStore} from "@/lib/store/waitlist";
 
 import {transition, variants} from "./anim";
 
 function Hero() {
+  const hasJoinedWaitlist = useWaitlistStore((state) => state.hasJoinedWaitlist);
+
   return (
     <motion.section
       animate="animate"
@@ -22,7 +25,13 @@ function Hero() {
           Supercharge your learning with our intelligent study platform. Generate personalized
           questions and flashcards directly from your resources.
         </sub>
-        <WaitlistForm />
+        <AnimatePresence mode="wait">
+          {!hasJoinedWaitlist && (
+            <motion.div exit={{opacity: 0, y: -30}} transition={transition}>
+              <WaitlistForm />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
       <article className="aspect-video w-full rounded-lg border border-blue-50 bg-[rgb(255,255,255,.5)]" />
     </motion.section>

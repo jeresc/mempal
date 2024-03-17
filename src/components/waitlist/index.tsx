@@ -21,10 +21,13 @@ import {
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {WaitlistSchema} from "@/schemas";
+import {useWaitlistStore} from "@/lib/store/waitlist";
 
 import {registerWaitlistUser} from "./actions";
 
 function WaitlistForm() {
+  const setHasJoinedWaitlist = useWaitlistStore((state) => state.setHasJoinedWaitlist);
+
   //   // 1. Define your form.
   const form = useForm<z.infer<typeof WaitlistSchema>>({
     resolver: zodResolver(WaitlistSchema),
@@ -61,6 +64,8 @@ function WaitlistForm() {
               <p> Thanks for joining our waitlist, we&apos;ll be in touch shortly.</p>
             </div>,
           );
+
+          setHasJoinedWaitlist(true);
         }
       })
       .catch(() => {
