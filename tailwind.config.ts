@@ -12,6 +12,9 @@ const config: Config = {
         inter: ["var(--font-inter)", "sans-serif"],
         outfit: ["var(--font-outfit)", "sans-serif"],
       },
+      screens: {
+        xs: "480px",
+      },
     },
   },
   plugins: [],
