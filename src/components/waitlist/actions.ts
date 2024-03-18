@@ -13,7 +13,9 @@ export const registerWaitlistUser = async (values: z.infer<typeof WaitlistSchema
     return {error: "Invalid fields!", success: ""};
   }
 
-  const {email} = validatedFields.data;
+  let {email} = validatedFields.data;
+
+  email = email.toLowerCase();
 
   const existingUser = await getWaitlistUserByEmail(email);
 

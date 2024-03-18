@@ -5,6 +5,7 @@ import {WaitlistForm} from "@/components/waitlist";
 import {useWaitlistStore} from "@/lib/store/waitlist";
 
 import {transition, variants} from "./anim";
+import {MailCheck} from "lucide-react";
 
 function Hero() {
   const hasJoinedWaitlist = useWaitlistStore((state) => state.hasJoinedWaitlist);
@@ -30,12 +31,14 @@ function Hero() {
         ) : (
           <motion.p
             animate={{opacity: 1}}
-            className="mt-3 max-w-[320px] text-pretty rounded-md border border-sky-100 bg-[rgb(245,249,255)] px-2 py-2 text-[17px] font-medium leading-[110%] xs:max-w-none xs:leading-none md:leading-none lg:mt-2 xl:py-1.5 xl:text-lg xl:leading-none"
+            className="mt-3 flex max-w-[320px] items-center gap-1.5 text-pretty rounded-md border border-sky-100 bg-[rgb(245,249,255)] px-2 py-1.5 text-[17px] font-medium leading-[110%] xs:max-w-none lg:mt-2 xl:text-lg"
             initial={{opacity: 0}}
           >
+            <MailCheck className="ml-1 pt-[1px] text-[rgb(80,178,247)] xl:h-5 xl:w-5" size={18} />
             <span className="bg-[linear-gradient(90deg,rgb(80,178,247)_0%,rgb(80,187,247)_100%)] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-              Thanks<span className="hidden xs:inline"> for joining our waitlist</span>, we&apos;ll
-              be in touch shortly.
+              Thanks
+              <span className="hidden xs:inline"> for joining our waitlist</span>, we&apos;ll be in
+              touch shortly.
             </span>
           </motion.p>
         )}
