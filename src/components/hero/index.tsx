@@ -1,11 +1,11 @@
 "use client";
 import {motion} from "framer-motion";
+import {MailCheck} from "lucide-react";
 
 import {WaitlistForm} from "@/components/waitlist";
 import {useWaitlistStore} from "@/lib/store/waitlist";
 
 import {transition, variants} from "./anim";
-import {MailCheck} from "lucide-react";
 
 function Hero() {
   const hasJoinedWaitlist = useWaitlistStore((state) => state.hasJoinedWaitlist);

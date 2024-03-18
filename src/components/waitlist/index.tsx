@@ -7,18 +7,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import confetti from "canvas-confetti";
 import {toast} from "sonner";
-import {LoaderCircle, MailCheck, MailWarning} from "lucide-react";
+import {LoaderCircle, MailWarning} from "lucide-react";
 import {useTransition} from "react";
 
-import {
-  Form,
-  FormControl,
-  // FormDescription,
-  FormField,
-  FormItem,
-  // FormLabel,
-  // FormMessage,
-} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {WaitlistSchema} from "@/schemas";
@@ -100,7 +92,6 @@ function WaitlistForm() {
           name="email"
           render={({field}) => (
             <FormItem>
-              {/* <FormLabel className="sr-only">Email</FormLabel> */}
               <FormControl>
                 <Input
                   className="bg-[rgb(255,255,255,.3)] text-base placeholder:text-base"
@@ -110,8 +101,6 @@ function WaitlistForm() {
                   {...field}
                 />
               </FormControl>
-              {/* <FormDescription>This is your public display name.</FormDescription> */}
-              {/* <FormMessage /> */}
             </FormItem>
           )}
         />

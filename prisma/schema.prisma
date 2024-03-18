@@ -15,6 +15,7 @@ datasource db {
 }
 
 model WaitlistUser {
-  id    String @id @default(cuid())
-  email String @unique
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  email     String   @unique
 }
