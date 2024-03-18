@@ -24,9 +24,7 @@ export const registerWaitlistUser = async (values: z.infer<typeof WaitlistSchema
   }
 
   await db.waitlistUser.create({
-    data: {
-      email,
-    },
+    data: {email},
   });
 
   return {

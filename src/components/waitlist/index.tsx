@@ -53,13 +53,6 @@ function WaitlistForm() {
               colors: ["#cffafe", "#bae6fd", "#4b73ff"],
             });
 
-            // toast.info(
-            //   <div className="flex items-center gap-2 font-outfit text-base leading-none text-sky-600">
-            //     <MailCheck className="h-6 w-6" />
-            //     <p> Thanks for joining our waitlist, we&apos;ll be in touch shortly.</p>
-            //   </div>,
-            // );
-
             setHasJoinedWaitlist(true);
           }
         })
