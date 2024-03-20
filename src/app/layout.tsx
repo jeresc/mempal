@@ -23,21 +23,21 @@ export const metadata: Metadata = {
     192: "/android-chrome-192x192.png",
     512: "/android-chrome-512x512.png",
   },
-  // openGraph: {
-  //   title: "Jeremias Soruco - Portfolio",
-  //   description:
-  //     "Jeremias Soruco, a full-stack developer based in Buenos Aires, Argentina, showcasing a variety of projects and skills in web development, design, and more.",
-  //   type: "website",
-  //   images: [
-  //     {
-  //       url: "https://jeresc.vercel.app/og.jpg",
-  //       width: 1200,
-  //       height: 700,
-  //       alt: "jeresc - Front End Developer",
-  //       type: "image/jpeg",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "Mempal",
+    description:
+      "Mempal: Boost Your Learning with AI-Generated Flashcards. Create custom study materials from any resource for efficient, personalized learning.",
+    type: "website",
+    //   images: [
+    //     {
+    //       url: "https://jeresc.vercel.app/og.jpg",
+    //       width: 1200,
+    //       height: 700,
+    //       alt: "jeresc - Front End Developer",
+    //       type: "image/jpeg",
+    //     },
+    //   ],
+  },
 };
 
 interface RootLayoutProps {
