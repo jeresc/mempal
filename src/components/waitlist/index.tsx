@@ -10,13 +10,13 @@ import {toast} from "sonner";
 import {LoaderCircle, MailWarning} from "lucide-react";
 import {useTransition} from "react";
 
+import {registerWaitlistUser} from "./actions";
+
 import {Form, FormControl, FormField, FormItem} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {WaitlistSchema} from "@/schemas";
 import {useWaitlistStore} from "@/lib/store/waitlist";
-
-import {registerWaitlistUser} from "./actions";
 
 function WaitlistForm() {
   const setHasJoinedWaitlist = useWaitlistStore((state) => state.setHasJoinedWaitlist);
@@ -39,7 +39,7 @@ function WaitlistForm() {
         .then((data) => {
           if (data.error) {
             toast(
-              <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+              <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
                 <MailWarning size={18} /> <p>{data.error}</p>
               </div>,
             );
@@ -59,7 +59,7 @@ function WaitlistForm() {
         .catch(() => {
           form.reset();
           toast(
-            <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+            <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
               <MailWarning size={18} /> <p>Something went wrong, try again later</p>
             </div>,
           );
@@ -70,7 +70,7 @@ function WaitlistForm() {
   const onError: SubmitErrorHandler<z.infer<typeof WaitlistSchema>> = (errors) => {
     if (errors.email)
       toast(
-        <div className="flex items-center gap-2 font-outfit text-base leading-none text-[#0009]">
+        <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
           <MailWarning size={18} /> <p>{errors.email.message}</p>
         </div>,
       );
@@ -78,19 +78,19 @@ function WaitlistForm() {
 
   return (
     <Form {...form}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className="mt-3 flex gap-2" onSubmit={form.handleSubmit(onSubmit, onError)}>
+      {}
+      <form className='mt-3 flex gap-2' onSubmit={form.handleSubmit(onSubmit, onError)}>
         <FormField
           control={form.control}
-          name="email"
+          name='email'
           render={({field}) => (
             <FormItem>
               <FormControl>
                 <Input
-                  className="bg-[rgb(255,255,255,.3)] text-base placeholder:text-base"
+                  className='bg-[rgb(255,255,255,.3)] text-base placeholder:text-base'
                   disabled={isPending}
-                  placeholder="name@email.com"
-                  type="email"
+                  placeholder='name@email.com'
+                  type='email'
                   {...field}
                 />
               </FormControl>
@@ -98,13 +98,13 @@ function WaitlistForm() {
           )}
         />
         <Button
-          className="bg-primary px-3 py-2 text-lg text-white transition-all duration-300"
+          className='bg-blue-brand px-3 py-2 text-lg text-white transition-all duration-300'
           disabled={isPending}
-          type="submit"
+          type='submit'
         >
           {isPending ? (
             <>
-              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              <LoaderCircle className='mr-2 h-4 w-4 animate-spin' />
               Please wait
             </>
           ) : (
