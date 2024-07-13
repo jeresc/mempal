@@ -89,7 +89,7 @@ function WaitlistForm() {
                 <Input
                   className='bg-[rgb(255,255,255,.3)] text-base shadow-sm placeholder:text-base'
                   disabled={isPending}
-                  placeholder='name@email.com'
+                  placeholder='Enter your email address'
                   type='email'
                   {...field}
                 />

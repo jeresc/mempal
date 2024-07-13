@@ -52,8 +52,8 @@ export function NewPasswordForm() {
       headerTitle='Password Reset'
     >
       <Form {...form}>
-        <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='space-y-2'>
             <FormField
               control={form.control}
               name='password'
@@ -65,7 +65,7 @@ export function NewPasswordForm() {
                       type='password'
                       {...field}
                       disabled={isPending}
-                      placeholder='•••••••••••••'
+                      placeholder='Enter new password'
                     />
                   </FormControl>
                   <FormMessage />
@@ -84,7 +84,7 @@ export function NewPasswordForm() {
                       type='password'
                       {...field}
                       disabled={isPending}
-                      placeholder='•••••••••••••'
+                      placeholder='Enter new password again'
                     />
                   </FormControl>
                   <FormMessage />

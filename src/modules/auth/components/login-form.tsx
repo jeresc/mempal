@@ -103,7 +103,7 @@ export function LoginForm() {
                           type='email'
                           {...field}
                           disabled={isPending}
-                          placeholder='john.doe@example.com'
+                          placeholder='Enter your email address'
                         />
                       </FormControl>
 
@@ -123,7 +123,7 @@ export function LoginForm() {
                           disabled={isPending}
                           type='password'
                           {...field}
-                          placeholder='•••••••••••••'
+                          placeholder='Enter your password'
                         />
                       </FormControl>
                       <Button asChild className='px-0 text-sm font-normal' size='sm' variant='link'>
