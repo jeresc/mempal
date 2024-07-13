@@ -1,19 +1,27 @@
 "use client";
 
 import {FcGoogle} from "react-icons/fc";
-import {FaFacebook} from "react-icons/fa";
+import {FaGithub} from "react-icons/fa";
+import {signIn} from "next-auth/react";
 
-import {SocialButton} from "~/auth/components/social-button";
+import {Button} from "@/components/ui/button";
+import {DEFAULT_LOGIN_REDIRECT} from "@/routes";
 
 export function Social() {
+  const onClick = (provider: "google" | "github") => {
+    signIn(provider, {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+    });
+  };
+
   return (
-    <div className='flex w-full flex-col items-center gap-y-1'>
-      <SocialButton provider='google'>
-        <FcGoogle className='h-6 w-6' /> <p>Continuar con Google</p>
-      </SocialButton>
-      <SocialButton provider='facebook'>
-        <FaFacebook className='h-6 w-6 text-[#0165e1]' /> <p>Continuar con Facebook</p>
-      </SocialButton>
+    <div className='flex w-full items-center gap-x-2'>
+      <Button className='w-full' size='lg' variant='outline' onClick={() => onClick("google")}>
+        <FcGoogle className='h-5 w-5' />
+      </Button>
+      <Button className='w-full' size='lg' variant='outline' onClick={() => onClick("github")}>
+        <FaGithub className='h-5 w-5' />
+      </Button>
     </div>
   );
 }

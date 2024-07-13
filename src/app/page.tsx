@@ -1,5 +1,10 @@
 import {Hero} from "~/home/components/hero";
 
 export default function HomePage() {
-  return <Hero />;
+  return (
+    <>
+      <Hero />
+      <div className='min-h-screen' />{" "}
+    </>
+  );
 }

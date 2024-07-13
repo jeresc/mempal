@@ -8,10 +8,6 @@ import {toast} from "sonner";
 
 import {changePassword} from "~/auth/actions/change-password";
 
-import {ChangePasswordSchema} from "@/schemas";
-import {Input} from "@/components/ui/input";
-import {FormField, FormItem, FormLabel, FormControl, FormMessage, Form} from "@/components/ui/form";
-import {Button} from "@/components/ui/button";
 import {
   Dialog,
   DialogTrigger,
@@ -21,6 +17,10 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {Button} from "@/components/ui/button";
+import {FormField, FormItem, FormLabel, FormControl, FormMessage, Form} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
+import {ChangePasswordSchema} from "@/schemas";
 
 const formFields: {
   name: keyof z.infer<typeof ChangePasswordSchema>;
@@ -120,7 +120,7 @@ export function ChangePasswordDialog() {
             </DialogHeader>
 
             <DialogFooter className='flex w-full flex-col !justify-between gap-6 sm:flex-row'>
-              {/* <FormError message={error} className='py-2' /> */}
+              {/* <FormError className='py-2' message={error} /> */}
               <Button
                 className='flex items-center justify-center gap-1 sm:!ml-auto'
                 disabled={isPending}

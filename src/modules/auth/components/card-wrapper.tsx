@@ -8,8 +8,7 @@ import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card";
 
 interface CardWrapperProps {
   children: React.ReactNode;
-  headerLabel?: string;
-  headerTitle?: string;
+  headerLabel: string;
   backButtonLabel: string;
   backButtonHref: string;
   showSocial?: boolean;
@@ -18,26 +17,18 @@ interface CardWrapperProps {
 export function CardWrapper({
   children,
   headerLabel,
-  headerTitle = "",
   backButtonLabel,
   backButtonHref,
   showSocial,
 }: CardWrapperProps) {
   return (
-    <Card className='w-[430px]'>
-      <CardHeader className='pb-6'>
-        <Header label={headerLabel} title={headerTitle} />
+    <Card className='w-[430px] shadow-md'>
+      <CardHeader>
+        <Header label={headerLabel} />
       </CardHeader>
       <CardContent>{children}</CardContent>
-
       {showSocial ? (
-        <CardFooter className='flex-col '>
-          <div className='mx-auto mb-4 flex w-2/3 items-center justify-center'>
-            <hr className='w-full' />
-            <p className='text-brand-blue mx-3 mb-0 text-center'>O</p>
-            <hr className='w-full' />
-          </div>
-
+        <CardFooter>
           <Social />
         </CardFooter>
       ) : null}

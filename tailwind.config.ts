@@ -26,7 +26,6 @@ const config = {
         xs: "480px",
       },
       colors: {
-        "blue-brand": "#4B73FF",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

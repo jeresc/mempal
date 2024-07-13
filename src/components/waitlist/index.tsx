@@ -98,7 +98,7 @@ function WaitlistForm() {
           )}
         />
         <Button
-          className='bg-blue-brand px-3 py-2 text-lg text-white transition-all duration-300'
+          className='bg-accent px-3 py-2 text-lg text-white transition-all duration-300'
           disabled={isPending}
           type='submit'
         >

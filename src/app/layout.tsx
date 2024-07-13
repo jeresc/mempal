@@ -61,7 +61,6 @@ export default async function RootLayout({children}: RootLayoutProps) {
             <GradientBackground />
           </main>
           <Toaster />
-          <div className='min-h-screen' />{" "}
           <footer className='px-2 text-center leading-[4rem] opacity-70'>
             © {new Date().getFullYear()} mempal-web
           </footer>

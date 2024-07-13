@@ -14,9 +14,6 @@ interface RoleGateProps {
 export function RoleGate({children, allowedRoles}: RoleGateProps) {
   const userRole = useCurrentUserRole();
 
-  return allowedRoles.includes(userRole as UserRole) ? (
-    children
-  ) : (
-    <p>You do not have permission to access this page.</p>
-  );
+  return allowedRoles.includes(userRole as UserRole) ? children : <p>not allowed</p>;
 }
+// <FormError message='You do not have permission to access this page.' />

@@ -43,51 +43,40 @@ export function RegisterForm() {
   return (
     <CardWrapper
       showSocial
-      backButtonHref='/login'
-      backButtonLabel='¿Ya tienes cuenta en Trabajito?'
-      headerTitle='Crea una cuenta'
+      backButtonHref='/auth/login'
+      backButtonLabel='Already have an account?'
+      headerLabel='Create an account'
     >
       <Form {...form}>
         <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-2'>
-            <div className='flex gap-2'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel className='sr-only'>Nombre</FormLabel>
-                    <FormControl>
-                      <Input disabled={isPending} type='fname' {...field} placeholder='Nombre' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name='lastname'
-                render={({field}) => (
-                  <FormItem>
-                    <FormLabel className='sr-only'>Apellido</FormLabel>
-                    <FormControl>
-                      <Input disabled={isPending} type='lname' {...field} placeholder='Apellido' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <div className='space-y-4'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input disabled={isPending} type='name' {...field} placeholder='John Doe' />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
               name='email'
               render={({field}) => (
                 <FormItem>
-                  <FormLabel className='sr-only'>Email</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type='email' {...field} disabled={isPending} placeholder='Email' />
+                    <Input
+                      type='email'
+                      {...field}
+                      disabled={isPending}
+                      placeholder='john.doe@example.com'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,13 +88,13 @@ export function RegisterForm() {
               name='password'
               render={({field}) => (
                 <FormItem>
-                  <FormLabel className='sr-only'>Password</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
                       type='password'
                       {...field}
-                      placeholder='Contraseña'
+                      placeholder='•••••••••••••'
                     />
                   </FormControl>
                   <FormMessage />
@@ -115,9 +104,9 @@ export function RegisterForm() {
           </div>
           {/* <FormError message={error} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full font-bold' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
-            {isPending ? "Por favor espera" : "REGISTER"}
+            {isPending ? "Please wait" : "Register"}
           </Button>
         </form>
       </Form>

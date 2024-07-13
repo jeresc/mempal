@@ -15,9 +15,6 @@ import {LoginSchema} from "@/schemas";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 
-// import {FormError} from "@/components/form/form-error";
-// import {FormSuccess} from "@/components/form/form-success";
-
 export function LoginForm() {
   const searchParams = useSearchParams();
   const urlError =
@@ -67,13 +64,13 @@ export function LoginForm() {
   return (
     <CardWrapper
       showSocial
-      backButtonHref='/register'
-      backButtonLabel='¿No tienes cuenta en Trabajito?'
-      headerTitle='Iniciar Sesión'
+      backButtonHref='/auth/register'
+      backButtonLabel="Don't have an account?"
+      headerLabel='Welcome back'
     >
       <Form {...form}>
         <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-2'>
+          <div className='space-y-4'>
             {showTwoFactor ? (
               <FormField
                 control={form.control}
@@ -96,9 +93,14 @@ export function LoginForm() {
                   name='email'
                   render={({field}) => (
                     <FormItem>
-                      <FormLabel className='sr-only'>Email</FormLabel>
+                      <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type='email' {...field} disabled={isPending} placeholder='Email' />
+                        <Input
+                          type='email'
+                          {...field}
+                          disabled={isPending}
+                          placeholder='john.doe@example.com'
+                        />
                       </FormControl>
 
                       <FormMessage />
@@ -111,22 +113,17 @@ export function LoginForm() {
                   name='password'
                   render={({field}) => (
                     <FormItem>
-                      <FormLabel className='sr-only'>Password</FormLabel>
+                      <FormLabel>Password</FormLabel>
                       <FormControl>
                         <Input
                           disabled={isPending}
                           type='password'
                           {...field}
-                          placeholder='Contraseña'
+                          placeholder='•••••••••••••'
                         />
                       </FormControl>
-                      <Button
-                        asChild
-                        className='text-brand-blue px-0 font-normal'
-                        size='sm'
-                        variant='link'
-                      >
-                        <Link href='/reset'>Recuperar contraseña</Link>
+                      <Button asChild className='px-0 font-normal' size='sm' variant='link'>
+                        <Link href='/auth/reset'>Forgot password?</Link>
                       </Button>
                       <FormMessage />
                     </FormItem>
@@ -137,9 +134,9 @@ export function LoginForm() {
           </div>
           {/* <FormError message={error || urlError} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full font-bold' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
-            {isPending ? "Please wait" : showTwoFactor ? "CONFIRMAR" : "INGRESAR"}
+            {isPending ? "Please wait" : showTwoFactor ? "Confirm" : "Log In"}
           </Button>
         </form>
       </Form>

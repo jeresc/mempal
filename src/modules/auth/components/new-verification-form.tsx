@@ -4,12 +4,10 @@ import {ScaleLoader} from "react-spinners";
 import {useSearchParams} from "next/navigation";
 import {useCallback, useEffect, useState} from "react";
 
+import {CardWrapper} from "~/auth/components/card-wrapper";
 import {newVerification} from "~/auth/actions/new-verification";
-
-import {CardWrapper} from "./card-wrapper";
-
-// import {FormError} from "~/components/form/form-error";
-// import {FormSuccess} from "@/components/form/form-success";
+// import {FormError} from "~/auth/components/form/form-error";
+// import {FormSuccess} from "~/auth/components/form/form-success";
 
 export function NewVerificationForm() {
   const searchParams = useSearchParams();
