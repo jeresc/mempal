@@ -7,6 +7,7 @@ import {z} from "zod";
 import {toast} from "sonner";
 
 import {changePassword} from "~/auth/actions/change-password";
+import {FormError} from "~/auth/components/form-error";
 
 import {
   Dialog,
@@ -120,7 +121,7 @@ export function ChangePasswordDialog() {
             </DialogHeader>
 
             <DialogFooter className='flex w-full flex-col !justify-between gap-6 sm:flex-row'>
-              {/* <FormError className='py-2' message={error} /> */}
+              <FormError className='py-2' message={error} />
               <Button
                 className='flex items-center justify-center gap-1 sm:!ml-auto'
                 disabled={isPending}

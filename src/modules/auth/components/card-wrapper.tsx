@@ -34,9 +34,9 @@ export function CardWrapper({
         {showSocial ? (
           <>
             <Social />
-            <div className='mb-3 mt-4 flex items-center justify-center gap-2 '>
+            <div className='mb-2 mt-5 flex items-center justify-center gap-2 '>
               <div className='w-full border-t border-t-foreground/10' />
-              <p className='pb-1'>or</p>
+              <p className='text-sm tracking-wide text-foreground/60'>OR</p>
               <div className='w-full border-t border-t-foreground/10' />
             </div>
           </>

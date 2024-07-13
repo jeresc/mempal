@@ -2,8 +2,7 @@
 
 import {UserRole} from "@prisma/client";
 
-// import {FormError} from "../form/form-error";
-
+import {FormError} from "~/auth/components/form-error";
 import {useCurrentUserRole} from "~/auth/hooks/use-current-role";
 
 interface RoleGateProps {
@@ -14,6 +13,9 @@ interface RoleGateProps {
 export function RoleGate({children, allowedRoles}: RoleGateProps) {
   const userRole = useCurrentUserRole();
 
-  return allowedRoles.includes(userRole as UserRole) ? children : <p>not allowed</p>;
+  return allowedRoles.includes(userRole as UserRole) ? (
+    children
+  ) : (
+    <FormError message='You do not have permission to access this page.' />
+  );
 }
-// <FormError message='You do not have permission to access this page.' />

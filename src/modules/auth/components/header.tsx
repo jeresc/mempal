@@ -1,8 +1,6 @@
-import {Poppins} from "next/font/google";
-
 import {cn} from "@/lib/utils";
 
-const poppins = Poppins({subsets: ["latin"], weight: ["600", "700"]});
+// const poppins = Poppins({subsets: ["latin"], weight: ["600", "700"]});
 
 interface HeaderProps {
   label: string;

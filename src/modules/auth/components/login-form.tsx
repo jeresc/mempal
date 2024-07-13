@@ -8,6 +8,8 @@ import {useSearchParams} from "next/navigation";
 import Link from "next/link";
 
 import {CardWrapper} from "~/auth/components/card-wrapper";
+import {FormError} from "~/auth/components/form-error";
+import {FormSuccess} from "~/auth/components/form-success";
 import {login} from "~/auth/actions/login";
 
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
@@ -134,8 +136,8 @@ export function LoginForm() {
               </>
             )}
           </div>
-          {/* <FormError message={error || urlError} /> */}
-          {/* <FormSuccess message={success} /> */}
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
           <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : showTwoFactor ? "Confirm" : "Log In"}

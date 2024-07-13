@@ -6,6 +6,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {ReloadIcon} from "@radix-ui/react-icons";
 import {useSearchParams} from "next/navigation";
 
+import {FormError} from "~/auth/components/form-error";
+import {FormSuccess} from "~/auth/components/form-success";
 import {CardWrapper} from "~/auth/components/card-wrapper";
 import {newPassword} from "~/auth/actions/new-password";
 
@@ -13,8 +15,6 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {NewPasswordSchema} from "@/schemas";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-// import {FormError} from "@/components/form/form-error";
-// import {FormSuccess} from "@/components/form/form-success";
 
 export function NewPasswordForm() {
   const searchParams = useSearchParams();
@@ -92,8 +92,8 @@ export function NewPasswordForm() {
               )}
             />
           </div>
-          {/* <FormError message={error} /> */}
-          {/* <FormSuccess message={success} /> */}
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : "Reset password"}

@@ -7,7 +7,7 @@ export default function HomePage() {
     <>
       <Hero />
       <GradientBackground />
-      <div className='min-h-screen' />{" "}
+      <div className='min-h-screen' />
     </>
   );
 }

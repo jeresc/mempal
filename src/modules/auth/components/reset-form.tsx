@@ -7,13 +7,13 @@ import {ReloadIcon} from "@radix-ui/react-icons";
 
 import {CardWrapper} from "~/auth/components/card-wrapper";
 import {reset} from "~/auth/actions/reset";
+import {FormError} from "~/auth/components/form-error";
+import {FormSuccess} from "~/auth/components/form-success";
 
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {ResetSchema} from "@/schemas";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-// import {FormError} from "@/components/form/form-error";
-// import {FormSuccess} from "@/components/form/form-success";
 
 export function ResetForm() {
   const [error, setError] = useState<string>("");
@@ -68,8 +68,8 @@ export function ResetForm() {
               )}
             />
           </div>
-          {/* <FormError message={error} /> */}
-          {/* <FormSuccess message={success} /> */}
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Sending email" : "Send reset email"}

@@ -7,13 +7,13 @@ import {ReloadIcon} from "@radix-ui/react-icons";
 
 import {CardWrapper} from "~/auth/components/card-wrapper";
 import {register} from "~/auth/actions/register";
+import {FormError} from "~/auth/components/form-error";
+import {FormSuccess} from "~/auth/components/form-success";
 
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {RegisterSchema} from "@/schemas";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-// import {FormError} from "@/components/form/form-error";
-// import {FormSuccess} from "@/components/form/form-success";
 
 export function RegisterForm() {
   const [error, setError] = useState<string>("");
@@ -77,7 +77,7 @@ export function RegisterForm() {
                       type='email'
                       {...field}
                       disabled={isPending}
-                      placeholder='john.doe@example.com'
+                      placeholder='name@mail.com'
                     />
                   </FormControl>
                   <FormMessage />
@@ -104,8 +104,8 @@ export function RegisterForm() {
               )}
             />
           </div>
-          {/* <FormError message={error} /> */}
-          {/* <FormSuccess message={success} /> */}
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : "Register"}

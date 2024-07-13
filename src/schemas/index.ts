@@ -1,10 +1,9 @@
-import * as z from "zod";
+import {z} from "zod";
+import {UserRole} from "@prisma/client";
 
 export const WaitlistSchema = z.object({
   email: z.string().email({message: "You must provide a valid email address"}),
 });
-
-import {UserRole} from "@prisma/client";
 
 export const ChangePasswordSchema = z
   .object({

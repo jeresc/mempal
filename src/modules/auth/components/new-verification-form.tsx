@@ -6,8 +6,8 @@ import {useCallback, useEffect, useState} from "react";
 
 import {CardWrapper} from "~/auth/components/card-wrapper";
 import {newVerification} from "~/auth/actions/new-verification";
-// import {FormError} from "~/auth/components/form/form-error";
-// import {FormSuccess} from "~/auth/components/form/form-success";
+import {FormError} from "~/auth/components/form-error";
+import {FormSuccess} from "~/auth/components/form-success";
 
 export function NewVerificationForm() {
   const searchParams = useSearchParams();
@@ -50,8 +50,8 @@ export function NewVerificationForm() {
     >
       <div className='flex w-full items-center justify-center'>
         {!error && !success && <ScaleLoader color='currentColor' />}
-        {/* <FormSuccess message={success} /> */}
-        {/* {!success && <FormError message={error} />} */}
+        <FormSuccess message={success} />
+        {!success && <FormError message={error} />}
       </div>
     </CardWrapper>
   );
