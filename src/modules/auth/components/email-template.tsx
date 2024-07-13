@@ -9,7 +9,7 @@ interface EmailTemplateProps {
 
 function EmailTemplate({link, ctaText, contextText}: EmailTemplateProps) {
   return (
-    <div style={{padding: "1rem", border: "1px", borderColor: "#cccccc"}}>
+    <div style={{padding: "1rem", border: "1px", borderColor: "#cccccc", borderRadius: "0.5rem"}}>
       <Logo />
       <p>{contextText}</p>
       <p>

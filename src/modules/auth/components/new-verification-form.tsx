@@ -43,8 +43,8 @@ export function NewVerificationForm() {
   return (
     <CardWrapper
       backButtonHref='/login'
-      backButtonLabel='Go back to Login'
-      backButtonTrigger=''
+      backButtonLabel=''
+      backButtonTrigger='Go back to Login'
       headerLabel='Verifying your email'
       headerTitle=''
     >

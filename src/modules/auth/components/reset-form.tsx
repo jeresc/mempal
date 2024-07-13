@@ -41,8 +41,8 @@ export function ResetForm() {
   return (
     <CardWrapper
       backButtonHref='/login'
-      backButtonLabel='Go back to login'
-      backButtonTrigger=''
+      backButtonLabel=''
+      backButtonTrigger='Go back to login'
       headerLabel='Forgot your password?'
       headerTitle='Forgot your password?'
     >

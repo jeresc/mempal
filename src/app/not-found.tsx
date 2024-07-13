@@ -1,6 +1,6 @@
 import React from "react";
 
-import {GradientBackground} from "~/home/components/gradient-background";
+import {GradientBackground} from "@/modules/landing/components/gradient-background";
 
 export default function NotFoundPage() {
   return (

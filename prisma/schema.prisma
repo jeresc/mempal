@@ -39,6 +39,7 @@ model User {
   accounts              Account[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  lastVisitedUrl        String?
 }
 
 model Account {
