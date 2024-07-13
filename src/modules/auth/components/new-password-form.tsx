@@ -45,9 +45,11 @@ export function NewPasswordForm() {
 
   return (
     <CardWrapper
-      backButtonHref='/auth/login'
+      backButtonHref='/login'
       backButtonLabel='Back to login'
+      backButtonTrigger=''
       headerLabel='Enter a new password'
+      headerTitle='Password Reset'
     >
       <Form {...form}>
         <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
@@ -92,7 +94,7 @@ export function NewPasswordForm() {
           </div>
           {/* <FormError message={error} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : "Reset password"}
           </Button>

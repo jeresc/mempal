@@ -87,7 +87,7 @@ function WaitlistForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  className='bg-[rgb(255,255,255,.3)] text-base placeholder:text-base'
+                  className='bg-[rgb(255,255,255,.3)] text-base shadow-sm placeholder:text-base'
                   disabled={isPending}
                   placeholder='name@email.com'
                   type='email'
@@ -98,7 +98,7 @@ function WaitlistForm() {
           )}
         />
         <Button
-          className='bg-accent px-3 py-2 text-lg text-white transition-all duration-300'
+          className='px-3 py-2 text-lg text-white shadow transition-all duration-300'
           disabled={isPending}
           type='submit'
         >

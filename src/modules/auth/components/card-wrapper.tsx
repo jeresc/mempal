@@ -9,32 +9,43 @@ import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card";
 interface CardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;
+  headerTitle: string;
   backButtonLabel: string;
   backButtonHref: string;
+  backButtonTrigger: string;
   showSocial?: boolean;
 }
 
 export function CardWrapper({
   children,
   headerLabel,
+  headerTitle,
   backButtonLabel,
   backButtonHref,
+  backButtonTrigger,
   showSocial,
 }: CardWrapperProps) {
   return (
-    <Card className='w-[430px] shadow-md'>
+    <Card className='relative w-[430px] border-none shadow-none'>
       <CardHeader>
-        <Header label={headerLabel} />
+        <Header label={headerLabel} title={headerTitle} />
       </CardHeader>
-      <CardContent>{children}</CardContent>
-      {showSocial ? (
-        <CardFooter>
-          <Social />
-        </CardFooter>
-      ) : null}
+      <CardContent>
+        {showSocial ? (
+          <>
+            <Social />
+            <div className='mb-3 mt-4 flex items-center justify-center gap-2 '>
+              <div className='w-full border-t border-t-foreground/10' />
+              <p className='pb-1'>or</p>
+              <div className='w-full border-t border-t-foreground/10' />
+            </div>
+          </>
+        ) : null}
+        {children}
+      </CardContent>
 
       <CardFooter>
-        <BackButton href={backButtonHref} label={backButtonLabel} />
+        <BackButton href={backButtonHref} label={backButtonLabel} trigger={backButtonTrigger} />
       </CardFooter>
     </Card>
   );

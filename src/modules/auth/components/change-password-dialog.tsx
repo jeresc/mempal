@@ -124,6 +124,7 @@ export function ChangePasswordDialog() {
               <Button
                 className='flex items-center justify-center gap-1 sm:!ml-auto'
                 disabled={isPending}
+                size='lg'
                 type='submit'
               >
                 {isPending ? (

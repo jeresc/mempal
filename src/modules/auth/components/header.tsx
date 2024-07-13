@@ -1,27 +1,25 @@
 import {Poppins} from "next/font/google";
-import {Shield} from "lucide-react";
 
 import {cn} from "@/lib/utils";
 
-const poppins = Poppins({subsets: ["latin"], weight: ["600"]});
+const poppins = Poppins({subsets: ["latin"], weight: ["600", "700"]});
 
 interface HeaderProps {
   label: string;
+  title: string;
 }
 
-export function Header({label}: HeaderProps) {
+export function Header({label, title}: HeaderProps) {
   return (
     <div className='flex w-full flex-col items-center justify-center gap-y-4'>
-      <h1
+      <h2
         className={cn(
-          "flex items-center justify-center gap-1 text-4xl font-semibold drop-shadow-sm",
-          poppins.className,
+          "mb-2 flex items-center justify-center gap-1 text-3xl font-[700] drop-shadow-sm",
         )}
       >
-        <Shield fill='currentColor' size={32} />
-        Auth
-      </h1>
-      <p className='text-sm text-muted-foreground'>{label}</p>
+        {title}
+      </h2>
+      {/* <p className='text-sm text-muted-foreground'>{label}</p> */}
     </div>
   );
 }

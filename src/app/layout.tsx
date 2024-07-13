@@ -5,16 +5,15 @@ import {Outfit} from "next/font/google";
 import "./globals.css";
 import {SessionProvider} from "next-auth/react";
 
-import {GradientBackground} from "~/home/components/gradient-background";
-
 import {Header} from "@/components/ui/header";
 import {Toaster} from "@/components/ui/sonner";
 import {cn} from "@/lib/utils";
 import {auth} from "@/auth";
+import {ThemeProvider} from "@/modules/theme/context";
 
 const outfit = Outfit({subsets: ["latin"], variable: "--font-outfit"});
 
-const inter = Inter({subsets: ["latin"], variable: "--font-inter"});
+const inter = Inter({subsets: ["latin"], variable: "--font-inter", weight: ["500", "600", "700"]});
 
 export const metadata: Metadata = {
   title: "Mempal - Supercharge your learning experience with our intelligent study platform.",
@@ -53,17 +52,21 @@ export default async function RootLayout({children}: RootLayoutProps) {
 
   return (
     <SessionProvider session={session}>
-      <html className={cn(inter.variable, outfit.variable, "font-outfit")} lang='en'>
+      <html className={cn(inter.variable, outfit.variable, "font-inter")} lang='en'>
         <body className='m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8'>
-          <Header />
-          <main className='h-full py-12'>
-            {children}
-            <GradientBackground />
-          </main>
-          <Toaster />
-          <footer className='px-2 text-center leading-[4rem] opacity-70'>
-            © {new Date().getFullYear()} mempal-web
-          </footer>
+          <ThemeProvider
+            disableTransitionOnChange
+            enableSystem
+            attribute='class'
+            defaultTheme='light'
+          >
+            <Header />
+            <main className='h-full py-12'>{children}</main>
+            <Toaster />
+            <footer className='px-2 text-center leading-[4rem] opacity-70'>
+              © {new Date().getFullYear()} mempal-web
+            </footer>
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>

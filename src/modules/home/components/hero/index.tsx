@@ -14,7 +14,7 @@ function Hero() {
   return (
     <motion.section
       animate='animate'
-      className='flex flex-col place-items-center gap-4 gap-y-12 lg:flex-row'
+      className='flex flex-col place-items-center gap-4 gap-y-12 font-outfit lg:flex-row'
       initial='initial'
       transition={transition}
       variants={variants}

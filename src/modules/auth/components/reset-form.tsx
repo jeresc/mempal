@@ -40,13 +40,15 @@ export function ResetForm() {
 
   return (
     <CardWrapper
-      backButtonHref='/auth/login'
-      backButtonLabel='Back to login'
+      backButtonHref='/login'
+      backButtonLabel='Go back to login'
+      backButtonTrigger=''
       headerLabel='Forgot your password?'
+      headerTitle='Forgot your password?'
     >
       <Form {...form}>
-        <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='space-y-2'>
             <FormField
               control={form.control}
               name='email'
@@ -68,7 +70,7 @@ export function ResetForm() {
           </div>
           {/* <FormError message={error} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Sending email" : "Send reset email"}
           </Button>

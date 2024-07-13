@@ -64,13 +64,15 @@ export function LoginForm() {
   return (
     <CardWrapper
       showSocial
-      backButtonHref='/auth/register'
-      backButtonLabel="Don't have an account?"
+      backButtonHref='/register'
+      backButtonLabel='New to Mempal?'
+      backButtonTrigger='Create an account.'
       headerLabel='Welcome back'
+      headerTitle='Log In'
     >
       <Form {...form}>
-        <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='space-y-2'>
             {showTwoFactor ? (
               <FormField
                 control={form.control}
@@ -122,8 +124,8 @@ export function LoginForm() {
                           placeholder='•••••••••••••'
                         />
                       </FormControl>
-                      <Button asChild className='px-0 font-normal' size='sm' variant='link'>
-                        <Link href='/auth/reset'>Forgot password?</Link>
+                      <Button asChild className='px-0 text-sm font-normal' size='sm' variant='link'>
+                        <Link href='/reset'>Forgot password?</Link>
                       </Button>
                       <FormMessage />
                     </FormItem>
@@ -134,7 +136,7 @@ export function LoginForm() {
           </div>
           {/* <FormError message={error || urlError} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : showTwoFactor ? "Confirm" : "Log In"}
           </Button>

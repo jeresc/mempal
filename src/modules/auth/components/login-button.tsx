@@ -16,7 +16,7 @@ export function LoginButton({children, mode = "redirect", className, asChild}: L
 
   const onClick = () => {
     if (mode === "redirect") {
-      router.push("/auth/login");
+      router.push("/login");
     }
   };
 

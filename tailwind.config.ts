@@ -19,7 +19,14 @@ const config = {
     },
     extend: {
       fontFamily: {
-        inter: ["var(--font-inter)", "sans-serif"],
+        inter: [
+          "var(--font-inter)",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Helvetica",
+          "sans-serif",
+        ],
         outfit: ["var(--font-outfit)", "sans-serif"],
       },
       screens: {

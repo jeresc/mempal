@@ -43,13 +43,15 @@ export function RegisterForm() {
   return (
     <CardWrapper
       showSocial
-      backButtonHref='/auth/login'
+      backButtonHref='/login'
       backButtonLabel='Already have an account?'
+      backButtonTrigger='Log In.'
       headerLabel='Create an account'
+      headerTitle='Sign Up'
     >
       <Form {...form}>
-        <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-          <div className='space-y-4'>
+        <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>
+          <div className='space-y-2'>
             <FormField
               control={form.control}
               name='name'
@@ -104,7 +106,7 @@ export function RegisterForm() {
           </div>
           {/* <FormError message={error} /> */}
           {/* <FormSuccess message={success} /> */}
-          <Button className='w-full' disabled={isPending} type='submit'>
+          <Button className='w-full' disabled={isPending} size='lg' type='submit'>
             {isPending ? <ReloadIcon className='mr-2 h-4 w-4 animate-spin' /> : null}
             {isPending ? "Please wait" : "Register"}
           </Button>

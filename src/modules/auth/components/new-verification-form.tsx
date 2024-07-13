@@ -42,9 +42,11 @@ export function NewVerificationForm() {
 
   return (
     <CardWrapper
-      backButtonHref='/auth/login'
+      backButtonHref='/login'
       backButtonLabel='Go back to Login'
+      backButtonTrigger=''
       headerLabel='Verifying your email'
+      headerTitle=''
     >
       <div className='flex w-full items-center justify-center'>
         {!error && !success && <ScaleLoader color='currentColor' />}
