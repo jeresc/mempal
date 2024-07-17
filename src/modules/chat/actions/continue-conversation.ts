@@ -3,7 +3,7 @@
 import {streamText} from "ai";
 import {createStreamableValue} from "ai/rsc";
 
-import {openai} from "~/ai/api";
+import {model} from "~/ai/api";
 
 export interface Message {
   role: "user" | "assistant";
@@ -17,8 +17,9 @@ export async function continueConversation(history: Message[]) {
 
   (async () => {
     const {textStream} = await streamText({
-      model: openai("gpt-3.5-turbo"),
-      system: "You are a dude that doesn't drop character until the DVD commentary.",
+      model,
+      system:
+        'Sos un matematico experto en matrices y vectores. Tu tarea es responder preguntas sobre matrices y vectores, utilizando el contexto de la conversación anterior. Si no sabes una respuesta, debes decir "No sé". Si no puedes responder, debes decir "No puedo responder".',
       messages: history,
     });
 

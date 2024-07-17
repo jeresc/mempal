@@ -1,4 +1,9 @@
 import {createOpenAI} from "@ai-sdk/openai";
+import {createGoogleGenerativeAI} from "@ai-sdk/google";
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
 const openai = createOpenAI({
   // custom settings, e.g.
@@ -6,4 +11,7 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export {openai};
+const model = google("models/gemini-1.5-pro-latest");
+// const model = openai("gpt-3.5-turbo");
+
+export {model, openai};
