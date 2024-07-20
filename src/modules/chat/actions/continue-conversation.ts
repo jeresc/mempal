@@ -21,6 +21,14 @@ export async function continueConversation(history: Message[]) {
       system:
         'Sos un matematico experto en matrices y vectores. Tu tarea es responder preguntas sobre matrices y vectores, utilizando el contexto de la conversación anterior. Si no sabes una respuesta, debes decir "No sé". Si no puedes responder, debes decir "No puedo responder".',
       messages: history,
+      onFinish: ({usage}) => {
+        const {promptTokens, completionTokens, totalTokens} = usage;
+
+        // your own logic, e.g. for saving the chat history or recording usage
+        console.log("Prompt tokens:", promptTokens);
+        console.log("Completion tokens:", completionTokens);
+        console.log("Total tokens:", totalTokens);
+      },
     });
 
     for await (const text of textStream) {

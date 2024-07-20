@@ -4,6 +4,7 @@ import {useState} from "react";
 import {readStreamableValue} from "ai/rsc";
 
 import {type Message, continueConversation} from "~/chat/actions/continue-conversation";
+import {MarkdownRenderer} from "~/chat/components/markdown-renderer";
 
 import {cn} from "@/lib/utils";
 
@@ -22,11 +23,13 @@ function Chat() {
           <div
             key={message.content}
             className={cn(
-              message.role === "user" ? "ml-[16%] self-end bg-blue-500/80 text-right" : "mr-[8%]",
-              "prose w-fit min-w-0 text-pretty rounded-md p-2 text-white",
+              "prose min-w-0 text-pretty rounded-md py-[5px]",
+              message.role === "user"
+                ? "ml-[16%] w-fit self-end bg-blue-500/80 px-3 text-right text-white"
+                : "wr-[8%] text-left text-foreground",
             )}
           >
-            <p>{message.content}</p>
+            <MarkdownRenderer markdown={message.content} />
           </div>
         ))}
       </div>

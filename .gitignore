@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# db
+postgres_data
+
 # production
 /build
 
