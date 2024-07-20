@@ -16,7 +16,7 @@ import pluginQuery from "@tanstack/eslint-plugin-query";
 export default [
   // Ignores configuration
   {
-    ignores: ["node_modules", ".next", "out", "coverage", ".idea"],
+    ignores: ["node_modules", ".next", "out", "coverage", ".idea", "postgres_data"],
   },
   // General configuration
   {
