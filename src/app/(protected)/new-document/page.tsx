@@ -3,6 +3,14 @@
 import {useMutateDocument} from "~/document/hooks/use-mutate-document";
 import {DocumentDropzone} from "~/document/components/document-dropzone";
 
+const dummyData = {
+  text: "Hello World",
+  type: "pdf",
+  title: "Hello World",
+  url: "example.com",
+  userId: "123",
+};
+
 function NewDocumentPage() {
   const {isMutating, handleSubmit} = useMutateDocument();
 
@@ -18,7 +26,7 @@ function NewDocumentPage() {
       </header>
       <main className='h-full w-full'>
         <DocumentDropzone />
-        <button disabled={isMutating} onClick={() => handleSubmit()}>
+        <button disabled={isMutating} type='button' onClick={() => handleSubmit(dummyData)}>
           {isMutating ? "Creating..." : "Create"}
         </button>
       </main>
