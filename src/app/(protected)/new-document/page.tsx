@@ -1,6 +1,11 @@
-import {DocumentDropzone} from "@/modules/new-document/components/document-dropzone";
+"use client";
+
+import {useMutateDocument} from "~/document/hooks/use-mutate-document";
+import {DocumentDropzone} from "~/document/components/document-dropzone";
 
 function NewDocumentPage() {
+  const {isMutating, handleSubmit} = useMutateDocument();
+
   return (
     <div className='flex h-full w-full flex-col gap-y-4 px-4 py-8'>
       <header className='flex w-full flex-col items-center justify-center'>
@@ -13,6 +18,9 @@ function NewDocumentPage() {
       </header>
       <main className='h-full w-full'>
         <DocumentDropzone />
+        <button disabled={isMutating} onClick={() => handleSubmit()}>
+          {isMutating ? "Creating..." : "Create"}
+        </button>
       </main>
     </div>
   );

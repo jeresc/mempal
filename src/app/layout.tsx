@@ -9,6 +9,7 @@ import {Toaster} from "@/components/ui/sonner";
 import {cn} from "@/lib/utils";
 import {auth} from "@/auth";
 import {ThemeProvider} from "@/modules/theme/context";
+import ReactQueryProvider from "@/components/providers/react-query-provider";
 
 const outfit = Outfit({subsets: ["latin"], variable: "--font-outfit"});
 
@@ -53,15 +54,17 @@ export default async function RootLayout({children}: RootLayoutProps) {
     <SessionProvider session={session}>
       <html className={cn(inter.variable, outfit.variable, "font-inter")} lang='en'>
         <body className='m-auto grid h-full min-h-screen w-full grid-rows-[1fr,auto] antialiased'>
-          <ThemeProvider
-            disableTransitionOnChange
-            enableSystem
-            attribute='class'
-            defaultTheme='dark'
-          >
-            <Toaster />
-            {children}
-          </ThemeProvider>
+          <ReactQueryProvider>
+            <ThemeProvider
+              disableTransitionOnChange
+              enableSystem
+              attribute='class'
+              defaultTheme='dark'
+            >
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </ReactQueryProvider>
         </body>
       </html>
     </SessionProvider>

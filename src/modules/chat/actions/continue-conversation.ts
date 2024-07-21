@@ -19,7 +19,7 @@ export async function continueConversation(history: Message[]) {
     const {textStream} = await streamText({
       model,
       system:
-        'Sos un matematico experto en matrices y vectores. Tu tarea es responder preguntas sobre matrices y vectores, utilizando el contexto de la conversación anterior. Si no sabes una respuesta, debes decir "No sé". Si no puedes responder, debes decir "No puedo responder".',
+        'Sos un historiador argentino. Tu tarea es responder preguntas sobre la historia de la Argentina, utilizando el contexto de la conversación anterior. Si no sabes una respuesta, debes decir "No sé". Si no puedes responder, debes decir "No puedo responder".',
       messages: history,
       onFinish: ({usage}) => {
         const {promptTokens, completionTokens, totalTokens} = usage;

@@ -1,5 +1,7 @@
 "use client";
 
+import {getSignedURL} from "~/document/actions/get-signed-url";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {computeSHA256} from "@/lib/utils/compute-sha256";
 
 interface FileUploadDialogProps {
   open: boolean;
@@ -27,13 +30,27 @@ function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProp
 
       data.set("file", file);
 
-      const res = await fetch("/api/file", {
-        method: "POST",
-        body: data,
+      const checkSum = await computeSHA256(file);
+
+      const signedUrlResult = await getSignedURL({
+        type: file.type,
+        size: file.size,
+        checkSum,
       });
 
-      // handle the error
-      if (!res.ok) throw new Error(await res.text());
+      if (signedUrlResult.error !== undefined) throw new Error(signedUrlResult.error.message);
+
+      const {url, docId} = signedUrlResult.success;
+
+      await fetch(url, {
+        method: "PUT",
+        body: file,
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+
+      console.log(docId);
     } catch (e: unknown) {
       // Handle errors here
     }
@@ -43,19 +60,19 @@ function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProp
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Estas por imprimir un archivo</AlertDialogTitle>
+          <AlertDialogTitle>File to upload</AlertDialogTitle>
           <AlertDialogDescription>
-            Caracteristicas del archivo:
+            File name:
             <ul>
               <li>{file?.name}</li>
             </ul>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className='uppercase'>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel className='uppercase'>Cancel</AlertDialogCancel>
           <form onSubmit={onConfirm}>
             <AlertDialogAction className='uppercase' type='submit'>
-              Imprimir
+              Upload
             </AlertDialogAction>
           </form>
         </AlertDialogFooter>

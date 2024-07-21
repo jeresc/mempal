@@ -1,5 +1,5 @@
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/ui/resizable";
-import Sidebar from "@/components/ui/sidebar";
+import {Sidebar} from "@/components/ui/sidebar";
 
 export default function ProtectedLayout({children}: {children: React.ReactNode}) {
   return (

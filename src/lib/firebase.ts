@@ -6,7 +6,7 @@ import {getFirestore, connectFirestoreEmulator, Firestore} from "firebase/firest
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-type firebaseConfig = {
+type firebaseConfigProps = {
   apiKey: string;
   authDomain: string;
   projectId: string;
@@ -20,7 +20,7 @@ type EmulatorServices = {
   firestore: Firestore;
 };
 
-const firebaseConfig = {
+const firebaseConfig: firebaseConfigProps = {
   apiKey: process.env.FIREBASE_API_KEY!,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN!,
   projectId: process.env.FIREBASE_PROJECT_ID!,
@@ -39,7 +39,7 @@ function initializeServices() {
 }
 
 function connectToEmulators({firestore}: EmulatorServices) {
-  if (location.hostname === "localhost") {
+  if (process.env.NODE_ENV! != "production") {
     connectFirestoreEmulator(firestore, "localhost", 8080);
   }
 }

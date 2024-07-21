@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import {useDropzone} from "react-dropzone";
 
-import {FileConfirmationDialog} from "~/new-document/components/file-confirmation-dialog";
+import {FileConfirmationDialog} from "~/document/components/file-confirmation-dialog";
 
 function DocumentDropzone() {
   const [file, setFile] = useState<File>();
@@ -33,7 +33,7 @@ function DocumentDropzone() {
             "rounded-md border border-border flex h-full w-full items-center justify-center",
         })}
       >
-        <input type='file' {...getInputProps()} />
+        <input type='file' {...getInputProps()} accept='application/pdf' />
         <p className='px-4 text-center text-lg'>Drag and drop files here, or click to select</p>
       </div>
       <FileConfirmationDialog file={file} open={open} onOpenChange={setOpen} />
