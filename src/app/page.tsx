@@ -5,9 +5,10 @@ import {GradientBackground} from "@/modules/landing/components/gradient-backgrou
 
 export default function HomePage() {
   return (
-    <div className='h-full w-full max-w-7xl px-4 sm:px-8'>
+    <div className='h-full w-full flex flex-col items-center'>
+    {/* <div className='h-full w-full max-w-7xl px-4 sm:px-8'>  */}
       <Header />
-      <main className='h-full py-12'>
+      <main className='w-full max-w-7xl px-4 sm:px-8 py-12'>
         <Hero />
         <GradientBackground />
         <div className='min-h-screen' />

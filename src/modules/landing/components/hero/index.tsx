@@ -20,10 +20,10 @@ function Hero() {
       variants={variants}
     >
       <section className='flex h-full max-w-xl flex-col items-center justify-center gap-3 py-8 text-center lg:items-start lg:gap-4 lg:py-0 lg:text-left'>
-        <h1 className='my-0 max-w-[560px] text-pretty text-[42px] font-bold leading-[106%] tracking-tight text-[#202228] lg:max-w-none lg:text-4xl xl:text-[42px]'>
+        <h1 className='my-0 max-w-[560px] text-pretty text-[42px] font-bold leading-[106%] tracking-tight text-[#202228] dark:text-darkText lg:max-w-none lg:text-4xl xl:text-[42px]'>
           Accelerate your learning journey
         </h1>
-        <sub className='my-0 mb-0 text-balance text-lg leading-6 text-gray-500 lg:pr-8 xl:text-xl'>
+        <sub className='my-0 mb-0 text-balance text-lg leading-6 text-gray-500 dark:text-darkSubText lg:pr-8 xl:text-xl'>
           Supercharge your learning experience with our intelligent study platform. Customize
           questions and flashcards from your own materials.
         </sub>
