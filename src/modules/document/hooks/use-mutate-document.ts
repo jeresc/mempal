@@ -1,13 +1,19 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
+import {currentUser} from "~/auth/lib/auth";
+
 import {createDocument} from "../api";
 import {Document} from "../types";
 
 const useMutateDocument = () => {
   const queryClient = useQueryClient();
 
+  const mutationFn = async (file: File) => {
+    await createDocument(file);
+  };
+
   const {mutate, isPending: isMutating} = useMutation({
-    mutationFn: createDocument,
+    mutationFn,
     onMutate: async (newDocument) => {
       await queryClient.cancelQueries({queryKey: ["documents"]});
       const previousDocuments = queryClient.getQueryData(["documents"]);
@@ -33,13 +39,9 @@ const useMutateDocument = () => {
     },
   });
 
-  const handleSubmit = async (data: Omit<Document, "id" | "createdAt">) => {
-    mutate(data);
-  };
-
   return {
     isMutating,
-    handleSubmit,
+    mutate,
   };
 };
 

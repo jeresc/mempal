@@ -41,7 +41,6 @@ next-env.d.ts
 # firebase
 .idea
 **/node_modules/*
-**/.firebaserc
 
 .runtimeconfig.json
 .firebase/

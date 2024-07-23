@@ -1,6 +1,8 @@
 "use client";
 
-import {getSignedURL} from "~/document/actions/get-signed-url";
+import {useQueryClient} from "@tanstack/react-query";
+
+import {createDocument} from "../api";
 
 import {
   AlertDialog,
@@ -12,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {computeSHA256} from "@/lib/utils/compute-sha256";
 
 interface FileUploadDialogProps {
   open: boolean;
@@ -20,35 +21,22 @@ interface FileUploadDialogProps {
   file: File | undefined;
 }
 
-function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProps) {
+function DocumentConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProps) {
+  const queryClient = useQueryClient();
+
   const onConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
     try {
-      const data = new FormData();
+      const createDocumentResult = await createDocument(file);
 
-      data.set("file", file);
+      if (createDocumentResult.error !== undefined)
+        return {error: {message: createDocumentResult.error.message}};
 
-      const checkSum = await computeSHA256(file);
+      const docId = createDocumentResult?.success?.documentId;
 
-      const signedUrlResult = await getSignedURL({
-        type: file.type,
-        size: file.size,
-        checkSum,
-      });
-
-      if (signedUrlResult.error !== undefined) throw new Error(signedUrlResult.error.message);
-
-      const {url, docId} = signedUrlResult.success;
-
-      await fetch(url, {
-        method: "PUT",
-        body: file,
-        headers: {
-          "Content-Type": file.type,
-        },
-      });
+      await queryClient.invalidateQueries({queryKey: ["documents"]});
 
       console.log(docId);
     } catch (e: unknown) {
@@ -81,4 +69,4 @@ function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProp
   );
 }
 
-export {FileConfirmationDialog};
+export {DocumentConfirmationDialog};

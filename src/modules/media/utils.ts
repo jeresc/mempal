@@ -1,4 +1,4 @@
-export const generateFileName = (bytes = 32) => {
+export const generateMediaName = (bytes = 32) => {
   const array = new Uint8Array(bytes);
 
   crypto.getRandomValues(array);

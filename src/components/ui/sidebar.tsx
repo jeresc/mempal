@@ -10,7 +10,7 @@ function Sidebar() {
   const {isPending, error, documents} = useDocuments();
 
   return (
-    <aside className='flex h-full w-full flex-col gap-2 p-2'>
+    <aside className='flex h-full w-full flex-col gap-2 p-2 px-1'>
       <h2>Documents</h2>
       <Button asChild variant='ghost'>
         <Link href='/new-document'>New Document</Link>
@@ -25,7 +25,7 @@ function Sidebar() {
               className='flex w-full items-center gap-2 rounded-md px-2 py-1 hover:bg-foreground/10'
             >
               <Link className='h-full w-full' href={`/${doc.title.split(" ").join("-")}`}>
-                {doc.title || "Untitled"}
+                {doc.title || <em>Untitled</em>}
               </Link>
             </span>
           ))}

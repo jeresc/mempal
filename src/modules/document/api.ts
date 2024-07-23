@@ -1,18 +1,12 @@
 "use server";
 
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  QuerySnapshot,
-  Timestamp,
-  addDoc,
-} from "firebase/firestore";
+import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firestore";
 
 import {currentUser} from "~/auth/lib/auth";
+import {createMedia} from "~/media/api";
 
-import {Document, FirestoreDocument} from "./types";
+import {FirestoreDocument} from "./types";
+import {addDocument} from "./data";
 
 import {getFirebase} from "@/lib/firebase";
 
@@ -33,20 +27,23 @@ export const getDocuments = async () => {
   }));
 };
 
-export const createDocument = async (data: Omit<Document, "id" | "createdAt">) => {
-  const {firestore} = getFirebase();
+export const createDocument = async (file: File) => {
   const user = await currentUser();
-  const timestamp = Timestamp.now();
 
-  if (!user) return;
+  if (!user) return {error: {message: "User not found"}};
 
-  const docRef = await addDoc(collection(firestore, "documents"), {
-    ...data,
-    createdAt: timestamp,
-    userId: user.id,
+  const createMediaResult = await createMedia(file);
+
+  if (createMediaResult.error !== undefined)
+    return {error: {message: createMediaResult.error.message}};
+
+  const mediaId = createMediaResult?.success?.mediaId;
+
+  const documentId = await addDocument({
+    mediaId,
+    userId: user.id!,
+    title: "",
   });
 
-  return docRef.id;
+  return {success: {documentId}};
 };
-
-export const uploadDocument = async (file: File) => {};

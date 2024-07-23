@@ -5,8 +5,7 @@ import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 
 import {currentUser} from "~/auth/lib/auth";
 
-import {generateFileName} from "../utils";
-import {createDocument} from "../api";
+import {generateMediaName} from "../utils";
 
 const acceptedTypes = ["application/pdf"];
 
@@ -37,7 +36,7 @@ export async function getSignedURL({type, size, checkSum}: File) {
 
   const putObjectCommand = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: generateFileName(),
+    Key: generateMediaName(),
     ContentType: type,
     ContentLength: size,
     ChecksumSHA256: checkSum,
@@ -50,13 +49,5 @@ export async function getSignedURL({type, size, checkSum}: File) {
     expiresIn: 60,
   });
 
-  const docId = await createDocument({
-    type: "pdf",
-    userId: user.id!,
-    url: signedUrl.split("?")[0],
-    text: "",
-    title: "",
-  });
-
-  return {success: {url: signedUrl, docId}};
+  return {success: {url: signedUrl}};
 }
