@@ -1,22 +1,23 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
-import {currentUser} from "~/auth/lib/auth";
-
 import {createDocument} from "../api";
 import {Document} from "../types";
 
-const useMutateDocument = () => {
+const useMutateDocuments = () => {
   const queryClient = useQueryClient();
 
-  const mutationFn = async (file: File) => {
-    await createDocument(file);
+  const mutationFn = async ({file, docId}: {file: File; docId: string}) => {
+    await createDocument(file, docId);
+
+    return docId;
   };
 
   const {mutate, isPending: isMutating} = useMutation({
     mutationFn,
-    onMutate: async (newDocument) => {
+    onMutate: async ({docId}) => {
       await queryClient.cancelQueries({queryKey: ["documents"]});
       const previousDocuments = queryClient.getQueryData(["documents"]);
+      const newDocument = {id: docId, createdAt: new Date(), title: "", mediaId: ""};
 
       await queryClient.setQueryData(["documents"], (oldDocuments?: Document[]) => {
         if (oldDocuments === undefined) return [newDocument];
@@ -45,4 +46,4 @@ const useMutateDocument = () => {
   };
 };
 
-export {useMutateDocument};
+export {useMutateDocuments};

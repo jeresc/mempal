@@ -1,8 +1,9 @@
 "use client";
 
-import {useQueryClient} from "@tanstack/react-query";
+import {useRouter} from "next/navigation";
+import React from "react";
 
-import {createDocument} from "../api";
+import {useMutateDocuments} from "../hooks/use-mutate-documents";
 
 import {
   AlertDialog,
@@ -14,6 +15,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {generateFirestoreId} from "@/lib/utils/generate-id";
 
 interface FileUploadDialogProps {
   open: boolean;
@@ -22,23 +24,18 @@ interface FileUploadDialogProps {
 }
 
 function DocumentConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProps) {
-  const queryClient = useQueryClient();
+  const router = useRouter();
+  const {mutate} = useMutateDocuments();
 
-  const onConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onConfirm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
     try {
-      const createDocumentResult = await createDocument(file);
+      const docId = generateFirestoreId();
 
-      if (createDocumentResult.error !== undefined)
-        return {error: {message: createDocumentResult.error.message}};
-
-      const docId = createDocumentResult?.success?.documentId;
-
-      await queryClient.invalidateQueries({queryKey: ["documents"]});
-
-      console.log(docId);
+      mutate({file, docId});
+      router.push(`/d/${docId}`);
     } catch (e: unknown) {
       // Handle errors here
     }
@@ -49,12 +46,7 @@ function DocumentConfirmationDialog({open, onOpenChange, file}: FileUploadDialog
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>File to upload</AlertDialogTitle>
-          <AlertDialogDescription>
-            File name:
-            <ul>
-              <li>{file?.name}</li>
-            </ul>
-          </AlertDialogDescription>
+          <AlertDialogDescription>File name: {file?.name}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className='uppercase'>Cancel</AlertDialogCancel>

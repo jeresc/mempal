@@ -6,9 +6,10 @@ import {currentUser} from "~/auth/lib/auth";
 import {createMedia} from "~/media/api";
 
 import {FirestoreDocument} from "./types";
-import {addDocument} from "./data";
+import {addDocument, findDocumentByIds} from "./data";
 
 import {getFirebase} from "@/lib/firebase";
+import {generateFirestoreId} from "@/lib/utils/generate-id";
 
 export const getDocuments = async () => {
   const {firestore} = getFirebase();
@@ -27,7 +28,7 @@ export const getDocuments = async () => {
   }));
 };
 
-export const createDocument = async (file: File) => {
+export const createDocument = async (file: File, id = generateFirestoreId()) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
@@ -40,10 +41,21 @@ export const createDocument = async (file: File) => {
   const mediaId = createMediaResult?.success?.mediaId;
 
   const documentId = await addDocument({
+    id,
     mediaId,
     userId: user.id!,
     title: "",
   });
 
   return {success: {documentId}};
+};
+
+export const getDocumentById = async (docId: string) => {
+  const user = await currentUser();
+
+  if (!user) return {error: {message: "User not found"}};
+
+  const document = await findDocumentByIds(docId, user.id!);
+
+  return {success: {document}};
 };
