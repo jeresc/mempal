@@ -66,9 +66,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        darkBackground: '#121212',
-        darkText: '#E4E4E7',
-        darkSubText: '#A3A3A3',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -88,6 +85,9 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      backgroundImage: {
+        'light-blue-gradient': 'linear-gradient(to right, rgba(224, 247, 250, 0.3), rgba(224, 247, 250, 0.1))'
       },
     },
   },

@@ -1,4 +1,4 @@
-import {type AnimationProps} from "framer-motion";
+import {animate, type AnimationProps} from "framer-motion";
 
 export const variants: AnimationProps["variants"] = {
   initial: {
@@ -18,3 +18,18 @@ export const transition: AnimationProps["transition"] = {
   damping: 60,
   mass: 0.5,
 };
+
+
+export const fadeInAnimationOnce: AnimationProps["variants"] = {
+  initial: {
+    opacity: 0,
+    y: 100
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.3 * index
+    }
+  })
+}
