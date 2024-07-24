@@ -1,20 +1,14 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React from "react";
 
 import {EditableTitle} from "~/document/components/editable-title";
 import {useDocument} from "~/document/hooks/use-document";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
 
 export default function DocumentPage() {
-  const {docId, docTitle} = useParamsDoc();
-
+  const {docId} = useParamsDoc();
   const {document, isPending, error} = useDocument({docId});
-
-  useEffect(() => {
-    console.log("docId", docId);
-    console.log("docTitle", docTitle);
-  }, [docId, docTitle]);
 
   if (isPending) return <div>Loading...</div>;
 
@@ -22,7 +16,7 @@ export default function DocumentPage() {
 
   return (
     <main className='flex h-full w-full flex-col gap-2 p-4'>
-      <EditableTitle title={document.title!} />
+      <EditableTitle id={document.id!} title={document.title!} />
       <h2>{document.mediaId}</h2>
     </main>
   );

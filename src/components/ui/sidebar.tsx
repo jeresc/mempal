@@ -3,8 +3,8 @@
 import Link from "next/link";
 import {Dot, File} from "lucide-react";
 import {useState} from "react";
-import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data/sets/15/twitter.json";
+// import Picker from "@emoji-mart/react";
+// import data from "@emoji-mart/data/sets/15/twitter.json";
 
 import {useDocuments} from "~/document/hooks/use-documents";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
@@ -64,22 +64,22 @@ function Sidebar() {
             </span>
           ))}
       </div>
-      {open ? (
-        <div className='absolute bottom-0 left-0 grid w-[400px] flex-col place-content-center gap-0.5'>
-          <Picker
-            data={data}
-            emojiButtonRadius='6px'
-            emojiButtonSize={32}
-            icons='outline'
-            navPosition='top'
-            perLine={10}
-            previewPosition='none'
-            set='twitter'
-            skinTonePosition='search'
-            onEmojiSelect={console.log}
-          />
-        </div>
-      ) : null}
+      {/* {open ? ( */}
+      {/*   <div className='absolute bottom-0 left-0 grid w-[400px] flex-col place-content-center gap-0.5'> */}
+      {/*     <Picker */}
+      {/*       data={data} */}
+      {/*       emojiButtonRadius='6px' */}
+      {/*       emojiButtonSize={32} */}
+      {/*       icons='outline' */}
+      {/*       navPosition='top' */}
+      {/*       perLine={10} */}
+      {/*       previewPosition='none' */}
+      {/*       set='twitter' */}
+      {/*       skinTonePosition='search' */}
+      {/*       onEmojiSelect={console.log} */}
+      {/*     /> */}
+      {/*   </div> */}
+      {/* ) : null} */}
     </aside>
   );
 }

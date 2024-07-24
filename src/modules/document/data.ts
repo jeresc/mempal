@@ -5,9 +5,12 @@ import {
   collection,
   doc,
   getDocs,
+  limit,
   query,
   setDoc,
+  updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 
 import {Document, FirestoreDocument} from "./types";
@@ -35,13 +38,22 @@ export const findDocumentByIds = async (docId: Document["id"], userId: Document[
 
   const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreDocument>;
 
-  if (!querySnap.docs.length) return {};
-
   const docRef = querySnap.docs[0];
 
   return {
-    id: docRef.id,
+    id: docRef.id!,
     ...docRef.data(),
     createdAt: docRef.data().createdAt.toDate(),
   };
+};
+
+export const updateDocument = async (
+  docId: Document["id"],
+  data: Partial<Omit<Document, "id" | "createdAt">>,
+) => {
+  const {firestore} = getFirebase();
+
+  await updateDoc(doc(firestore, "documents", docId), {
+    ...data,
+  });
 };

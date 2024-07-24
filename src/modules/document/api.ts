@@ -1,12 +1,12 @@
 "use server";
 
-import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firestore";
+import {collection, query, where, getDocs, QuerySnapshot, runTransaction} from "firebase/firestore";
 
 import {currentUser} from "~/auth/lib/auth";
 import {createMedia} from "~/media/api";
 
-import {FirestoreDocument} from "./types";
-import {addDocument, findDocumentByIds} from "./data";
+import {Document, FirestoreDocument} from "./types";
+import {addDocument, findDocumentByIds, updateDocument} from "./data";
 
 import {getFirebase} from "@/lib/firebase";
 import {generateFirestoreId} from "@/lib/utils/generate-id";
@@ -58,4 +58,30 @@ export const getDocumentById = async (docId: string) => {
   const document = await findDocumentByIds(docId, user.id!);
 
   return {success: {document}};
+};
+
+export const patchDocument = async (
+  docId: string,
+  data: Partial<Omit<Document, "id" | "createdAt">>,
+) => {
+  const user = await currentUser();
+
+  if (!user) return {error: {message: "User not found"}};
+
+  const document = await findDocumentByIds(docId, user.id!);
+
+  if (!document.id) return {error: {message: "Document not found"}};
+
+  await updateDocument(docId, {
+    ...data,
+  });
+
+  return {
+    success: {
+      document: {
+        ...document,
+        ...data,
+      },
+    },
+  };
 };
