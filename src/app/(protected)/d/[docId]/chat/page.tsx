@@ -1,3 +1,5 @@
+import {Chat} from "~/chat/components/chat";
+
 export default function DocumentChatPage() {
-  return <p>Not implemented yet</p>;
+  return <Chat />;
 }

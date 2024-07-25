@@ -1,6 +1,10 @@
 "use client";
 
-import {DocumentDropzone} from "~/document/components/document-dropzone";
+import {pdfjs} from "react-pdf";
+
+import {CreateDocumentWizard} from "~/document/components/create-document-wizard";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 function NewDocumentPage() {
   return (
@@ -14,7 +18,7 @@ function NewDocumentPage() {
         </p>
       </header>
       <main className='h-full w-full'>
-        <DocumentDropzone />
+        <CreateDocumentWizard />
       </main>
     </div>
   );

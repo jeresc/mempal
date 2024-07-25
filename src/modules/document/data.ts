@@ -5,12 +5,10 @@ import {
   collection,
   doc,
   getDocs,
-  limit,
   query,
   setDoc,
   updateDoc,
   where,
-  writeBatch,
 } from "firebase/firestore";
 
 import {Document, FirestoreDocument} from "./types";

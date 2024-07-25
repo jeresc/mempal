@@ -15,7 +15,7 @@ export default function DocumentPage() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <main className='flex h-full w-full flex-col gap-2 p-4'>
+    <main className='flex h-full w-full flex-col gap-2'>
       <EditableTitle id={document.id!} title={document.title!} />
       <h2>{document.mediaId}</h2>
     </main>

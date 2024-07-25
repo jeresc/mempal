@@ -57,7 +57,10 @@ const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Docume
       if (context?.oldDocument != null)
         queryClient.setQueryData(["documents", context?.oldDocument.id], context?.oldDocument);
     },
-    onSettled: async () => {},
+    onSettled: async () => {
+      queryClient.invalidateQueries({queryKey: ["documents", docId]});
+      queryClient.invalidateQueries({queryKey: ["documents"]});
+    },
   });
 
   return {mutateDocument: mutate, isMutating};

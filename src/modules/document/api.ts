@@ -1,6 +1,6 @@
 "use server";
 
-import {collection, query, where, getDocs, QuerySnapshot, runTransaction} from "firebase/firestore";
+import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firestore";
 
 import {currentUser} from "~/auth/lib/auth";
 import {createMedia} from "~/media/api";

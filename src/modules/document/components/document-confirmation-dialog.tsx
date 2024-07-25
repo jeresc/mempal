@@ -3,6 +3,8 @@
 import {useRouter} from "next/navigation";
 import React from "react";
 
+import {getTextFromMedia} from "~/media/actions/get-text";
+
 import {useMutateDocuments} from "../hooks/use-mutate-documents";
 
 import {
@@ -27,15 +29,16 @@ function DocumentConfirmationDialog({open, onOpenChange, file}: FileUploadDialog
   const router = useRouter();
   const {mutate} = useMutateDocuments();
 
-  const onConfirm = (e: React.FormEvent<HTMLFormElement>) => {
+  const onConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
     try {
       const docId = generateFirestoreId();
+      const getTextResult = await getTextFromMedia(file);
 
-      mutate({file, docId});
-      router.push(`/d/${docId}`);
+      // mutate({file, docId});
+      // router.push(`/d/${docId}`);
     } catch (e: unknown) {
       // Handle errors here
     }

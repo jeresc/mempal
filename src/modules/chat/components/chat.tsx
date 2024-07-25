@@ -17,8 +17,8 @@ function Chat() {
   const [input, setInput] = useState<string>("");
 
   return (
-    <div className='mx-auto w-full max-w-3xl'>
-      <div className='flex flex-col gap-2'>
+    <div className='mx-auto flex h-full w-full max-w-3xl flex-col'>
+      <div className='flex h-full flex-col gap-2'>
         {conversation.map((message, _) => (
           <div
             key={message.content}
@@ -34,15 +34,16 @@ function Chat() {
         ))}
       </div>
 
-      <div className='flex flex-col gap-1'>
+      <div className='flex '>
         <textarea
+          className='flex w-full resize-none flex-col gap-1'
           value={input}
           onChange={(event) => {
             setInput(event.target.value);
           }}
         />
         <button
-          className='rounded-lg bg-blue-500 p-2 text-white'
+          className='bg-blue-500 px-2 text-white'
           type='button'
           onClick={async () => {
             const {messages, newMessage} = await continueConversation([
@@ -59,7 +60,7 @@ function Chat() {
             }
           }}
         >
-          Send Message
+          Send{" "}
         </button>
       </div>
     </div>
