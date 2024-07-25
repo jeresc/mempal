@@ -1,0 +1,251 @@
+.
+├── bun.lockb
+├── commitlint.config.js
+├── components.json
+├── docker-compose.yml
+├── .editorconfig
+├── env.example
+├── .env.local
+├── eslint.config.mjs
+├── firebase-debug.log
+├── firebase.json
+├── .firebaserc
+├── firestore-debug.log
+├── firestore.indexes.json
+├── firestore.rules
+├── folder_structure.txt
+├── .git
+├── .gitignore
+├── .husky
+│   ├── _
+│   │   ├── applypatch-msg
+│   │   ├── commit-msg
+│   │   ├── .gitignore
+│   │   ├── h
+│   │   ├── husky.sh
+│   │   ├── post-applypatch
+│   │   ├── post-checkout
+│   │   ├── post-commit
+│   │   ├── post-merge
+│   │   ├── post-rewrite
+│   │   ├── pre-applypatch
+│   │   ├── pre-auto-gc
+│   │   ├── pre-commit
+│   │   ├── prepare-commit-msg
+│   │   ├── pre-push
+│   │   └── pre-rebase
+│   ├── commit-msg
+│   └── pre-commit
+├── next.config.js
+├── next-env.d.ts
+├── package.json
+├── postcss.config.js
+├── .prettierrc.json
+├── prisma
+│   └── schema.prisma
+├── project-structure.txt
+├── public
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── favicon.ico
+│   └── site.webmanifest
+├── README.md
+├── src
+│   ├── app
+│   │   ├── api
+│   │   │   └── auth
+│   │   │       └── [...nextauth]
+│   │   │           └── route.ts
+│   │   ├── (auth)
+│   │   │   ├── error
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── login
+│   │   │   │   └── page.tsx
+│   │   │   ├── new-password
+│   │   │   │   └── page.tsx
+│   │   │   ├── new-verification
+│   │   │   │   └── page.tsx
+│   │   │   ├── register
+│   │   │   │   └── page.tsx
+│   │   │   └── reset
+│   │   │       └── page.tsx
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── not-found.tsx
+│   │   ├── page.tsx
+│   │   └── (protected)
+│   │       ├── d
+│   │       │   └── [docId]
+│   │       │       ├── chat
+│   │       │       │   └── page.tsx
+│   │       │       ├── deck
+│   │       │       │   └── page.tsx
+│   │       │       ├── layout.tsx
+│   │       │       ├── page.tsx
+│   │       │       └── summary
+│   │       │           └── page.tsx
+│   │       ├── home
+│   │       │   └── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── new-document
+│   │       │   └── page.tsx
+│   │       └── onboarding
+│   │           └── page.tsx
+│   ├── assets
+│   │   └── logo.tsx
+│   ├── auth.config.ts
+│   ├── auth.ts
+│   ├── components
+│   │   ├── providers
+│   │   │   └── react-query-provider.tsx
+│   │   ├── ui
+│   │   │   ├── alert-dialog.tsx
+│   │   │   ├── avatar.tsx
+│   │   │   ├── badge.tsx
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── context-menu.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── dropdown-menu.tsx
+│   │   │   ├── form.tsx
+│   │   │   ├── header.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── label.tsx
+│   │   │   ├── nav.tsx
+│   │   │   ├── resizable.tsx
+│   │   │   ├── sidebar-mobile
+│   │   │   │   ├── anim.ts
+│   │   │   │   └── index.tsx
+│   │   │   ├── sidebar.tsx
+│   │   │   └── sonner.tsx
+│   │   └── waitlist
+│   │       ├── actions.ts
+│   │       └── index.tsx
+│   ├── data
+│   │   └── waitlist-user.ts
+│   ├── lib
+│   │   ├── db.ts
+│   │   ├── firebase.ts
+│   │   ├── store
+│   │   │   ├── sidebar.ts
+│   │   │   └── waitlist.ts
+│   │   ├── utils
+│   │   │   ├── cn.ts
+│   │   │   ├── compute-sha256.ts
+│   │   │   ├── generate-id.ts
+│   │   │   ├── index.ts
+│   │   │   └── sse.ts
+│   │   └── utils.ts
+│   ├── middleware.ts
+│   ├── modules
+│   │   ├── ai
+│   │   │   └── api.ts
+│   │   ├── auth
+│   │   │   ├── actions
+│   │   │   │   ├── admin.ts
+│   │   │   │   ├── change-password.ts
+│   │   │   │   ├── login.ts
+│   │   │   │   ├── logout.ts
+│   │   │   │   ├── new-password.ts
+│   │   │   │   ├── new-verification.ts
+│   │   │   │   ├── register.ts
+│   │   │   │   ├── reset.ts
+│   │   │   │   └── settings.ts
+│   │   │   ├── components
+│   │   │   │   ├── back-button.tsx
+│   │   │   │   ├── card-wrapper.tsx
+│   │   │   │   ├── change-password-dialog.tsx
+│   │   │   │   ├── email-template.tsx
+│   │   │   │   ├── error-card.tsx
+│   │   │   │   ├── form-error.tsx
+│   │   │   │   ├── form-success.tsx
+│   │   │   │   ├── header.tsx
+│   │   │   │   ├── login-button.tsx
+│   │   │   │   ├── login-form.tsx
+│   │   │   │   ├── logout-button.tsx
+│   │   │   │   ├── new-password-form.tsx
+│   │   │   │   ├── new-verification-form.tsx
+│   │   │   │   ├── register-form.tsx
+│   │   │   │   ├── reset-form.tsx
+│   │   │   │   ├── role-gate.tsx
+│   │   │   │   ├── social-button.tsx
+│   │   │   │   ├── social.tsx
+│   │   │   │   └── user-button.tsx
+│   │   │   ├── data
+│   │   │   │   ├── account.ts
+│   │   │   │   ├── password-reset-token.ts
+│   │   │   │   ├── two-factor-confirmation.ts
+│   │   │   │   ├── two-factor-token.ts
+│   │   │   │   ├── user.ts
+│   │   │   │   └── verification-token.ts
+│   │   │   ├── hooks
+│   │   │   │   ├── use-current-role.ts
+│   │   │   │   └── use-current-user.ts
+│   │   │   └── lib
+│   │   │       ├── auth.ts
+│   │   │       ├── db.ts
+│   │   │       ├── mail.ts
+│   │   │       └── tokens.ts
+│   │   ├── chat
+│   │   │   ├── actions
+│   │   │   │   └── continue-conversation.ts
+│   │   │   └── components
+│   │   │       ├── chat.tsx
+│   │   │       └── markdown-renderer.tsx
+│   │   ├── document
+│   │   │   ├── actions
+│   │   │   ├── api.ts
+│   │   │   ├── components
+│   │   │   │   ├── create-document-wizard.tsx
+│   │   │   │   ├── create-step.tsx
+│   │   │   │   ├── document-confirmation-dialog.tsx
+│   │   │   │   ├── document-dropzone.tsx
+│   │   │   │   ├── editable-title.tsx
+│   │   │   │   ├── first-create-step.tsx
+│   │   │   │   ├── pages-slider.tsx
+│   │   │   │   └── second-create-step.tsx
+│   │   │   ├── data.ts
+│   │   │   ├── hooks
+│   │   │   │   ├── use-documents.ts
+│   │   │   │   ├── use-document.ts
+│   │   │   │   ├── use-mutate-documents.ts
+│   │   │   │   ├── use-mutate-document.ts
+│   │   │   │   ├── use-paged-document.ts
+│   │   │   │   └── use-params-doc.ts
+│   │   │   ├── store
+│   │   │   │   └── create-document.ts
+│   │   │   ├── types.ts
+│   │   │   └── utils.ts
+│   │   ├── landing
+│   │   │   └── components
+│   │   │       ├── gradient-background.tsx
+│   │   │       └── hero
+│   │   │           ├── anim.ts
+│   │   │           └── index.tsx
+│   │   ├── media
+│   │   │   ├── actions
+│   │   │   │   ├── get-signed-url.ts
+│   │   │   │   ├── get-text.ts
+│   │   │   │   └── upload-media.ts
+│   │   │   ├── api.ts
+│   │   │   ├── data.ts
+│   │   │   ├── hooks
+│   │   │   ├── types.ts
+│   │   │   └── utils.ts
+│   │   └── theme
+│   │       └── context.tsx
+│   ├── next-auth.d.ts
+│   ├── routes.ts
+│   └── schemas
+│       └── index.ts
+├── tailwind.config.ts
+├── tsconfig.json
+├── tsconfig.tsbuildinfo
+├── ui-debug.log
+└── .vscode
+    ├── launch.json
+    └── settings.json

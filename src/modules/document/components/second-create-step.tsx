@@ -1,57 +1,26 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Document, Page} from "react-pdf";
-import {useWindowSize} from "usehooks-ts";
 
-import {useCreateDocument} from "../store/create-document";
+import usePagedDocument from "../hooks/use-paged-document";
 
 import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils/cn";
 
 function SecondCreateStep() {
-  const [setCharCount, file, text, setPages, charCount, pages] = useCreateDocument((state) => [
-    state.setCharCount,
-    state.file,
-    state.text,
-    state.setPages,
-    state.charCount,
-    state.pages,
-  ]);
-  const [maxPagesToRender, setMaxPagesToRender] = useState(1);
-  const [pagesToDisplay, setPagesToDisplay] = useState(1);
-  const [displayOffset, setDisplayOffset] = useState(0);
-
-  const {width} = useWindowSize();
-
-  useEffect(() => {
-    if (width < 768) {
-      setMaxPagesToRender(9);
-    } else if (width < 1024) {
-      setMaxPagesToRender(12);
-    } else if (width < 1280) {
-      setMaxPagesToRender(15);
-    } else {
-      setMaxPagesToRender(18);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (displayOffset + maxPagesToRender >= pages) {
-      setPagesToDisplay(pages - displayOffset);
-    }
-
-    setPagesToDisplay(maxPagesToRender);
-  }, [displayOffset, maxPagesToRender, pages]);
-
-  useEffect(() => {
-    if (!file) return;
-    if (!text) return;
-    setCharCount(text?.length);
-  }, [setCharCount, text, file]);
-
-  function onLoadSuccess({numPages}: {numPages: number}): void {
-    setPages(numPages);
-  }
+  const {
+    file,
+    pages,
+    pagesArray,
+    pagesOffset,
+    maxPagesInView,
+    totalPagesToShow,
+    placeholdersNeeded,
+    onLoadSuccess,
+    nextPage,
+    previousPage,
+    charCount,
+  } = usePagedDocument();
 
   return (
     <div>
@@ -67,39 +36,49 @@ function SecondCreateStep() {
           </div>
 
           <Document
-            className='my-6 grid h-[460px] w-full grid-cols-3 grid-rows-3 justify-items-center gap-4 overflow-hidden md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'
+            className='my-6 grid w-full grid-cols-2 grid-rows-3 justify-items-center gap-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 sml:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'
             file={file}
             renderMode='canvas'
             onLoadSuccess={onLoadSuccess}
           >
-            {[...Array(pagesToDisplay)].map((_, i) => (
-              <Page
-                key={i + 1 + displayOffset}
-                className='border-2 border-black'
-                height={170}
-                pageNumber={i + 1 + displayOffset}
-                renderAnnotationLayer={false}
-                renderTextLayer={false}
-                width={120}
-              />
+            {pagesArray?.slice(pagesOffset, pagesOffset + totalPagesToShow).map((_, i) => (
+              <div
+                key={i + 1 + pagesOffset}
+                className='h-full w-full rounded-md border border-border p-1'
+              >
+                <Page
+                  className='aspect-[6/7] overflow-hidden rounded-sm'
+                  height={170}
+                  pageNumber={i + 1 + pagesOffset}
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                  width={120}
+                />
+              </div>
             ))}
-            {[...Array(maxPagesToRender - pagesToDisplay)].map((_, i) => (
-              <div key={i + 1 + displayOffset} className='h-full w-full border-2 border-black' />
-            ))}
+            {placeholdersNeeded > 0 &&
+              [...Array(placeholdersNeeded)].fill(0).map((_, i) => (
+                <div
+                  key={i + 1 + pagesOffset}
+                  className='h-full w-full rounded-md border border-border p-1'
+                >
+                  <div className='aspect-[6/7] max-h-[170px] max-w-[120px] overflow-hidden rounded-sm' />
+                </div>
+              ))}
           </Document>
           <button
-            className={cn(displayOffset + maxPagesToRender >= pages && "hidden")}
-            disabled={displayOffset + maxPagesToRender >= pages}
+            className={cn(pagesOffset + maxPagesInView >= pages && "hidden")}
+            disabled={pagesOffset + maxPagesInView >= pages}
             type='button'
-            onClick={() => setDisplayOffset((previousOffter) => previousOffter + maxPagesToRender)}
+            onClick={nextPage}
           >
             Next
           </button>
           <button
-            className={cn(displayOffset === 0 && "hidden")}
-            disabled={displayOffset === 0}
+            className={cn(pagesOffset === 0 && "hidden")}
+            disabled={pagesOffset === 0}
             type='button'
-            onClick={() => setDisplayOffset((previousOffter) => previousOffter - maxPagesToRender)}
+            onClick={previousPage}
           >
             Previous
           </button>

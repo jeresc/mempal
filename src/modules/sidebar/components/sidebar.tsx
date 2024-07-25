@@ -3,11 +3,9 @@
 import Link from "next/link";
 import {Dot, File} from "lucide-react";
 import {useEffect, useState} from "react";
-// import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data/sets/15/twitter.json";
 import {init} from "emoji-mart";
 import {usePathname} from "next/navigation";
-import {MdKeyboardDoubleArrowLeft} from "react-icons/md";
 
 import {useDocuments} from "~/document/hooks/use-documents";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
