@@ -3,7 +3,7 @@ const nextConfig = {
   experimental: {
     reactCompiler: true,
     serverActions: {
-      bodySizeLimit: "10mb",
+      bodySizeLimit: "50mb",
     },
     optimizePackageImports: ["react-icons/fa", "@radix-ui/react-icons", "react-icons/md"],
   },

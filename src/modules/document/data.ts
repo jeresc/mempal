@@ -4,6 +4,7 @@ import {
   Timestamp,
   collection,
   doc,
+  documentId,
   getDocs,
   query,
   setDoc,
@@ -31,7 +32,7 @@ export const findDocumentByIds = async (docId: Document["id"], userId: Document[
   const q = query(
     collection(firestore, "documents"),
     where("userId", "==", userId),
-    where("id", "==", docId),
+    where(documentId(), "==", docId),
   );
 
   const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreDocument>;

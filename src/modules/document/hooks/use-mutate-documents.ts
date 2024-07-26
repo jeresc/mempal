@@ -7,7 +7,9 @@ const useMutateDocuments = () => {
   const queryClient = useQueryClient();
 
   const mutationFn = async ({file, docId, text}: {file: File; docId: string; text: string}) => {
-    await createDocument(file, docId, text);
+    const createDocumentResult = await createDocument(file, docId, text);
+
+    if (createDocumentResult.error !== undefined) throw Error(createDocumentResult.error.message);
 
     return docId;
   };

@@ -1,20 +1,18 @@
 import {pdfjs} from "react-pdf";
 
-const pdfToText = async (file: File | Blob | MediaSource): Promise<string> => {
-  // Create a blob URL for the PDF file
+const pdfToText = async (file: File | Blob | MediaSource): Promise<string[]> => {
   const blobUrl = URL.createObjectURL(file);
 
-  // Load the PDF file
   const loadingTask = pdfjs.getDocument(blobUrl);
 
-  const extractedText = "";
+  let pageTexts: string[] = [];
   let hadParsingError = false;
 
   try {
     const pdf = await loadingTask.promise;
     const numPages = pdf.numPages;
 
-    // Extract text from all pages concurrently
+    // Extract text from all pages
     const pageTextPromises = Array.from({length: numPages}, (_, i) => i + 1).map(
       async (pageNumber) => {
         const page = await pdf.getPage(pageNumber);
@@ -24,8 +22,7 @@ const pdfToText = async (file: File | Blob | MediaSource): Promise<string> => {
       },
     );
 
-    const pageTexts = await Promise.all(pageTextPromises);
-    const extractedText = pageTexts.join(" ");
+    pageTexts = await Promise.all(pageTextPromises);
 
     // Clean up the blob URL
     URL.revokeObjectURL(blobUrl);
@@ -33,9 +30,9 @@ const pdfToText = async (file: File | Blob | MediaSource): Promise<string> => {
     // Free memory from loading task
     loadingTask.destroy();
 
-    console.log(extractedText);
+    console.log(pageTexts);
 
-    return extractedText;
+    return pageTexts;
   } catch (error) {
     hadParsingError = true;
     console.error("Error extracting text from PDF:", error);
@@ -48,10 +45,10 @@ const pdfToText = async (file: File | Blob | MediaSource): Promise<string> => {
   loadingTask.destroy();
 
   if (!hadParsingError) {
-    return extractedText;
+    return pageTexts;
   }
 
-  return "";
+  return [];
 };
 
 export {pdfToText};

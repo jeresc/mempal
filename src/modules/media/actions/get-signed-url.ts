@@ -9,7 +9,7 @@ import {generateMediaName} from "../utils";
 
 const acceptedTypes = ["application/pdf"];
 
-const maxFileSize = 1024 * 1024 * 10; // 10MB;
+const maxFileSize = 1024 * 1024 * 50; // 10MB;
 
 const s3 = new S3Client({
   region: process.env.AWS_BUCKET_REGION!,

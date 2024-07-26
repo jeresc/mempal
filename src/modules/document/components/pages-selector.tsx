@@ -2,13 +2,17 @@
 import {Document, Page} from "react-pdf";
 import {ChevronLeft, ChevronRight} from "lucide-react";
 import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 import usePagedDocument from "../hooks/use-paged-document";
 import {useMutateDocuments} from "../hooks/use-mutate-documents";
 
+import {Slider} from "@/components/ui/slider";
 import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils/cn";
 import {generateFirestoreId} from "@/lib/utils/generate-id";
+import {Input} from "@/components/ui/input";
+
 const getPageNumbers = (
   pagesOffset: number,
   maxPagesInView: number,
@@ -79,6 +83,8 @@ function PageSelector() {
     pagesOfPages,
     setPagesOffset,
     text,
+    selectedRange,
+    setSelectedRange,
   } = usePagedDocument();
 
   const router = useRouter();
@@ -88,16 +94,46 @@ function PageSelector() {
 
   const pageNumbers = getPageNumbers(pagesOffset, maxPagesInView, pagesOfPages);
 
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+
+    try {
+      if (charCount > 50000 || !file || !text) return;
+
+      const docId = generateFirestoreId();
+
+      mutate({file, docId, text});
+      router.push(`/d/${docId}`);
+    } catch (e: unknown) {
+      // Handle errors here
+    }
+  };
+
   return (
     <section className='flex w-full flex-col gap-y-6'>
-      <div className='flex flex-col items-start gap-2'>
-        <Badge className='py-1 text-sm' variant={charCount > 50000 ? "destructive" : "success"}>
+      <div className='flex items-start gap-2'>
+        <Badge className='py-1 text-sm' variant={charCount > 50000 ? "destructive" : "default"}>
           Character Count: {charCount} / 50000
         </Badge>
         {charCount > 50000 && (
           <div className='flex items-center gap-2'>Try reducing the selected pages range.</div>
         )}
       </div>
+
+      {pages > 1 && (
+        <div className='w-full px-2'>
+          <Slider
+            defaultValue={[1, pages]}
+            max={pages}
+            min={1}
+            selectedValues={selectedRange}
+            step={1}
+            value={selectedRange}
+            onValueChange={(selectedRange) => setSelectedRange(selectedRange as [number, number])}
+          />
+        </div>
+      )}
 
       <Document
         className='grid w-full grid-cols-2 grid-rows-3 justify-items-center gap-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 sml:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'
@@ -106,9 +142,32 @@ function PageSelector() {
         onLoadSuccess={onLoadSuccess}
       >
         {pagesArray?.slice(pagesOffset, pagesOffset + totalPagesToShow).map((_, i) => (
-          <div
+          <button
             key={i + 1 + pagesOffset}
-            className='h-full w-full rounded-md border border-border p-1'
+            className={cn(
+              "relative h-full w-full rounded-md border border-border p-1",
+              selectedRange[0] <= i + 1 + pagesOffset &&
+                i + 1 + pagesOffset <= selectedRange[1] &&
+                "border-blue-500",
+            )}
+            type='button'
+            onClick={() => {
+              const currentPage = i + 1 + pagesOffset;
+
+              setSelectedRange((prevSelectedRange: [number, number]) => {
+                const [start, end] = prevSelectedRange;
+
+                // If the current page is before the start or after the end of the range, expand the range
+                if (currentPage < start) {
+                  return [currentPage, end];
+                } else if (currentPage > end) {
+                  return [start, currentPage];
+                } else {
+                  // If the current page is within the range, reset the range to just this page
+                  return [currentPage, currentPage];
+                }
+              });
+            }}
           >
             <Page
               className='aspect-[6/7] max-h-[150px] w-full overflow-hidden rounded-sm'
@@ -118,7 +177,17 @@ function PageSelector() {
               renderTextLayer={false}
               width={120}
             />
-          </div>
+            <p
+              className={cn(
+                "absolute right-1.5 top-1.5 rounded-sm bg-zinc-400 px-1.5 py-1 text-sm leading-none text-white",
+                selectedRange[0] <= i + 1 + pagesOffset &&
+                  i + 1 + pagesOffset <= selectedRange[1] &&
+                  "bg-blue-400",
+              )}
+            >
+              {i + 1 + pagesOffset}
+            </p>
+          </button>
         ))}
         {placeholdersNeeded > 0 &&
           [...Array(placeholdersNeeded)].fill(0).map((_, i) => (
@@ -175,20 +244,15 @@ function PageSelector() {
         </div>
       )}
 
-      <button
-        className='flex w-full items-center justify-center rounded-md border px-1 py-0.5 disabled:cursor-not-allowed disabled:opacity-30'
-        disabled={!file || !text || charCount > 50000}
-        type='button'
-        onClick={() => {
-          if (charCount > 50000 || !file || !text) return;
-          const docId = generateFirestoreId();
-
-          mutate({file, docId, text});
-          router.push(`/d/${docId}`);
-        }}
-      >
-        Submit
-      </button>
+      <form onSubmit={onSubmit}>
+        <button
+          className='flex w-full items-center justify-center rounded-md border px-1 py-0.5 disabled:cursor-not-allowed disabled:opacity-30'
+          disabled={!file || !text || charCount > 50000}
+          type='submit'
+        >
+          Submit
+        </button>
+      </form>
     </section>
   );
 }

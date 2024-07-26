@@ -1,29 +1,80 @@
 import {useEffect, useState} from "react";
 import {useWindowSize} from "usehooks-ts";
+import {useDebounceValue} from "usehooks-ts";
 
 import {useCreateDocument} from "../store/create-document";
+import {pdfToText} from "../utils";
 
 function usePagedDocument() {
-  const [setCharCount, file, text, setPages, charCount, pages] = useCreateDocument((state) => [
+  const [
+    setCharCount,
+    file,
+    text,
+    setPages,
+    charCount,
+    pages,
+    selectedRange,
+    setSelectedRange,
+    setText,
+  ] = useCreateDocument((state) => [
     state.setCharCount,
     state.file,
     state.text,
     state.setPages,
     state.charCount,
     state.pages,
+    state.selectedRange,
+    state.setSelectedRange,
+    state.setText,
   ]);
 
   const [pagesArray, setPagesArray] = useState<number[]>([]);
   const [pagesOffset, setPagesOffset] = useState(0);
   const [maxPagesInView, setMaxPagesInView] = useState(1);
-
-  const {width} = useWindowSize();
+  const [debouncedSelectedRange, setDebouncedSelectedRange] = useDebounceValue(selectedRange, 150);
+  const [allPageTexts, setAllPageTexts] = useState<string[]>([]);
 
   useEffect(() => {
-    if (file && text) {
-      setCharCount(text.length);
+    setSelectedRange([1, pages]);
+  }, [pages, setSelectedRange]);
+
+  useEffect(() => {
+    const fetchAllTexts = async () => {
+      if (!file) return;
+
+      try {
+        const texts = await pdfToText(file);
+
+        setAllPageTexts(texts);
+      } catch (error) {
+        console.error("Error fetching all text:", error);
+      }
+    };
+
+    fetchAllTexts();
+  }, [file]);
+
+  useEffect(() => {
+    if (allPageTexts.length === 0) return;
+
+    const [startPage, endPage] = debouncedSelectedRange || [1, allPageTexts.length];
+    const validStartPage = Math.max(1, startPage);
+    const validEndPage = Math.min(allPageTexts.length, endPage);
+
+    if (validStartPage <= validEndPage) {
+      const pageTextsInRange = allPageTexts.slice(validStartPage - 1, validEndPage);
+      const combinedText = pageTextsInRange.join(" ");
+
+      setText(combinedText);
+      setCharCount(combinedText.length);
     }
-  }, [setCharCount, text, file]);
+  }, [allPageTexts, debouncedSelectedRange, setText, setCharCount]);
+
+  useEffect(() => {
+    setDebouncedSelectedRange(selectedRange);
+  }, [selectedRange, setDebouncedSelectedRange]);
+
+  const {width} = useWindowSize();
 
   function onLoadSuccess({numPages}: {numPages: number}): void {
     setPages(numPages);
@@ -76,6 +127,8 @@ function usePagedDocument() {
     setPagesOffset,
     charCount,
     text,
+    selectedRange,
+    setSelectedRange,
   };
 }
 
