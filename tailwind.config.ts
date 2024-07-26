@@ -87,7 +87,11 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'light-blue-gradient': 'linear-gradient(to right, rgba(224, 247, 250, 0.3), rgba(224, 247, 250, 0.1))'
+        cyanBlue: "linear-gradient(to right, #00bcd4, #1e3a8a, #00bcd4)",
+      },
+      boxShadow: {
+        "bottom-shadow": "0 15px 15px rgba(0, 0, 0, 0.1)",
+        "left-shadow": "-10px 0 15px rgba(0, 0, 0, 0.1)",
       },
     },
   },

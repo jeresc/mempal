@@ -19,17 +19,16 @@ export const transition: AnimationProps["transition"] = {
   mass: 0.5,
 };
 
-
 export const fadeInAnimationOnce: AnimationProps["variants"] = {
   initial: {
     opacity: 0,
-    y: 100
+    y: 100,
   },
   animate: (index: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.3 * index
-    }
-  })
-}
+      delay: 0.3,
+    },
+  }),
+};
