@@ -3,11 +3,11 @@
 import {currentUser} from "~/auth/lib/auth";
 
 import {getSignedURL} from "./actions/get-signed-url";
-import {addMedia} from "./data";
+import {addMedia, findMediaByIds} from "./data";
 
 import {computeSHA256} from "@/lib/utils/compute-sha256";
 
-export const createMedia = async (file: File) => {
+export const createMedia = async (file: File, text: string) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
@@ -31,7 +31,7 @@ export const createMedia = async (file: File) => {
         type: "pdf",
         userId: user.id!,
         url: signedUrl.split("?")[0],
-        text: "",
+        text,
       }),
       fetch(signedUrl, {
         method: "PUT",
@@ -48,4 +48,14 @@ export const createMedia = async (file: File) => {
   } catch (e: unknown) {
     return {error: {message: "Failed to upload media"}};
   }
+};
+
+export const getMediaById = async (mediaId: string) => {
+  const user = await currentUser();
+
+  if (!user) return {error: {message: "User not found"}};
+
+  const media = await findMediaByIds(mediaId, user.id!);
+
+  return {success: {media}};
 };

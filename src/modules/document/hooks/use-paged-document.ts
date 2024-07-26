@@ -34,7 +34,7 @@ function usePagedDocument() {
   }, [pages]);
 
   useEffect(() => {
-    if (width < 480) {
+    if (width < 490) {
       setMaxPagesInView(6);
     } else if (width < 768) {
       setMaxPagesInView(12);
@@ -51,6 +51,7 @@ function usePagedDocument() {
 
   const totalPagesToShow = Math.min(maxPagesInView, pages - pagesOffset);
   const placeholdersNeeded = maxPagesInView - totalPagesToShow;
+  const pagesOfPages = Math.ceil(pages / maxPagesInView);
 
   const nextPage = () => {
     setPagesOffset((prevOffset) => prevOffset + maxPagesInView);
@@ -68,10 +69,13 @@ function usePagedDocument() {
     maxPagesInView,
     totalPagesToShow,
     placeholdersNeeded,
+    pagesOfPages,
     onLoadSuccess,
     nextPage,
     previousPage,
+    setPagesOffset,
     charCount,
+    text,
   };
 }
 

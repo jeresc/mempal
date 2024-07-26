@@ -1,8 +1,19 @@
-import {collection, Timestamp, addDoc} from "firebase/firestore";
+"use server";
+
+import {
+  collection,
+  Timestamp,
+  addDoc,
+  query,
+  where,
+  QuerySnapshot,
+  getDocs,
+  documentId,
+} from "firebase/firestore";
 
 import {currentUser} from "~/auth/lib/auth";
 
-import {Media} from "./types";
+import {FirestoreMedia, Media} from "./types";
 
 import {getFirebase} from "@/lib/firebase";
 
@@ -20,4 +31,24 @@ export const addMedia = async (data: Omit<Media, "id" | "createdAt">) => {
   });
 
   return docRef.id;
+};
+
+export const findMediaByIds = async (mediaId: string, userId: string) => {
+  const {firestore} = getFirebase();
+
+  const q = query(
+    collection(firestore, "media"),
+    where(documentId(), "==", mediaId),
+    where("userId", "==", userId),
+  );
+
+  const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreMedia>;
+
+  const docRef = querySnap.docs[0];
+
+  return {
+    id: docRef.id!,
+    ...docRef.data(),
+    createdAt: docRef.data().createdAt.toDate(),
+  };
 };

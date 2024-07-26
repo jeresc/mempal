@@ -28,12 +28,12 @@ export const getDocuments = async () => {
   }));
 };
 
-export const createDocument = async (file: File, id = generateFirestoreId()) => {
+export const createDocument = async (file: File, id = generateFirestoreId(), text: string) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
 
-  const createMediaResult = await createMedia(file);
+  const createMediaResult = await createMedia(file, text);
 
   if (createMediaResult.error !== undefined)
     return {error: {message: createMediaResult.error.message}};

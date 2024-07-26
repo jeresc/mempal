@@ -6,18 +6,18 @@ import {Document} from "../types";
 const useMutateDocuments = () => {
   const queryClient = useQueryClient();
 
-  const mutationFn = async ({file, docId}: {file: File; docId: string}) => {
-    await createDocument(file, docId);
+  const mutationFn = async ({file, docId, text}: {file: File; docId: string; text: string}) => {
+    await createDocument(file, docId, text);
 
     return docId;
   };
 
   const {mutate, isPending: isMutating} = useMutation({
     mutationFn,
-    onMutate: async ({docId}) => {
+    onMutate: async ({docId, text}) => {
       await queryClient.cancelQueries({queryKey: ["documents"]});
       const previousDocuments = queryClient.getQueryData(["documents"]);
-      const newDocument = {id: docId, createdAt: new Date(), title: "", mediaId: ""};
+      const newDocument = {id: docId, createdAt: new Date(), title: "", mediaId: "", text};
 
       await queryClient.setQueryData(["documents"], (oldDocuments?: Document[]) => {
         if (oldDocuments === undefined) return [newDocument];

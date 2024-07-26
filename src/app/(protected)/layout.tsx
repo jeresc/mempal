@@ -1,7 +1,8 @@
 "use client";
-import {MdKeyboardDoubleArrowLeft} from "react-icons/md";
 import {useDebounceValue} from "usehooks-ts";
 import {useEffect} from "react";
+import {ChevronsLeft} from "lucide-react";
+import {Tooltip, TooltipProvider, TooltipTrigger, TooltipContent} from "@radix-ui/react-tooltip";
 
 import {MobileSidebar} from "~/sidebar";
 import {Sidebar} from "~/sidebar";
@@ -34,24 +35,41 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
               !isLocked &&
                 "w-0 min-w-0 max-w-0 -translate-x-full opacity-0 transition-[transform_width] duration-500",
             )}
-            defaultSize={10}
+            defaultSize={25}
             order={1}
           >
-            <button
-              className='absolute left-[calc(100%-40px)] top-0 m-1'
-              type='button'
-              onClick={() => {
-                setIsLocked(false);
-                setIsOpen(false);
-              }}
-            >
-              <MdKeyboardDoubleArrowLeft size={36} />
-            </button>
-            <Sidebar />
+            <TooltipProvider delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className='absolute left-[calc(100%-40px)] top-0 m-1 rounded-md hover:bg-border'
+                    type='button'
+                    onClick={() => {
+                      setIsLocked(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <ChevronsLeft size={30} />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent
+                  className='rounded-md bg-border p-1 px-2'
+                  side='right'
+                  sideOffset={4}
+                >
+                  <p className='text-sm text-foreground/80'>Unlock sidebar open</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <Sidebar key='desktop-sidebar' />
           </ResizablePanel>
         ) : null}
         <ResizableHandle />
-        <ResizablePanel className='h-full w-full !overflow-y-scroll' defaultSize={90} order={2}>
+        <ResizablePanel
+          className='grid h-full w-full !overflow-y-scroll [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
+          defaultSize={75}
+          order={2}
+        >
           {children}
         </ResizablePanel>
       </ResizablePanelGroup>

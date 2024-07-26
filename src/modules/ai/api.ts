@@ -11,7 +11,7 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const model = google("models/gemini-1.5-pro-latest");
-// const model = openai("gpt-4o-mini");
+// const model = google("models/gemini-1.5-pro-latest");
+const model = openai("gpt-4o-mini");
 
 export {model, openai};

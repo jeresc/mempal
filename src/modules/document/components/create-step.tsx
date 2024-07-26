@@ -26,23 +26,24 @@ function CreateStep({
   if (!isActive)
     return (
       <button
-        className='flex w-full gap-x-4 rounded-lg border p-4 disabled:opacity-50'
+        className='flex w-full items-center gap-x-4 rounded-lg border border-border p-2.5 disabled:opacity-50'
         disabled={!completedSteps.includes(stepNumber - 1)}
         type='button'
         onClick={() => setCurrentStep(stepNumber)}
       >
-        <p className='text-2xl font-bold'>{stepNumber}</p>
+        <p className='aspect-[1/1] w-[40px] rounded-md bg-primary/20 p-2 text-center text-2xl font-bold leading-none'>{`${stepNumber}.`}</p>
+
         <p className='text-2xl font-bold'>{stepName}</p>
       </button>
     );
 
   return (
-    <div className='flex h-full w-full flex-col gap-y-2 rounded-lg border p-4'>
-      <header className='flex items-center gap-x-3'>
-        <p className='text-2xl font-bold'>{`${stepNumber}.`}</p>
+    <div className='flex h-full w-full flex-col gap-y-2 rounded-lg border border-border p-2.5'>
+      <header className='flex items-center gap-x-4 leading-none'>
+        <p className='flex aspect-[1/1] h-[40px] items-center justify-center rounded-md bg-primary/20 p-2.5 text-center text-2xl font-bold'>{`${stepNumber}.`}</p>
         <p className='text-2xl font-bold'>{stepName}</p>
       </header>
-      <section className='flex h-full w-full'>{children}</section>
+      <section className='flex h-full w-full xs:pl-14'>{children}</section>
     </div>
   );
 }

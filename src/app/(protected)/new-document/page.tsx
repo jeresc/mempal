@@ -8,7 +8,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 
 function NewDocumentPage() {
   return (
-    <div className='flex h-full w-full flex-col gap-y-4 p-4 '>
+    <div className='flex h-full w-full flex-col gap-y-4 p-4'>
       <header className='flex w-full flex-col items-center justify-center'>
         <h2 className='mb-2 flex items-center justify-center gap-1 text-3xl font-[700] drop-shadow-sm'>
           Create a new document

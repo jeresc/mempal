@@ -23,7 +23,7 @@ function Chat() {
           <div
             key={message.content}
             className={cn(
-              "prose min-w-0 text-pretty rounded-md py-[5px]",
+              "prose min-w-0 text-pretty rounded-md py-[5px] dark:prose-invert prose-strong:text-primary",
               message.role === "user"
                 ? "ml-[16%] w-fit self-end bg-blue-500/80 px-3 text-right text-white"
                 : "wr-[8%] text-left text-foreground",
