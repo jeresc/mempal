@@ -7,20 +7,14 @@ import {TrainAICard, InstantAnswer, PersonalData, InstantReview} from "@/utils/f
 
 function Features() {
   return (
-    <motion.div
+    <div
       className='flex flex-col items-center justify-center gap-y-12 py-8'
-      initial='initial'
-      variants={fadeInAnimationOnce}
-      viewport={{
-        once: true,
-      }}
-      whileInView='animate'
     >
       <TrainAICard />
       <InstantAnswer />
       <PersonalData />
       <InstantReview />
-    </motion.div>
+    </div>
   );
 }
 

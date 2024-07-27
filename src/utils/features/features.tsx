@@ -1,13 +1,24 @@
 "use client";
 import Image from "next/image";
 
+import { motion } from "framer-motion";
+import { fadeInAnimationOnce } from "../anim";
+
 import flashcardSvg from "@/assets/svg/featuresSvg/cards-outline-svgrepo-com.svg"
 import notesSvg from "@/assets/svg/featuresSvg/notes-notepad-svgrepo-com.svg"
 import lampSvg from "@/assets/svg/featuresSvg/light-bulb-idea-svgrepo-com.svg"
 
+
 function TrainAICard() {
   return (
-    <div className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-purple-50 via-pink-50 p-8 shadow-lg md:flex-row'>
+    <motion.div
+      initial='initial'
+      variants={fadeInAnimationOnce}
+      viewport={{
+        once: true,
+      }}
+      whileInView='animate'
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-purple-50 via-pink-50 p-8 shadow-lg md:flex-row'>
       <div className='md:w-2/4'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={flashcardSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
@@ -24,13 +35,20 @@ function TrainAICard() {
           f a s t
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function InstantAnswer() {
   return (
-    <div className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-green-50 to-white p-8 shadow-lg md:flex-row'>
+    <motion.div
+      initial='initial'
+      variants={fadeInAnimationOnce}
+      viewport={{
+        once: true,
+      }}
+      whileInView='animate'
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-green-50 to-white p-8 shadow-lg md:flex-row'>
       <div className='md:w-2/3'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={lampSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
@@ -44,13 +62,20 @@ function InstantAnswer() {
         </p>
       </div>
       <div className='h-48 w-full bg-white shadow-bottom-shadow md:absolute md:right-0 md:w-1/3 md:rounded-l-lg' />
-    </div>
+    </motion.div>
   );
 }
 
 function PersonalData() {
   return (
-    <div className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-blue-100 to-white p-8 shadow-lg md:flex-row'>
+    <motion.div
+      initial='initial'
+      variants={fadeInAnimationOnce}
+      viewport={{
+        once: true,
+      }}
+      whileInView='animate'
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-blue-100 to-white p-8 shadow-lg md:flex-row'>
       <div className='md:w-2/3'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={notesSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
@@ -64,13 +89,20 @@ function PersonalData() {
         </p>
       </div>
       <div className='h-48 w-full bg-white shadow-bottom-shadow md:absolute md:right-0 md:w-1/3 md:rounded-l-lg' />
-    </div>
+    </motion.div>
   );
 }
 
 function InstantReview() {
   return (
-    <div className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-gray-300 to-white p-8 shadow-lg md:flex-row'>
+    <motion.div
+      initial='initial'
+      variants={fadeInAnimationOnce}
+      viewport={{
+        once: true,
+      }}
+      whileInView='animate'
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-gray-300 to-white p-8 shadow-lg md:flex-row'>
       <div className='mb-8 w-full lg:mb-0 lg:w-1/2'>
         <h1 className='mb-4 text-xl font-bold sm:text-2xl md:text-3xl'>Instant review</h1>
         <p className='mb-6 mt-4 w-full text-lg md:w-11/12'>
@@ -95,8 +127,8 @@ function InstantReview() {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-export {TrainAICard, InstantAnswer, PersonalData, InstantReview};
+export { TrainAICard, InstantAnswer, PersonalData, InstantReview };
