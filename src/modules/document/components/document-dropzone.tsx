@@ -24,10 +24,10 @@ function DocumentDropzone({onDocumentLoadSuccess}: {onDocumentLoadSuccess?: () =
     },
     onDropAccepted: async (acceptedFiles) => {
       setFile(acceptedFiles[0]);
-      const text = await pdfToText(acceptedFiles[0]);
+      const texts = await pdfToText(acceptedFiles[0]);
 
-      setText(text);
-      setCharCount(text.length);
+      setText(texts.join(" "));
+      setCharCount(texts.join(" ").length);
       onDocumentLoadSuccess?.();
     },
     multiple: false,
