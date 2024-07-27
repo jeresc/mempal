@@ -1,4 +1,5 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {toast} from "sonner";
 
 import {createDocument} from "../api";
 import {Document} from "../types";
@@ -29,11 +30,11 @@ const useMutateDocuments = () => {
 
       return {previousDocuments};
     },
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      toast.success("Document created successfully");
     },
     onError: (error, _, context) => {
-      console.error(error);
+      toast.error("Error creating document: " + error);
       if (context?.previousDocuments != null) return;
       queryClient.setQueryData(["documents"], context?.previousDocuments);
     },
