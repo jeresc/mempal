@@ -1,8 +1,5 @@
 "use client";
 
-import {motion} from "framer-motion";
-
-import {fadeInAnimationOnce} from "@/utils/anim";
 import {TrainAICard, InstantAnswer, PersonalData, InstantReview} from "@/utils/features/features";
 
 function Features() {

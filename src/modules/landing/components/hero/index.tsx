@@ -30,8 +30,8 @@ function Hero() {
           questions and flashcards from your own materials.
         </sub>
         <div className="w-full items-center justify-center">
-          <Button className='w-1/3 px-8 py-4'>
-           <Link href={'/register'}>Try for free</Link>
+          <Button className='w-2/3 sm:w-1/2 px-8 py-4'>
+           <Link href={'/register'} className="text-center text-sm sm:text-xl">Try for free</Link>
           </Button>
         </div>
       </section>
