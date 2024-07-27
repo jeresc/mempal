@@ -35,17 +35,8 @@ function About() {
       transition={transition}
       variants={variants}
     >
-      <div className='flex w-full pt-8'>
-        <Button className='w-1/2 px-8 py-4'>Try for free</Button>
-        <button className='flex w-1/2 items-center justify-center gap-x-2 text-[#000]'>
-          View Pricing
-          <span>
-            <Image alt='Go to Pricing' src={RightBlueArrow} />
-          </span>
-        </button>
-      </div>
-
-      <div className='relative flex h-full min-h-[500px] w-[99vw] justify-center md:h-[600px] lg:h-[800px] xl:min-h-[1000px]'>
+   
+      <div className='relative flex py-12 h-full min-h-[500px] w-[99vw] justify-center md:h-[600px] lg:h-[800px] xl:min-h-[1000px]'>
         {/* <Image src={LightGradient} alt='Light Gradient' className='min-h-[500px] md:h-[600px] lg:h-[800px] xl:min-h-[1000px] w-full object-cover blur-xl' /> */}
 
         <div className='absolute flex w-full flex-col items-center pt-8'>

@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
 
-import flashcardSvg from "@/assets/svg/featuresSvg/cards-outline-svgrepo-com.svg";
-import notesSvg from "@/assets/svg/featuresSvg/notes-notepad-svgrepo-com.svg";
+import flashcardSvg from "@/assets/svg/featuresSvg/cards-outline-svgrepo-com.svg"
+import notesSvg from "@/assets/svg/featuresSvg/notes-notepad-svgrepo-com.svg"
+import lampSvg from "@/assets/svg/featuresSvg/light-bulb-idea-svgrepo-com.svg"
 
 function TrainAICard() {
   return (
@@ -10,8 +11,8 @@ function TrainAICard() {
       <div className='md:w-2/4'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={flashcardSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
-          Train the <span className='text-blue-600'>IA</span> with exam data in <br />{" "}
-          <span className='text-purple-600'>60 seconds</span>
+          Train the <span className='from-[#1945DE] to-[#112F99] bg-gradient-to-l bg-clip-text text-transparent'>AI</span> with exam data in <br />{" "}
+          <span className='from-[#D96AFE] via-[#C370FF] to-[#8401F2] bg-gradient-to-r bg-clip-text text-transparent'>60 seconds</span>
         </h1>
         <p className='mt-4 text-gray-500'>
           Upload your pdf&apos;s and notes about a exam topic and click generate model.
@@ -31,7 +32,7 @@ function InstantAnswer() {
   return (
     <div className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-green-50 to-white p-8 shadow-lg md:flex-row'>
       <div className='md:w-2/3'>
-        <Image alt='Flashcard Svg' className='mb-3' height={35} src={notesSvg} width={35} />
+        <Image alt='Flashcard Svg' className='mb-3' height={35} src={lampSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
           Instant answer validation
         </h1>
@@ -89,7 +90,7 @@ function InstantReview() {
           <button className='transform rounded-lg bg-black px-4 py-2 text-sm text-white transition-transform hover:scale-105'>
             Answer
           </button>
-          <p className='text-sm text-red-500'>
+          <p className='text-sm text-red-500 cursor-pointer'>
             Don&apos;t Know
           </p>
         </div>

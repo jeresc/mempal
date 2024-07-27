@@ -4,6 +4,7 @@ import {Features} from "~/landing/components/features";
 
 import {Header} from "@/components/ui/header";
 import {GradientBackground} from "@/modules/landing/components/gradient-background";
+import { Footer } from "@/components/ui/footer";
 
 export default function HomePage() {
   return (
@@ -16,9 +17,10 @@ export default function HomePage() {
           <About />
           <Features />
         </div>
-        <footer className='h-fit px-2 text-center leading-[4rem] opacity-70'>
+        <Footer />
+        {/* <footer className='h-fit px-2 text-center leading-[4rem] opacity-70'>
           © {new Date().getFullYear()} Mempal
-        </footer>
+        </footer> */}
       </main>
     </div>
   );
