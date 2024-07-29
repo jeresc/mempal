@@ -1,7 +1,53 @@
-export const generateFileName = (bytes = 32) => {
-  const array = new Uint8Array(bytes);
+import {pdfjs} from "react-pdf";
+import {toast} from "sonner";
 
-  crypto.getRandomValues(array);
+const pdfToText = async (file: File | Blob | MediaSource): Promise<string[]> => {
+  const blobUrl = URL.createObjectURL(file);
 
-  return [...array].map((b) => b.toString(16).padStart(2, "0")).join("");
+  const loadingTask = pdfjs.getDocument(blobUrl);
+
+  let pageTexts: string[] = [];
+  let hadParsingError = false;
+
+  try {
+    const pdf = await loadingTask.promise;
+    const numPages = pdf.numPages;
+
+    // Extract text from all pages
+    const pageTextPromises = Array.from({length: numPages}, (_, i) => i + 1).map(
+      async (pageNumber) => {
+        const page = await pdf.getPage(pageNumber);
+        const textContent = await page.getTextContent();
+
+        return textContent.items.map((item) => ("str" in item ? item.str : "")).join(" ");
+      },
+    );
+
+    pageTexts = await Promise.all(pageTextPromises);
+
+    // Clean up the blob URL
+    URL.revokeObjectURL(blobUrl);
+
+    // Free memory from loading task
+    loadingTask.destroy();
+
+    return pageTexts;
+  } catch (error) {
+    hadParsingError = true;
+    toast.error("Error extracting text from PDF: " + error);
+  }
+
+  // Clean up the blob URL
+  URL.revokeObjectURL(blobUrl);
+
+  // Free memory from loading task
+  loadingTask.destroy();
+
+  if (!hadParsingError) {
+    return pageTexts;
+  }
+
+  return [];
 };
+
+export {pdfToText};

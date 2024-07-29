@@ -1,5 +1,4 @@
 "use server";
-
 import {streamText} from "ai";
 import {createStreamableValue} from "ai/rsc";
 
@@ -10,7 +9,7 @@ export interface Message {
   content: string;
 }
 
-export async function continueConversation(history: Message[]) {
+export const continueConversation = async (history: Message[]) => {
   "use server";
 
   const stream = createStreamableValue();
@@ -42,4 +41,4 @@ export async function continueConversation(history: Message[]) {
     messages: history,
     newMessage: stream.value,
   };
-}
+};

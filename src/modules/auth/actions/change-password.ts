@@ -1,6 +1,6 @@
 "use server";
 
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt-edge";
 import * as z from "zod";
 
 import {getUserById} from "~/auth/data/user";
@@ -33,13 +33,13 @@ export const changePassword = async (values: z.infer<typeof ChangePasswordSchema
   }
 
   if (values.currentPassword && values.newPassword && dbUser.password) {
-    const passwordsMatch = await bcrypt.compare(values.currentPassword, dbUser.password);
+    const passwordsMatch = bcrypt.compareSync(values.currentPassword, dbUser.password);
 
     if (!passwordsMatch) {
       return {error: "Incorrect password!", success: ""};
     }
 
-    const hashedPassword = await bcrypt.hash(values.newPassword, 12);
+    const hashedPassword = bcrypt.hashSync(values.newPassword, 12);
 
     values.currentPassword = hashedPassword;
   }

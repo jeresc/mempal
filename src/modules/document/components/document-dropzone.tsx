@@ -1,43 +1,56 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useDropzone} from "react-dropzone";
+import {ArrowBigUpDash} from "lucide-react";
 
-import {FileConfirmationDialog} from "~/document/components/file-confirmation-dialog";
+import {pdfToText} from "../utils";
+import {useCreateDocument} from "../store/create-document";
 
-function DocumentDropzone() {
-  const [file, setFile] = useState<File>();
-  const [open, setOpen] = useState(false);
+import {Button} from "@/components/ui/button";
+
+function DocumentDropzone({onDocumentLoadSuccess}: {onDocumentLoadSuccess?: () => void}) {
+  const [setFile, setText, setCharCount] = useCreateDocument((state) => [
+    state.setFile,
+    state.setText,
+    state.setCharCount,
+    state.file,
+    state.text,
+  ]);
 
   const {getRootProps, getInputProps} = useDropzone({
     accept: {
       "application/pdf": [".pdf"],
     },
-    onDropAccepted: (acceptedFiles) => {
+    onDropAccepted: async (acceptedFiles) => {
       setFile(acceptedFiles[0]);
+      const texts = await pdfToText(acceptedFiles[0]);
+
+      setText(texts.join(" "));
+      setCharCount(texts.join(" ").length);
+      onDocumentLoadSuccess?.();
     },
     multiple: false,
   });
 
-  useEffect(() => {
-    if (!file) return;
-
-    setOpen(true);
-  }, [file]);
-
   return (
-    <div className='h-full w-full'>
-      <div
-        {...getRootProps({
-          className:
-            "rounded-md border border-border flex h-full w-full items-center justify-center",
-        })}
-      >
-        <input type='file' {...getInputProps()} accept='application/pdf' />
-        <p className='px-4 text-center text-lg'>Drag and drop files here, or click to select</p>
+    <section className='flex h-full w-full flex-col gap-y-4'>
+      <div className='flex h-full w-full items-center justify-center'>
+        <div
+          {...getRootProps({
+            className:
+              "rounded-md border border-dashed border-border flex items-center justify-center flex-col gap-y-7 hover:bg-primary/15 cursor-pointer hover:border-primary/40 h-full p-4 transition-all duration-75 w-full",
+          })}
+        >
+          <input type='file' {...getInputProps()} accept='application/pdf' />
+          <ArrowBigUpDash className='-m-6 h-36 w-36' size={40} strokeWidth={0.8} />
+          <div className='flex w-full flex-col items-center justify-center gap-y-3 text-lg leading-none '>
+            <p className='px-4 text-center leading-none'>Drag and drop files here</p>
+            <Button className='w-full max-w-[260px]'>Or click to select</Button>
+          </div>
+        </div>
       </div>
-      <FileConfirmationDialog file={file} open={open} onOpenChange={setOpen} />
-    </div>
+    </section>
   );
 }
 

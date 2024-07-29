@@ -1,6 +1,11 @@
 "use client";
 
-import {getSignedURL} from "~/document/actions/get-signed-url";
+import {useRouter} from "next/navigation";
+import React from "react";
+
+import {getTextFromMedia} from "~/media/actions/get-text";
+
+import {useMutateDocuments} from "../hooks/use-mutate-documents";
 
 import {
   AlertDialog,
@@ -12,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import {computeSHA256} from "@/lib/utils/compute-sha256";
+import {generateFirestoreId} from "@/lib/utils/generate-id";
 
 interface FileUploadDialogProps {
   open: boolean;
@@ -20,37 +25,20 @@ interface FileUploadDialogProps {
   file: File | undefined;
 }
 
-function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProps) {
+function DocumentConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProps) {
+  const router = useRouter();
+  const {mutate} = useMutateDocuments();
+
   const onConfirm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
 
     try {
-      const data = new FormData();
+      const docId = generateFirestoreId();
+      const getTextResult = await getTextFromMedia(file);
 
-      data.set("file", file);
-
-      const checkSum = await computeSHA256(file);
-
-      const signedUrlResult = await getSignedURL({
-        type: file.type,
-        size: file.size,
-        checkSum,
-      });
-
-      if (signedUrlResult.error !== undefined) throw new Error(signedUrlResult.error.message);
-
-      const {url, docId} = signedUrlResult.success;
-
-      await fetch(url, {
-        method: "PUT",
-        body: file,
-        headers: {
-          "Content-Type": file.type,
-        },
-      });
-
-      console.log(docId);
+      // mutate({file, docId});
+      // router.push(`/d/${docId}`);
     } catch (e: unknown) {
       // Handle errors here
     }
@@ -61,12 +49,7 @@ function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProp
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>File to upload</AlertDialogTitle>
-          <AlertDialogDescription>
-            File name:
-            <ul>
-              <li>{file?.name}</li>
-            </ul>
-          </AlertDialogDescription>
+          <AlertDialogDescription>File name: {file?.name}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className='uppercase'>Cancel</AlertDialogCancel>
@@ -81,4 +64,4 @@ function FileConfirmationDialog({open, onOpenChange, file}: FileUploadDialogProp
   );
 }
 
-export {FileConfirmationDialog};
+export {DocumentConfirmationDialog};

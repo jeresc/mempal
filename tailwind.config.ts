@@ -13,9 +13,6 @@ const config = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
       fontFamily: {
@@ -31,6 +28,8 @@ const config = {
       },
       screens: {
         xs: "480px",
+        sml: "860px",
+        "2xl": "1400px",
       },
       colors: {
         border: "hsl(var(--border))",

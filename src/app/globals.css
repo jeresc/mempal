@@ -31,9 +31,12 @@
   }
 
   .dark {
-    --background: 0 0% 9.6%;
+    /* --background: 0 0% 9.6%; */
+    --background: 220 19% 9.2%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 9.6%;
+    /* --card: 0 0% 9.6%; */
+    --card: 220 19% 9.2%;
+    --background: 220 19% 9.2%;
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -62,4 +65,15 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+em-emoji-picker {
+  --border-radius: 8px;
+
+  height: 50vh;
+  min-height: 400px;
+  max-height: 800px;
+  width: 50vw;
+  min-width: 400px;
+  max-width: 800px;
 }

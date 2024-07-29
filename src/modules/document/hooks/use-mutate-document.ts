@@ -1,46 +1,69 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 
-import {createDocument} from "../api";
+import {patchDocument} from "../api";
 import {Document} from "../types";
 
-const useMutateDocument = () => {
+const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Document>}) => {
   const queryClient = useQueryClient();
 
+  const mutationFn = async ({data}: {data: Partial<Omit<Document, "id" | "createdAt">>}) => {
+    const newDocument = await patchDocument(docId, data);
+
+    return newDocument?.success?.document;
+  };
+
   const {mutate, isPending: isMutating} = useMutation({
-    mutationFn: createDocument,
-    onMutate: async (newDocument) => {
-      await queryClient.cancelQueries({queryKey: ["documents"]});
-      const previousDocuments = queryClient.getQueryData(["documents"]);
+    mutationFn,
+    onMutate: async ({data: newData}) => {
+      await Promise.all([
+        queryClient.cancelQueries({queryKey: ["documents"]}),
+        queryClient.cancelQueries({queryKey: ["documents", docId]}),
+      ]);
 
-      await queryClient.setQueryData(["documents"], (oldDocuments?: Document[]) => {
-        if (oldDocuments === undefined) return [newDocument];
+      const previousDocuments = queryClient.getQueryData(["documents"]) as Document[];
 
-        return [...oldDocuments, newDocument];
-      });
+      if (previousDocuments === undefined) return;
 
-      return {previousDocuments};
+      const docIndex = previousDocuments.findIndex((doc) => doc.id === docId);
+      const oldDocument = {...previousDocuments[docIndex]};
+      const updatedDocument = {...previousDocuments[docIndex], ...newData};
+
+      await Promise.all([
+        queryClient.setQueryData(["documents"], (oldDocuments?: Document[]) => {
+          if (oldDocuments === undefined) return [];
+
+          return [
+            ...oldDocuments.slice(0, docIndex),
+            updatedDocument,
+            ...oldDocuments.slice(docIndex + 1),
+          ];
+        }),
+        queryClient.setQueryData(["documents", docId], (oldDocument?: Document) => {
+          if (oldDocument === undefined) return updatedDocument;
+
+          return {...oldDocument, ...updatedDocument};
+        }),
+      ]);
+
+      return {previousDocuments, oldDocument};
     },
     onSuccess: (data) => {
-      console.log(data);
+      console.log("mutation success", data);
     },
     onError: (error, _, context) => {
       console.error(error);
-      if (context?.previousDocuments != null) return;
-      queryClient.setQueryData(["documents"], context?.previousDocuments);
+      if (context?.previousDocuments != null && context?.oldDocument != null)
+        queryClient.setQueryData(["documents"], context?.previousDocuments);
+      if (context?.oldDocument != null)
+        queryClient.setQueryData(["documents", context?.oldDocument.id], context?.oldDocument);
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({queryKey: ["documents"]});
+      queryClient.invalidateQueries({queryKey: ["documents", docId]});
+      queryClient.invalidateQueries({queryKey: ["documents"]});
     },
   });
 
-  const handleSubmit = async (data: Omit<Document, "id" | "createdAt">) => {
-    mutate(data);
-  };
-
-  return {
-    isMutating,
-    handleSubmit,
-  };
+  return {mutateDocument: mutate, isMutating};
 };
 
 export {useMutateDocument};

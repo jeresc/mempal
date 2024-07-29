@@ -1,21 +1,14 @@
 "use client";
 
-import {useMutateDocument} from "~/document/hooks/use-mutate-document";
-import {DocumentDropzone} from "~/document/components/document-dropzone";
+import {pdfjs} from "react-pdf";
 
-const dummyData = {
-  text: "Hello World",
-  type: "pdf",
-  title: "Hello World",
-  url: "example.com",
-  userId: "123",
-};
+import {CreateDocumentWizard} from "~/document/components/create-document-wizard";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 function NewDocumentPage() {
-  const {isMutating, handleSubmit} = useMutateDocument();
-
   return (
-    <div className='flex h-full w-full flex-col gap-y-4 px-4 py-8'>
+    <div className='flex h-full w-full flex-col gap-y-4 p-4'>
       <header className='flex w-full flex-col items-center justify-center'>
         <h2 className='mb-2 flex items-center justify-center gap-1 text-3xl font-[700] drop-shadow-sm'>
           Create a new document
@@ -25,10 +18,7 @@ function NewDocumentPage() {
         </p>
       </header>
       <main className='h-full w-full'>
-        <DocumentDropzone />
-        <button disabled={isMutating} type='button' onClick={() => handleSubmit(dummyData)}>
-          {isMutating ? "Creating..." : "Create"}
-        </button>
+        <CreateDocumentWizard />
       </main>
     </div>
   );
