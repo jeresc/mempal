@@ -18,9 +18,6 @@ export default function HomePage() {
           <Features />
         </div>
         <Footer />
-        {/* <footer className='h-fit px-2 text-center leading-[4rem] opacity-70'>
-          © {new Date().getFullYear()} Mempal
-        </footer> */}
       </main>
     </div>
   );
