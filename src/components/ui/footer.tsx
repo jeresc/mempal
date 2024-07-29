@@ -89,9 +89,9 @@ function Footer() {
                                     </p>
                                 </li>
                                 <li>
-                                    <p className="text-gray-500 cursor-pointer hover:text-gray-700">
+                                    <Link href={"/terms"} className="text-gray-500 cursor-pointer hover:text-gray-700">
                                         Terms & Privacy
-                                    </p>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
