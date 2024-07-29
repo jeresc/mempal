@@ -7,8 +7,15 @@ import data from "@emoji-mart/data/sets/15/twitter.json";
 import {init} from "emoji-mart";
 import {usePathname} from "next/navigation";
 
-import {useDocuments} from "~/document/hooks/use-documents";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
+import {useDocuments} from "~/document/hooks/use-documents";
+import {useCurrentUser} from "~/auth/hooks/use-current-user";
+
+import {GradientAvatar} from "./gradient-avatar";
+
+import {Button} from "@/components/ui/button";
+import {cn} from "@/lib/utils/cn";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 const emojis = {
   chat: "robot_face",
@@ -20,9 +27,6 @@ const tabs = ["chat", "deck", "summary"];
 
 init({data});
 
-import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils/cn";
-
 const docUrl = (docTitle: string, docId: string) => {
   const docTitleSlug = docTitle.replaceAll(" ", "-");
 
@@ -32,6 +36,7 @@ const docUrl = (docTitle: string, docId: string) => {
 function Sidebar() {
   const {isPending, error, documents} = useDocuments();
   const {docId} = useParamsDoc();
+  const user = useCurrentUser();
   const [toggled, setToggled] = useState<string | null>(null);
   const pathname = usePathname();
 
@@ -44,11 +49,22 @@ function Sidebar() {
   }, [pathname, docId]);
 
   return (
-    <aside className='flex h-full w-full flex-col gap-2 p-2 px-1 text-foreground/80'>
-      <h2>Documents</h2>
-      <Button asChild variant='ghost'>
-        <Link href='/new-document'>New Document</Link>
-      </Button>
+    <aside className='flex h-full w-full flex-col gap-4 p-2 px-1 text-sm text-foreground/80'>
+      <div className='flex items-center gap-2 rounded-md p-2 transition-all duration-75 hover:bg-foreground/[7%]'>
+        <Avatar className='h-6 w-6 rounded-full'>
+          <AvatarImage className='h-full w-full rounded-full' src={user?.image || ""} />
+          <AvatarFallback>
+            {user?.id?.length !== undefined && <GradientAvatar size={24} userId={user.id} />}
+          </AvatarFallback>
+        </Avatar>
+        <h2 className='text-semibold text-white'>{user?.name}</h2>
+      </div>
+      <div className='flex w-full flex-col gap-0.5'>
+        <Link href='/flashcards'>Flashcards</Link>
+        <Button asChild className='justify-start text-left text-sm' variant='ghost'>
+          <Link href='/new-document'>New Document</Link>
+        </Button>
+      </div>
       {isPending ? <p>Loading...</p> : null}
       {error ? <p>An error has occurred: {error.message}</p> : null}
       <div className='flex flex-col gap-0.5'>

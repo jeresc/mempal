@@ -42,14 +42,14 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
-                    className='absolute left-[calc(100%-40px)] top-0 m-1 rounded-md hover:bg-border'
+                    className='absolute left-[calc(100%-48px)] top-2 m-2 rounded-md hover:bg-border'
                     type='button'
                     onClick={() => {
                       setIsLocked(false);
                       setIsOpen(false);
                     }}
                   >
-                    <ChevronsLeft size={30} />
+                    <ChevronsLeft size={24} />
                   </button>
                 </TooltipTrigger>
                 <TooltipContent
@@ -66,7 +66,7 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
         ) : null}
         <ResizableHandle />
         <ResizablePanel
-          className='grid h-full w-full !overflow-y-scroll [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
+          className='mt-8 grid h-full w-full !overflow-y-scroll [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
           defaultSize={75}
           order={2}
         >
