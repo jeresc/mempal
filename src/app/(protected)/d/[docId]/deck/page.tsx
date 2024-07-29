@@ -11,7 +11,7 @@ import {useMedia} from "~/media/hooks/use-media";
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
-export default function Home() {
+export default function DeckPage() {
   const {docId} = useParamsDoc();
   const {document, isPending: isPendingDoc, error: errorDoc} = useDocument({docId});
   const {
@@ -31,8 +31,10 @@ export default function Home() {
   if (document.topics?.length === 0) return <div>In this document, there are no topics</div>;
 
   return (
-    <div>
+    <div className='flex flex-col gap-4'>
       <button
+        className='self-start rounded bg-primary px-3 py-1.5 font-semibold text-white'
+        type='button'
         onClick={async () => {
           const {object} = await generateFlashcards({topics: document.topics!, text: media.text!});
 
@@ -44,9 +46,9 @@ export default function Home() {
           }
         }}
       >
-        Ask
+        Generate flashcards
       </button>
-      <h2>Flashcards gerated: {flashcards?.length ?? 0}</h2>
+      <h2>Flashcards generated: {flashcards?.length ?? 0}</h2>
       <div className='flex flex-col-reverse gap-4'>
         {flashcards?.length > 0 &&
           flashcards?.map((flashcard, index) => (

@@ -45,6 +45,7 @@ export const createDocument = async (file: File, id = generateFirestoreId(), tex
     mediaId,
     userId: user.id!,
     title: "",
+    topics: [],
   });
 
   return {success: {documentId}};
