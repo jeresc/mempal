@@ -13,7 +13,7 @@ export default function TermsAndConditions() {
 
     return (
         <>
-            <div className='w-3xl md:w-11/12 mx-auto mt-4'>
+            <div className="w-3xl md:w-11/12 mx-auto mt-4">
                 <button onClick={goBack}>
                     <LucideArrowLeft size={30} />
                 </button>
@@ -114,7 +114,7 @@ export default function TermsAndConditions() {
                 <section className="mb-6">
                     <h2 className="text-2xl font-semibold mb-4">10. Indemnification</h2>
                     <p className="text-gray-700 mb-4">
-                        You agree to indemnify, defend, and hold harmless Mempal Headquarters and its affiliates, officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorneys' fees, arising out of or in any way connected with your use of our services, your violation of these Terms, or your violation of any rights of another party.
+                        You agree to indemnify, defend, and hold harmless Mempal Headquarters and its affiliates, officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, and expenses, including reasonable attorneys&apos; fees, arising out of or in any way connected with your use of our services, your violation of these Terms, or your violation of any rights of another party.
                     </p>
                 </section>
 
@@ -142,7 +142,7 @@ export default function TermsAndConditions() {
                 <section className="mb-6">
                     <h2 className="text-2xl font-semibold mb-4">14. Dispute Resolution</h2>
                     <p className="text-gray-700 mb-4">
-                        Any disputes arising out of or relating to these Terms or our services shall be resolved through binding arbitration in Argentina, in accordance with the rules of the American Arbitration Association or a similar arbitration body. The arbitrator’s decision shall be final and binding, and judgment on the arbitration award may be entered in any court having jurisdiction. The prevailing party in any arbitration or legal action shall be entitled to recover its reasonable attorneys' fees and costs.
+                        Any disputes arising out of or relating to these Terms or our services shall be resolved through binding arbitration in Argentina, in accordance with the rules of the American Arbitration Association or a similar arbitration body. The arbitrator’s decision shall be final and binding, and judgment on the arbitration award may be entered in any court having jurisdiction. The prevailing party in any arbitration or legal action shall be entitled to recover its reasonable attorneys&apos; fees and costs.
                     </p>
                 </section>
 
