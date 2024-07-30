@@ -18,7 +18,7 @@ export const generateFlashcards = async ({topics, text}: {topics: string[]; text
       prompt: `
       You are a question-answer pairs generator bot. You have been given a text and a list of topics. Your mission is to generate question-answer pairs for each topic that has been given to you.
 
-      The question must be a question that can be answered with the text. The answer must be an answer to the question. I gave you a list of ${topics.length} topics, so you must generate ${topics.length * 4}.
+      The question must be a question that can be answered with the text. The answer must be an answer to the question. I gave you a list of ${topics.length} topics, so you must generate ${topics.length * 1}.
 
       Here is the text:
       ${text}

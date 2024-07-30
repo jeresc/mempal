@@ -45,7 +45,19 @@ export const createDocument = async (file: File, id = generateFirestoreId(), tex
     mediaId,
     userId: user.id!,
     title: "",
-    topics: [],
+    topics: [
+      "Sociedad e instituciones",
+      "Concepto de Estado. Tipos de Estado",
+      "Concepto de político: características",
+      "Concepto de Democracia. La poliarquía",
+      "Construcción del Estado Argentino: mecanismos",
+      "El régimen conservador: características, conflictos y tensiones",
+      "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
+      "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
+      "Situación política, conflictos en el oficialismo y con la oposición",
+      "Impacto de la Primera Guerra Mundial. La crisis de 1929 y su influencia en Argentina",
+      "Sociedad y cultura, 1880-1930",
+    ],
   });
 
   return {success: {documentId}};
