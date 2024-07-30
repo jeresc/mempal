@@ -85,6 +85,13 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        cyanBlue: "linear-gradient(to right, #00bcd4, #1e3a8a, #00bcd4)",
+      },
+      boxShadow: {
+        "bottom-shadow": "0 15px 15px rgba(0, 0, 0, 0.1)",
+        "left-shadow": "-10px 0 15px rgba(0, 0, 0, 0.1)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],

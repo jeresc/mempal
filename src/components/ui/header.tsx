@@ -5,7 +5,7 @@ import {Nav} from "@/components/ui/nav";
 
 function Header() {
   return (
-    <header className='flex items-center justify-between text-xl font-bold leading-[4rem] backdrop-blur-md'>
+    <header className='mx-auto flex w-full max-w-7xl items-center justify-between px-4 text-xl font-bold leading-[4rem] backdrop-blur-md sm:px-8'>
       <Link href='/'>
         <Logo className='h-8 text-foreground' />
       </Link>
