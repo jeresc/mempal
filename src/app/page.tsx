@@ -4,7 +4,7 @@ import {Features} from "~/landing/components/features";
 
 import {Header} from "@/components/ui/header";
 import {GradientBackground} from "@/modules/landing/components/gradient-background";
-import { Footer } from "@/components/ui/footer";
+import {Footer} from "@/components/ui/footer";
 
 export default function HomePage() {
   return (

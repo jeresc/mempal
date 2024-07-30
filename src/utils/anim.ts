@@ -33,18 +33,15 @@ export const fadeInAnimationOnce: AnimationProps["variants"] = {
   }),
 };
 
-
 export const fadeInHorizontalOnce: AnimationProps["variants"] = {
-  initial: { opacity: 0, x: -20 },
-  animate: { 
-    opacity: 1, 
+  initial: {opacity: 0, x: -20},
+  animate: {
+    opacity: 1,
     x: 0,
     transition: {
-      duration: .5,
-      ease: [.42, 0, .58, 1],
-      delay: .3
-    }
-},
-
+      duration: 0.5,
+      ease: [0.42, 0, 0.58, 1],
+      delay: 0.3,
+    },
+  },
 };
-

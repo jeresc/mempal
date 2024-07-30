@@ -4,9 +4,7 @@ import {TrainAICard, InstantAnswer, PersonalData, InstantReview} from "@/utils/f
 
 function Features() {
   return (
-    <div
-      className='flex flex-col items-center justify-center gap-y-12 py-8'
-    >
+    <div className='flex flex-col items-center justify-center gap-y-12 py-8'>
       <TrainAICard />
       <InstantAnswer />
       <PersonalData />

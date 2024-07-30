@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
+
 import {Header} from "~/auth/components/header";
 import {Social} from "~/auth/components/social";
 import {BackButton} from "~/auth/components/back-button";
 
 import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card";
-import Link from "next/link";
 
 interface CardWrapperProps {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ interface CardWrapperProps {
   backButtonHref: string;
   backButtonTrigger: string;
   showSocial?: boolean;
-  terms?: string; 
+  terms?: string;
 }
 
 export function CardWrapper({
@@ -26,7 +27,7 @@ export function CardWrapper({
   backButtonHref,
   backButtonTrigger,
   showSocial,
-  terms
+  terms,
 }: CardWrapperProps) {
   return (
     <Card className='relative w-full border-none shadow-none sm:w-[430px]'>
@@ -51,14 +52,15 @@ export function CardWrapper({
         <BackButton href={backButtonHref} label={backButtonLabel} trigger={backButtonTrigger} />
       </CardFooter>
 
-      {terms && (
-          <p className='text-sm text-center text-foreground/60'>
-            By signing up, you agree to our{' '}
-            <Link href={terms} className='text-[#2563EB] hover:underline'>
-              Privacy Policy
-            </Link>.
-          </p>
-        )}
+      {terms ? (
+        <p className='text-center text-sm text-foreground/60'>
+          By signing up, you agree to our{" "}
+          <Link className='text-[#2563EB] hover:underline' href={terms}>
+            Privacy Policy
+          </Link>
+          .
+        </p>
+      ) : null}
     </Card>
   );
 }

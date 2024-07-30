@@ -48,7 +48,7 @@ export function RegisterForm() {
       backButtonTrigger='Log In.'
       headerLabel='Create an account'
       headerTitle='Sign Up'
-      terms="/terms"
+      terms='/terms'
     >
       <Form {...form}>
         <form className='space-y-4' onSubmit={form.handleSubmit(onSubmit)}>

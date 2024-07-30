@@ -1,29 +1,35 @@
 "use client";
 import Image from "next/image";
+import {motion} from "framer-motion";
 
-import { motion } from "framer-motion";
-import { fadeInAnimationOnce } from "../anim";
+import {fadeInAnimationOnce} from "../anim";
 
-import flashcardSvg from "@/assets/svg/featuresSvg/cards-outline-svgrepo-com.svg"
-import notesSvg from "@/assets/svg/featuresSvg/notes-notepad-svgrepo-com.svg"
-import lampSvg from "@/assets/svg/featuresSvg/light-bulb-idea-svgrepo-com.svg"
-
+import flashcardSvg from "@/assets/svg/featuresSvg/cards-outline-svgrepo-com.svg";
+import notesSvg from "@/assets/svg/featuresSvg/notes-notepad-svgrepo-com.svg";
+import lampSvg from "@/assets/svg/featuresSvg/light-bulb-idea-svgrepo-com.svg";
 
 function TrainAICard() {
   return (
     <motion.div
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-purple-50 via-pink-50 p-8 shadow-lg md:flex-row'
       initial='initial'
       variants={fadeInAnimationOnce}
       viewport={{
         once: true,
       }}
       whileInView='animate'
-      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-purple-50 via-pink-50 p-8 shadow-lg md:flex-row'>
+    >
       <div className='md:w-2/4'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={flashcardSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
-          Train the <span className='from-[#1945DE] to-[#112F99] bg-gradient-to-l bg-clip-text text-transparent'>AI</span> with exam data in <br />{" "}
-          <span className='from-[#D96AFE] via-[#C370FF] to-[#8401F2] bg-gradient-to-r bg-clip-text text-transparent'>60 seconds</span>
+          Train the{" "}
+          <span className='bg-gradient-to-l from-[#1945DE] to-[#112F99] bg-clip-text text-transparent'>
+            AI
+          </span>{" "}
+          with exam data in <br />{" "}
+          <span className='bg-gradient-to-r from-[#D96AFE] via-[#C370FF] to-[#8401F2] bg-clip-text text-transparent'>
+            60 seconds
+          </span>
         </h1>
         <p className='mt-4 text-gray-500'>
           Upload your pdf&apos;s and notes about a exam topic and click generate model.
@@ -42,13 +48,14 @@ function TrainAICard() {
 function InstantAnswer() {
   return (
     <motion.div
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-green-50 to-white p-8 shadow-lg md:flex-row'
       initial='initial'
       variants={fadeInAnimationOnce}
       viewport={{
         once: true,
       }}
       whileInView='animate'
-      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-green-50 to-white p-8 shadow-lg md:flex-row'>
+    >
       <div className='md:w-2/3'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={lampSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
@@ -69,13 +76,14 @@ function InstantAnswer() {
 function PersonalData() {
   return (
     <motion.div
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-blue-100 to-white p-8 shadow-lg md:flex-row'
       initial='initial'
       variants={fadeInAnimationOnce}
       viewport={{
         once: true,
       }}
       whileInView='animate'
-      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-blue-100 to-white p-8 shadow-lg md:flex-row'>
+    >
       <div className='md:w-2/3'>
         <Image alt='Flashcard Svg' className='mb-3' height={35} src={notesSvg} width={35} />
         <h1 className='text-xl font-bold text-black sm:text-2xl md:text-3xl'>
@@ -96,13 +104,14 @@ function PersonalData() {
 function InstantReview() {
   return (
     <motion.div
+      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-gray-300 to-white p-8 shadow-lg md:flex-row'
       initial='initial'
       variants={fadeInAnimationOnce}
       viewport={{
         once: true,
       }}
       whileInView='animate'
-      className='md:w-5xl relative flex w-11/12 flex-col items-center justify-between rounded-lg bg-gradient-to-l from-gray-300 to-white p-8 shadow-lg md:flex-row'>
+    >
       <div className='mb-8 w-full lg:mb-0 lg:w-1/2'>
         <h1 className='mb-4 text-xl font-bold sm:text-2xl md:text-3xl'>Instant review</h1>
         <p className='mb-6 mt-4 w-full text-lg md:w-11/12'>
@@ -114,21 +123,21 @@ function InstantReview() {
       </div>
       <div className='w-full rounded-lg bg-gray-100 p-6 lg:w-1/2'>
         <div className='mb-4'>
-          <label className='mb-2 block text-sm font-bold' htmlFor='question'>Question</label>
+          <label className='mb-2 block text-sm font-bold' htmlFor='question'>
+            Question
+          </label>
           <p className='mb-2 text-sm'>Who is considered the father of psychology?</p>
-          <input id='question' className='text-md w-full rounded-lg border p-2' type='text' />
+          <input className='text-md w-full rounded-lg border p-2' id='question' type='text' />
         </div>
         <div className='flex items-center justify-between'>
           <button className='transform rounded-lg bg-black px-4 py-2 text-sm text-white transition-transform hover:scale-105'>
             Answer
           </button>
-          <p className='text-sm text-red-500 cursor-pointer'>
-            Don&apos;t Know
-          </p>
+          <p className='cursor-pointer text-sm text-red-500'>Don&apos;t Know</p>
         </div>
       </div>
     </motion.div>
   );
 }
 
-export { TrainAICard, InstantAnswer, PersonalData, InstantReview };
+export {TrainAICard, InstantAnswer, PersonalData, InstantReview};

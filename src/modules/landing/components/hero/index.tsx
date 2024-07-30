@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { MailCheck } from "lucide-react";
-
-import { transition, variants } from "../../../../utils/anim";
-
-import { WaitlistForm } from "@/components/waitlist";
-import { useWaitlistStore } from "@/lib/store/waitlist";
-import { Button } from "@/components/ui/button";
+import {motion} from "framer-motion";
+import {MailCheck} from "lucide-react";
 import Link from "next/link";
+
+import {transition, variants} from "../../../../utils/anim";
+
+import {WaitlistForm} from "@/components/waitlist";
+import {useWaitlistStore} from "@/lib/store/waitlist";
+import {Button} from "@/components/ui/button";
 
 function Hero() {
   const hasJoinedWaitlist = useWaitlistStore((state) => state.hasJoinedWaitlist);
@@ -29,9 +29,11 @@ function Hero() {
           Supercharge your learning experience with our intelligent study platform. Customize
           questions and flashcards from your own materials.
         </sub>
-        <div className="w-full items-center justify-center">
-          <Button className='w-2/3 sm:w-1/2 px-8 py-6 rounded-full transition-transform duration-300 hover:scale-105'>
-           <Link href={'/register'} className="text-center text-sm sm:text-xl">Try for free</Link>
+        <div className='w-full items-center justify-center'>
+          <Button className='w-2/3 rounded-full px-8 py-6 transition-transform duration-300 hover:scale-105 sm:w-1/2'>
+            <Link className='text-center text-sm sm:text-xl' href='/register'>
+              Try for free
+            </Link>
           </Button>
         </div>
       </section>
@@ -40,4 +42,4 @@ function Hero() {
   );
 }
 
-export { Hero };
+export {Hero};

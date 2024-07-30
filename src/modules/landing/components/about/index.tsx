@@ -35,8 +35,7 @@ function About() {
       transition={transition}
       variants={variants}
     >
-   
-      <div className='relative flex py-12 pb-12 h-full  w-[99vw] justify-center min-h-[700px] sm:h-[800px] xl:h-[1000px]'>
+      <div className='relative flex h-full min-h-[700px] w-[99vw]  justify-center py-12 pb-12 sm:h-[800px] xl:h-[1000px]'>
         {/* <Image src={LightGradient} alt='Light Gradient' className='min-h-[500px] md:h-[600px] lg:h-[800px] xl:min-h-[1000px] w-full object-cover blur-xl' /> */}
 
         <div className='absolute flex w-full flex-col items-center pt-8'>
@@ -61,7 +60,7 @@ function About() {
             </button>
           </div>
 
-          <div className='w-full px-5 py-5 sm:w-4/4 lg:w-2/3 lg:pt-8'>
+          <div className='sm:w-4/4 w-full px-5 py-5 lg:w-2/3 lg:pt-8'>
             <Image alt='Flashcard Example' className='h-auto w-full' src={images[selectedImage]} />
           </div>
         </div>
