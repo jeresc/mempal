@@ -66,7 +66,7 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
         ) : null}
         <ResizableHandle />
         <ResizablePanel
-          className='mt-8 grid h-full w-full !overflow-y-scroll [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
+          className='grid h-full w-full !overflow-y-scroll pt-8 [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
           defaultSize={75}
           order={2}
         >
