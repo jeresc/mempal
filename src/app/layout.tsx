@@ -59,7 +59,7 @@ export default async function RootLayout({children}: RootLayoutProps) {
               disableTransitionOnChange
               enableSystem
               attribute='class'
-              defaultTheme='light'
+              defaultTheme='dark'
             >
               <Toaster />
               {children}
