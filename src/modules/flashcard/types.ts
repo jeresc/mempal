@@ -11,7 +11,7 @@ export type FirestoreFlashcard = {
   deckId: string;
 };
 
-export type Flashcard = Omit<FirestoreFlashcard, "createdAt"> & {
+export type Flashcard = Omit<FirestoreFlashcard, "createdAt" | "lastUsedAt"> & {
   createdAt: Date;
   lastUsedAt: Date;
   id: string;

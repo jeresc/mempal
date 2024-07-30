@@ -6,6 +6,7 @@ export type FirestoreDocument = {
   userId: string;
   mediaId: string;
   topics: string[];
+  deckId?: string;
 };
 
 export type Document = Omit<FirestoreDocument, "createdAt"> & {
