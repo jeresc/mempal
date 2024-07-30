@@ -4,6 +4,8 @@ import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firesto
 
 import {currentUser} from "~/auth/lib/auth";
 import {createMedia} from "~/media/api";
+import {addDeck} from "~/deck/data";
+import {createDeck} from "~/deck/api";
 
 import {Document, FirestoreDocument} from "./types";
 import {addDocument, findDocumentByIds, updateDocument} from "./data";
@@ -40,25 +42,34 @@ export const createDocument = async (file: File, id = generateFirestoreId(), tex
 
   const mediaId = createMediaResult?.success?.mediaId;
 
-  const documentId = await addDocument({
-    id,
-    mediaId,
-    userId: user.id!,
-    title: "",
-    topics: [
-      "Sociedad e instituciones",
-      "Concepto de Estado. Tipos de Estado",
-      "Concepto de político: características",
-      "Concepto de Democracia. La poliarquía",
-      "Construcción del Estado Argentino: mecanismos",
-      "El régimen conservador: características, conflictos y tensiones",
-      "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
-      "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
-      "Situación política, conflictos en el oficialismo y con la oposición",
-      "Impacto de la Primera Guerra Mundial. La crisis de 1929 y su influencia en Argentina",
-      "Sociedad y cultura, 1880-1930",
-    ],
-  });
+  const deckId = generateFirestoreId();
+
+  const [documentId, createDeckResult] = await Promise.all([
+    addDocument({
+      id,
+      mediaId,
+      deckId,
+      userId: user.id!,
+      title: "",
+      topics: [
+        "Sociedad e instituciones",
+        "Concepto de Estado. Tipos de Estado",
+        "Concepto de político: características",
+        "Concepto de Democracia. La poliarquía",
+        "Construcción del Estado Argentino: mecanismos",
+        "El régimen conservador: características, conflictos y tensiones",
+        "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
+        "La integración al mercado mundial: el modelo agroexportador. Características, ventajas y límites",
+        "Situación política, conflictos en el oficialismo y con la oposición",
+        "Impacto de la Primera Guerra Mundial. La crisis de 1929 y su influencia en Argentina",
+        "Sociedad y cultura, 1880-1930",
+      ],
+    }),
+    createDeck({documentId: id, id: deckId}),
+  ]);
+
+  if (createDeckResult.error !== undefined)
+    return {error: {message: createDeckResult.error.message}};
 
   return {success: {documentId}};
 };

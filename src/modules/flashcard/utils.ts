@@ -1,6 +1,7 @@
-import {Flashcard} from "./types";
-
-export const adaptGeneratedFlashcards = (generatedFlashcards: Flashcard[], deckId: string) => {
+export const adaptGeneratedFlashcards = (
+  generatedFlashcards: {question: string; answer: string; topic: string}[],
+  deckId: string,
+) => {
   return generatedFlashcards.map(({question, answer, topic}) => ({
     question,
     answer,

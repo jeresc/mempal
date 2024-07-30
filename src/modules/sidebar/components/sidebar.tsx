@@ -80,7 +80,7 @@ function Sidebar() {
                 )}
               >
                 <Link
-                  className='flex h-full w-full items-center justify-start gap-1.5'
+                  className='flex h-full items-center justify-start gap-1.5 '
                   href={docUrl(title, id)}
                 >
                   <button
@@ -100,7 +100,10 @@ function Sidebar() {
                       size={16}
                     />
                   </button>
-                  {title || "Untitled"}
+
+                  <p className='overflow-hidden text-ellipsis whitespace-nowrap'>
+                    {title || "Untitled"}
+                  </p>
                 </Link>
               </span>
               <ul className='flex flex-col gap-0.5'>
