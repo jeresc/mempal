@@ -37,13 +37,22 @@ function MobileSidebar() {
       >
         <Sidebar key='mobile-sidebar' />
         {Boolean(isLocked && isSmall) && (
-          <button
-            className='absolute left-[calc(100%-40px)] top-0 m-1 rounded-md hover:bg-border'
-            type='button'
-            onClick={() => setIsLocked(false)}
-          >
-            <ChevronsLeft size={30} />
-          </button>
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className='absolute left-[calc(100%-44px)] top-3 m-1 rounded-md hover:bg-border'
+                  type='button'
+                  onClick={() => setIsLocked(false)}
+                >
+                  <ChevronsLeft size={24} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className='rounded-md bg-border p-1 px-2' side='right' sideOffset={4}>
+                <p className='text-sm text-foreground/80'>Unlock sidebar open</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
         {!isLocked && (
           <div

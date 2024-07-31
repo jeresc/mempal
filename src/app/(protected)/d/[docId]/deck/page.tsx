@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import {readStreamableValue} from "ai/rsc";
+import Link from "next/link";
 
 import {generateFlashcards} from "~/flashcard/actions/generate-flashcards";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
@@ -15,6 +16,7 @@ import {FlashcardCard} from "~/flashcard/components/flashcard-card";
 
 import {cn} from "@/lib/utils/cn";
 import {Switch} from "@/components/ui/switch";
+import {Button} from "@/components/ui/button";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -115,10 +117,20 @@ export default function DeckPage() {
   return (
     <main className='flex flex-col gap-4'>
       <div className='flex items-center justify-between gap-2 rounded-md border border-border p-2'>
-        <h1>{document.title}&apos;s flashcards</h1>
+        <h1>
+          {Boolean(document.title) ? (
+            <span className='text-pretty'>{document.title}&apos;s Flashcards</span>
+          ) : (
+            "Flashcards"
+          )}
+        </h1>
         <div className='flex items-center gap-2 '>
           <Switch checked={showAnswers} onCheckedChange={(checked) => setShowAnswers(checked)} />
           <p className='leading-none'>Show answers</p>
+
+          <Button asChild className='ml-2 h-7 px-2 py-1.5 leading-none'>
+            <Link href={`/flashcards/${document.deckId}`}>Review</Link>
+          </Button>
         </div>
       </div>
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>

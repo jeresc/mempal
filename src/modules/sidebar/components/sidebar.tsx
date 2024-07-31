@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import {Dot, File} from "lucide-react";
+import {ChevronRight, File} from "lucide-react";
+import {TbCards} from "react-icons/tb";
 import {useEffect, useState} from "react";
 import data from "@emoji-mart/data/sets/15/twitter.json";
 import {init} from "emoji-mart";
@@ -9,13 +10,11 @@ import {usePathname} from "next/navigation";
 
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
 import {useDocuments} from "~/document/hooks/use-documents";
-import {useCurrentUser} from "~/auth/hooks/use-current-user";
+import {LinkItem} from "~/sidebar/components/link-item";
+import {CreateButton} from "~/sidebar/components/create-button";
+import {AccountCapsule} from "~/sidebar/components/account-capsule";
 
-import {GradientAvatar} from "./gradient-avatar";
-
-import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils/cn";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 const emojis = {
   chat: "robot_face",
@@ -24,6 +23,7 @@ const emojis = {
 };
 
 const tabs = ["chat", "deck", "summary"];
+const links = [{href: "/flashcards", icon: <TbCards size={20} />, text: "Flashcards"}];
 
 init({data});
 
@@ -36,7 +36,6 @@ const docUrl = (docTitle: string, docId: string) => {
 function Sidebar() {
   const {isPending, error, documents} = useDocuments();
   const {docId} = useParamsDoc();
-  const user = useCurrentUser();
   const [toggled, setToggled] = useState<string | null>(null);
   const pathname = usePathname();
 
@@ -49,21 +48,13 @@ function Sidebar() {
   }, [pathname, docId]);
 
   return (
-    <aside className='flex h-full w-full flex-col gap-4 p-2 px-1 text-sm text-foreground/80'>
-      <div className='flex items-center gap-2 rounded-md p-2 transition-all duration-75 hover:bg-foreground/[7%]'>
-        <Avatar className='h-6 w-6 rounded-full'>
-          <AvatarImage className='h-full w-full rounded-full' src={user?.image || ""} />
-          <AvatarFallback>
-            {user?.id?.length !== undefined && <GradientAvatar size={24} userId={user.id} />}
-          </AvatarFallback>
-        </Avatar>
-        <h2 className='text-semibold text-white'>{user?.name}</h2>
-      </div>
+    <aside className='flex h-full w-full flex-col gap-5 p-2 px-1 text-sm text-foreground/80'>
+      <AccountCapsule />
       <div className='flex w-full flex-col gap-0.5'>
-        <Link href='/flashcards'>Flashcards</Link>
-        <Button asChild className='justify-start text-left text-sm' variant='ghost'>
-          <Link href='/new-document'>New Document</Link>
-        </Button>
+        {links.map(({href, icon, text}) => (
+          <LinkItem key={href} href={href} icon={icon} text={text} />
+        ))}
+        <CreateButton />
       </div>
       {isPending ? <p>Loading...</p> : null}
       {error ? <p>An error has occurred: {error.message}</p> : null}
@@ -74,34 +65,37 @@ function Sidebar() {
               <span
                 key={id}
                 className={cn(
-                  "flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm font-medium hover:bg-foreground/[7%]",
+                  "group/item flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm font-medium hover:cursor-pointer hover:bg-foreground/[7%]",
                   pathname.endsWith(docUrl(title, id)) &&
                     "bg-foreground/[7%] hover:bg-foreground/[12%]",
                 )}
               >
                 <Link
-                  className='flex h-full items-center justify-start gap-1.5 '
+                  className='flex h-full w-full items-center justify-start gap-1.5'
                   href={docUrl(title, id)}
                 >
                   <button
-                    className='group/icon h-4.5 w-4.5 relative rounded-sm p-0.5 hover:bg-foreground/[10%]'
+                    className='h-4.5 w-4.5 relative rounded-sm p-0.5 hover:bg-foreground/[10%]'
                     type='button'
                     onClick={(e) => {
                       e.preventDefault();
                       setToggled((prevToggled) => (prevToggled === id ? null : id));
                     }}
                   >
-                    <Dot
-                      className='absolute left-0 top-0 scale-0 transition-all duration-75 group-hover/icon:scale-100 group-hover/icon:duration-100'
-                      size={21}
+                    <ChevronRight
+                      className={cn(
+                        "absolute left-0.5 top-0.5 scale-0 transition-all duration-75 group-hover/item:scale-100 group-hover/item:duration-100",
+                        toggled == id && "rotate-90",
+                      )}
+                      size={16}
                     />
                     <File
-                      className='opacity-100 transition-all duration-100 group-hover/icon:opacity-0'
+                      className='opacity-100 transition-all duration-100 group-hover/item:opacity-0'
                       size={16}
                     />
                   </button>
 
-                  <p className='overflow-hidden text-ellipsis whitespace-nowrap'>
+                  <p className='overflow-hidden text-ellipsis whitespace-nowrap leading-none'>
                     {title || "Untitled"}
                   </p>
                 </Link>
