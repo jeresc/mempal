@@ -7,8 +7,18 @@ import {Document} from "../types";
 const useMutateDocuments = () => {
   const queryClient = useQueryClient();
 
-  const mutationFn = async ({file, docId, text}: {file: File; docId: string; text: string}) => {
-    const createDocumentResult = await createDocument(file, docId, text);
+  const mutationFn = async ({
+    file,
+    docId,
+    text,
+    topics,
+  }: {
+    file: File;
+    docId: string;
+    text: string;
+    topics: string[];
+  }) => {
+    const createDocumentResult = await createDocument(file, docId, text, topics);
 
     if (createDocumentResult.error !== undefined) throw Error(createDocumentResult.error.message);
 

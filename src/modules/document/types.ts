@@ -5,6 +5,7 @@ export type FirestoreDocument = {
   title: string;
   userId: string;
   mediaId: string;
+  mediaUrl: string;
   topics: string[];
   deckId?: string;
 };

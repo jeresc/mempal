@@ -25,12 +25,13 @@ export const createMedia = async (file: File, text: string) => {
       return {error: {message: signedUrlResult.error.message}};
 
     const signedUrl = signedUrlResult.success.url;
+    const mediaUrl = signedUrl.split("?")[0];
 
     const [mediaId] = await Promise.all([
       addMedia({
         type: "pdf",
         userId: user.id!,
-        url: signedUrl.split("?")[0],
+        url: mediaUrl,
         text,
       }),
       fetch(signedUrl, {
@@ -44,7 +45,7 @@ export const createMedia = async (file: File, text: string) => {
 
     if (!mediaId) return {error: {message: "Failed to upload media"}};
 
-    return {success: {mediaId}};
+    return {success: {mediaId, mediaUrl}};
   } catch (e: unknown) {
     return {error: {message: "Failed to upload media"}};
   }
