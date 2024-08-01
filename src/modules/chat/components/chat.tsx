@@ -3,18 +3,22 @@
 import {useState} from "react";
 import {readStreamableValue} from "ai/rsc";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import {FaArrowUp} from "react-icons/fa";
 
 import {type Message, continueConversation} from "~/chat/actions/continue-conversation";
 import {MarkdownRenderer} from "~/chat/components/markdown-renderer";
 
 import {cn} from "@/lib/utils";
+import {useSidebarStore} from "@/lib/store/sidebar";
 
 function Chat() {
   const [conversation, setConversation] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
 
+  const isSidebarOpen = useSidebarStore((state) => state.isSideBarOpen());
+
   return (
-    <div className='mx-auto mb-[86px] flex h-full w-full max-w-3xl flex-col'>
+    <div className='mx-auto mb-[86px] flex h-full  w-full max-w-3xl flex-col'>
       <div className='flex h-full flex-col gap-2'>
         {conversation.map((message, _) => (
           <div
@@ -31,7 +35,17 @@ function Chat() {
         ))}
       </div>
 
-      <div className='fixed bottom-0 left-0 right-0 mx-auto flex w-full max-w-[820px] flex-row items-center justify-center bg-background pb-4'>
+      <div
+        className={cn(
+          "fixed bottom-0 left-0 right-0 mx-auto flex w-full max-w-[820px] flex-row  items-center justify-center bg-transparent px-4 pb-4 ease-in-out",
+          { 
+            "md:pl-[250px]": isSidebarOpen,
+            "lg:mr-[16%]": isSidebarOpen,
+            "xl:pl-4": isSidebarOpen,
+            "focus-within:z-50": true
+          },
+        )}
+      >
         <div
           className={cn(
             "flex w-full flex-row items-center justify-center gap-3 rounded-[28px] bg-slate-800 py-2.5 pl-6 pr-2",
@@ -39,6 +53,7 @@ function Chat() {
         >
           <ReactTextareaAutosize
             className='m-0 min-h-0 w-full resize-none border-0 bg-transparent p-0 py-2 text-base text-foreground outline-0 ring-0 focus:ring-0 focus-visible:ring-0'
+            style={{ position: 'relative' }}
             maxRows={6}
             minRows={1}
             value={input}
@@ -47,7 +62,7 @@ function Chat() {
             }}
           />
           <button
-            className='aspect-square w-[42px] self-end rounded-full bg-blue-500 text-white'
+            className='flex aspect-square w-[42px] items-center justify-center self-end rounded-full bg-blue-500 text-gray-300 hover:text-white'
             type='button'
             onClick={async () => {
               const {messages, newMessage} = await continueConversation([
@@ -65,7 +80,7 @@ function Chat() {
               }
             }}
           >
-            S
+            <FaArrowUp />
           </button>
         </div>
       </div>

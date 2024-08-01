@@ -7,9 +7,10 @@ interface SidebarState {
   setIsLocked: (state: boolean) => void;
   toggleOpen: () => void;
   toggleLocked: () => void;
+  isSideBarOpen: () => boolean;
 }
 
-export const useSidebarStore = create<SidebarState>()((set) => ({
+export const useSidebarStore = create<SidebarState>()((set, get) => ({
   isOpen: false,
   isLocked: false,
   setIsOpen: (state) => {
@@ -23,5 +24,8 @@ export const useSidebarStore = create<SidebarState>()((set) => ({
   },
   toggleLocked: () => {
     set((state) => ({isLocked: !state.isLocked}));
+  },
+  isSideBarOpen: () => {
+    return get().isOpen && get().isLocked;
   },
 }));

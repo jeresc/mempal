@@ -6,8 +6,8 @@ function AutoResizeTextarea() {
   const rows = textRowCount + 1;
 
   return (
-    <div>
-      <textarea placeholder='Enter text here.' rows={rows} />
+    <div className='flex items-center justify-center'>
+      <textarea aria-placeholder='Enter text here.' placeholder='Enter text here.' rows={rows} />
     </div>
   );
 }

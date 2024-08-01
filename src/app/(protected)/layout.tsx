@@ -25,13 +25,13 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
   }, [isLocked, setDebouncedIsLocked]);
 
   return (
-    <div className='h-full max-h-screen w-full overflow-y-hidden'>
+    <div className={cn("h-full max-h-screen w-full overflow-y-hidden")}>
       <MobileSidebar />
       <ResizablePanelGroup direction='horizontal'>
         {debouncedIsLocked ? (
           <ResizablePanel
             className={cn(
-              "hidden h-full max-h-screen min-w-[248px] max-w-[480px] bg-[#181b20] px-1 sml:relative sml:flex",
+              "z-10 hidden h-full max-h-screen  min-w-[200px] max-w-[250px] bg-[#181b20] px-1 transition-all duration-500 sml:relative sml:flex lg:min-w-[340px] lg:max-w-[480px]",
               !isLocked &&
                 "w-0 min-w-0 max-w-0 -translate-x-full opacity-0 transition-[transform_width] duration-500",
             )}
