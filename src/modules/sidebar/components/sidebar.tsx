@@ -23,7 +23,7 @@ const emojis = {
 };
 
 const tabs = ["chat", "deck", "summary"];
-const links = [{href: "/flashcards", icon: <TbCards size={20} />, text: "Flashcards"}];
+const links = [{href: "/flashcards", icon: <TbCards size={18} />, text: "Flashcards"}];
 
 init({data});
 

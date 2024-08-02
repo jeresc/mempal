@@ -1,33 +1,33 @@
+"use client";
 import {motion} from "framer-motion";
+
+import {Flashcard} from "~/flashcard/types";
 
 import {variants} from "./anim";
 
 import {cn} from "@/lib/utils/cn";
 
-interface FlashcardCardProps {
-  question: string;
-  answer: string;
-  topic: string;
+type FlashcardCardProps = Flashcard & {
   showAnswer?: boolean;
-}
+};
 
-function FlashcardCard({question, answer, topic, showAnswer}: FlashcardCardProps) {
+function FlashcardCard(flashcard: FlashcardCardProps) {
   return (
     <motion.article
       className={cn(
         "flex flex-col justify-between gap-2 rounded-md border border-border p-4 text-xs ",
       )}
     >
-      <p>{topic}</p>
+      <p>{flashcard.topic}</p>
 
-      <h3 className='text-pretty text-xl font-semibold'>{question}</h3>
+      <h3 className='text-pretty text-xl font-semibold'>{flashcard.question}</h3>
       <motion.p
-        animate={showAnswer ? "animate" : "initial"}
-        className='text-sm text-slate-400'
+        animate={flashcard.showAnswer ? "animate" : "initial"}
+        className='overflow-hidden text-sm text-slate-400'
         initial='initial'
         variants={variants}
       >
-        {answer}
+        {flashcard.answer}
       </motion.p>
     </motion.article>
   );

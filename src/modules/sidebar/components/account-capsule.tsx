@@ -8,7 +8,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 function AccountCapsule() {
   const user = useCurrentUser();
 
-  if (user?.id === undefined)
+  if (user === null)
     return (
       <div className='flex cursor-pointer items-center gap-2 rounded-md p-2 transition-all duration-75 hover:bg-foreground/[7%]'>
         <Skeleton className='h-6 w-6 rounded-full' />

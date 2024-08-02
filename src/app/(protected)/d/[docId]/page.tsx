@@ -9,11 +9,6 @@ import {useParamsDoc} from "~/document/hooks/use-params-doc";
 export default function DocumentPage() {
   const {docId} = useParamsDoc();
   const {document, isPending: isPendingDoc, error: errorDoc} = useDocument({docId});
-  // const {
-  //   media,
-  //   isPending: isPendingMedia,
-  //   error: errorMedia,
-  // } = useMedia({mediaId: document.mediaId!});
 
   if (isPendingDoc) return <div>Loading...</div>;
 
@@ -24,10 +19,6 @@ export default function DocumentPage() {
       <EditableTitle id={document.id!} title={document.title!} />
       <h2>mediaId: {document.mediaId}</h2>
       <div>mediaUrl: {document.mediaUrl}</div>
-      {/* {isPendingMedia ? <div>Loading Media...</div> : null} */}
-      {/* {errorMedia ? <div>Error Media: {errorMedia?.message}</div> : null} */}
-      {/* {!isPendingMedia && !errorMedia && <div>mediaUrl: {media.url}</div>} */}
-      {/* {!isPendingMedia && !errorMedia && <div>mediaText: {media.text}</div>} */}
     </main>
   );
 }

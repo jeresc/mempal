@@ -12,7 +12,7 @@ const useAddFlashcards = ({deckId}: {deckId: string}) => {
   const mutationFn = async ({
     flashcards,
   }: {
-    flashcards: Omit<Flashcard, "id" | "deckId" | "createdAt" | "lastUsedAt">[];
+    flashcards: Omit<Flashcard, "id" | "deckId" | "createdAt" | "lastReviewedAt">[];
   }) => {
     const flashcardsResult = await addFlashcardsToDeck(deckId, flashcards);
 

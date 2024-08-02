@@ -135,14 +135,8 @@ export default function DeckPage() {
       </div>
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
         {flashcards?.length > 0 &&
-          flashcards.map(({question, answer, topic, id}, index) => (
-            <FlashcardCard
-              key={id ?? index}
-              answer={answer}
-              question={question}
-              showAnswer={showAnswers}
-              topic={topic}
-            />
+          flashcards.map((flashcard, index) => (
+            <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
           ))}
       </div>
     </main>
