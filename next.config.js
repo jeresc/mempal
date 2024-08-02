@@ -5,7 +5,13 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "50mb",
     },
-    optimizePackageImports: ["react-icons/fa", "@radix-ui/react-icons", "react-icons/md"],
+    optimizePackageImports: [
+      "react-icons/fa",
+      "@radix-ui/react-icons",
+      "react-icons/md",
+      "react-icons/tb",
+      "react-icons/*",
+    ],
   },
   logging: {
     fetches: {

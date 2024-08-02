@@ -33,6 +33,7 @@ export const generateFlashcards = async ({topics, text}: {topics: string[]; text
         const {promptTokens, completionTokens, totalTokens} = usage;
 
         // your own logic, e.g. for saving the chat history or recording usage
+        /* eslint-disable no-console */
         console.log("Prompt tokens:", promptTokens);
         console.log("Completion tokens:", completionTokens);
         console.log("Total tokens:", totalTokens);

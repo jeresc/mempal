@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 import {Flashcard} from "~/flashcard/types";
 import {ReviewFlashcardCard} from "~/flashcard/components/review-flashcard-card";
@@ -18,10 +18,6 @@ function ReviewQueue({dueFlashcards}: {dueFlashcards: Flashcard[]}) {
     setReviewedFlashcards((prev) => prev.slice(0, prev.length - 1));
     setCurrentFlashcardIndex((prev) => (prev - 1) % dueFlashcards.length);
   };
-
-  useEffect(() => {
-    console.log(reviewedFlashcards);
-  }, [reviewedFlashcards]);
 
   if (!dueFlashcards.length) return null;
 

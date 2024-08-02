@@ -11,6 +11,24 @@ import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components
 import {useSidebarStore} from "@/lib/store/sidebar";
 import {cn} from "@/lib/utils/cn";
 
+const asciiArtArray = [
+  "                _                       ",
+  "                \\`*-.                   ",
+  "                 )  _`-.                ",
+  "                .  : `. .               ",
+  "                : _   '  \\              ",
+  "                ; *` _.   `*-._         ",
+  "                `-.-'          `-.      ",
+  "                  ;       `       `.    ",
+  "                  :.       .        \\   ",
+  "                  . \\  .   :   .-'   .  ",
+  "                  '  `+.;  ;  '      :  ",
+  "                  :  '  |    ;       ;-. ",
+  "                  ; '   : :`-:     _.`* ; ",
+  "      [aletin] .*' /  .*' ; .*`- +'  `*' ",
+  "               `*-*   `*-*  `*-*'        ",
+];
+
 export default function ProtectedLayout({children}: {children: React.ReactNode}) {
   const [isLocked, setIsLocked, setIsOpen] = useSidebarStore((state) => [
     state.isLocked,
@@ -19,6 +37,11 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
   ]);
 
   const [debouncedIsLocked, setDebouncedIsLocked] = useDebounceValue(isLocked, 400);
+
+  useEffect(() => {
+    /* eslint-disable no-console */
+    console.info(asciiArtArray.join("\n"));
+  }, []);
 
   useEffect(() => {
     setDebouncedIsLocked(isLocked);

@@ -14,8 +14,6 @@ export const getFlashcardsByDeckId = async (deckId: string) => {
 
     return {success: {flashcards}};
   } catch (e) {
-    console.log(e);
-
     return {error: {message: "Error getting flashcards"}};
   }
 };
@@ -34,8 +32,6 @@ export const patchFlashcard = async (
 
     return {success: {flashcard}};
   } catch (e) {
-    console.log(e);
-
     return {error: {message: "Error updating flashcard"}};
   }
 };

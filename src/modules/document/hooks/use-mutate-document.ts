@@ -47,11 +47,8 @@ const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Docume
 
       return {previousDocuments, oldDocument};
     },
-    onSuccess: (data) => {
-      console.log("mutation success", data);
-    },
-    onError: (error, _, context) => {
-      console.error(error);
+    onSuccess: (_data) => {},
+    onError: (_error, _, context) => {
       if (context?.previousDocuments != null && context?.oldDocument != null)
         queryClient.setQueryData(["documents"], context?.previousDocuments);
       if (context?.oldDocument != null)

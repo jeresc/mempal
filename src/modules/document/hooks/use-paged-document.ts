@@ -47,9 +47,7 @@ function usePagedDocument() {
         const texts = await pdfToText(file);
 
         setAllPageTexts(texts);
-      } catch (error) {
-        console.error("Error fetching all text:", error);
-      }
+      } catch (error) {}
     };
 
     fetchAllTexts();
