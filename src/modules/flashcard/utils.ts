@@ -1,9 +1,9 @@
 import compare from "just-compare";
-import {Card, Grades, State, fsrs} from "ts-fsrs";
+import {Card, Grade, Grades, State, fsrs} from "ts-fsrs";
 
 import {Flashcard} from "~/flashcard/types";
 
-const initialFlashcard = {
+const initialFlashcard: Omit<Flashcard, "id" | "question" | "answer" | "topic" | "deckId"> = {
   stability: 0,
   difficulty: 0,
   lapses: 0,
@@ -13,6 +13,7 @@ const initialFlashcard = {
   createdAt: new Date(),
   lastReviewedAt: undefined,
   scheduledDays: 0,
+  elapsedDays: 0,
 };
 
 export const adaptGeneratedFlashcards = (
@@ -51,8 +52,8 @@ export const adaptFlashcardToFsrs = (
   };
 };
 
-export const adaptCardToFlashcard = (
-  card: Card & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays">,
+export const adaptCardToFlashcard = <T extends Card>(
+  card: T & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays">,
 ): Flashcard => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const {due, last_review, elapsed_days, scheduled_days, ...rest} = card;
@@ -66,7 +67,8 @@ export const adaptCardToFlashcard = (
 };
 
 type PossibleReviews = {
-  possibleCards: (Card & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays">)[];
+  possibleCards: (Card &
+    Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays"> & {grade: Grade})[];
 };
 
 export const getPossibleReviews = (flashcard: Flashcard) => {
@@ -80,7 +82,7 @@ export const getPossibleReviews = (flashcard: Flashcard) => {
       card: Card & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays">;
     };
 
-    possibleCards.push({...card});
+    possibleCards.push({...card, grade});
   });
 
   return {possibleCards};

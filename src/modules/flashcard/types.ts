@@ -15,6 +15,7 @@ export type FirestoreFlashcard = {
   dueAt: Timestamp;
   scheduledDays: number;
   lastReviewedAt: Timestamp | undefined;
+  elapsedDays: number;
 };
 
 export type Flashcard = Omit<FirestoreFlashcard, "createdAt" | "lastReviewedAt" | "dueAt"> & {

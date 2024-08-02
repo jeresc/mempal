@@ -104,6 +104,7 @@ export const findFlashcardsByDeckId = async (deckId: Deck["id"]) => {
     ...doc.data(),
     createdAt: doc.data().createdAt.toDate(),
     dueAt: doc.data().dueAt?.toDate(),
+    lastReviewedAt: doc.data().lastReviewedAt?.toDate(),
   }));
 };
 

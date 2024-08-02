@@ -14,7 +14,6 @@ import {GeneratedFlashcard} from "~/flashcard/components/generated-flashcards";
 import {useAddFlashcards} from "~/flashcard/hooks/use-add-flashcards";
 import {FlashcardCard} from "~/flashcard/components/flashcard-card";
 
-import {cn} from "@/lib/utils/cn";
 import {Switch} from "@/components/ui/switch";
 import {Button} from "@/components/ui/button";
 
