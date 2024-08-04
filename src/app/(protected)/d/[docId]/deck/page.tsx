@@ -77,9 +77,11 @@ export default function DeckPage() {
 
   if (errorDoc) return <div>Error: {errorDoc?.message}</div>;
 
+  if (isPendingFlashcards) return <div>Loading...</div>;
+
   if (document.topics?.length === 0) return <div>In this document, there are no topics</div>;
 
-  if (flashcards?.length === 0 && !isPendingFlashcards)
+  if (flashcards?.length === 0)
     return (
       <section>
         <h2>Create a deck</h2>
@@ -134,9 +136,11 @@ export default function DeckPage() {
       </div>
       <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
         {flashcards?.length > 0 &&
-          flashcards.map((flashcard, index) => (
-            <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
-          ))}
+          [...flashcards]
+            .sort((a, b) => a.dueAt.getTime() - b.dueAt.getTime())
+            .map((flashcard, index) => (
+              <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
+            ))}
       </div>
     </main>
   );

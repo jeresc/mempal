@@ -6,9 +6,9 @@ import {Tooltip, TooltipProvider, TooltipTrigger, TooltipContent} from "@radix-u
 
 import {MobileSidebar} from "~/sidebar";
 import {Sidebar} from "~/sidebar";
+import {useSidebarStore} from "~/sidebar/store/sidebar";
 
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/ui/resizable";
-import {useSidebarStore} from "@/lib/store/sidebar";
 import {cn} from "@/lib/utils/cn";
 
 const asciiArtArray = [

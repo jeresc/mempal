@@ -1,5 +1,7 @@
 import {create} from "zustand";
 
+type ReactStyleStateSetter<T> = T | ((prev: T) => T);
+
 interface SidebarState {
   isOpen: boolean;
   isLocked: boolean;
@@ -7,11 +9,14 @@ interface SidebarState {
   setIsLocked: (state: boolean) => void;
   toggleOpen: () => void;
   toggleLocked: () => void;
+  setTabToggled: (newStringOrSetterFn: ReactStyleStateSetter<string>) => void;
+  tabToggled: string;
 }
 
 export const useSidebarStore = create<SidebarState>()((set) => ({
   isOpen: false,
   isLocked: false,
+  tabToggled: "",
   setIsOpen: (state) => {
     set({isOpen: state});
   },
@@ -23,5 +28,13 @@ export const useSidebarStore = create<SidebarState>()((set) => ({
   },
   toggleLocked: () => {
     set((state) => ({isLocked: !state.isLocked}));
+  },
+  setTabToggled: (newStringOrSetterFn) => {
+    set((state) => ({
+      tabToggled:
+        typeof newStringOrSetterFn === "function"
+          ? newStringOrSetterFn(state.tabToggled)
+          : newStringOrSetterFn,
+    }));
   },
 }));

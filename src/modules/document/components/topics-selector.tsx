@@ -5,6 +5,7 @@ import {Cross1Icon} from "@radix-ui/react-icons";
 
 import {useMutateDocuments} from "~/document/hooks/use-mutate-documents";
 import {useCreateDocument} from "~/document/store/create-document";
+import {useSidebarStore} from "~/sidebar/store/sidebar";
 
 import {generateFirestoreId} from "@/lib/utils/generate-id";
 import {Input} from "@/components/ui/input";
@@ -22,6 +23,7 @@ function TopicsSelector() {
     state.setTopics,
     state.reset,
   ]);
+  const [setTabToggled] = useSidebarStore((state) => [state.setTabToggled]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ function TopicsSelector() {
       mutate({file, docId, text, topics});
       reset();
       router.push(`/d/${docId}`);
+      setTabToggled(docId);
     } catch (e: unknown) {
       // Handle errors here
     }

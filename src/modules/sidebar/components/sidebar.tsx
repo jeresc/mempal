@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {ChevronRight, File} from "lucide-react";
 import {TbCards} from "react-icons/tb";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import data from "@emoji-mart/data/sets/15/twitter.json";
 import {init} from "emoji-mart";
 import {usePathname} from "next/navigation";
@@ -13,6 +13,8 @@ import {useDocuments} from "~/document/hooks/use-documents";
 import {LinkItem} from "~/sidebar/components/link-item";
 import {CreateButton} from "~/sidebar/components/create-button";
 import {AccountCapsule} from "~/sidebar/components/account-capsule";
+
+import {useSidebarStore} from "../store/sidebar";
 
 import {cn} from "@/lib/utils/cn";
 
@@ -36,16 +38,19 @@ const docUrl = (docTitle: string, docId: string) => {
 function Sidebar() {
   const {isPending, error, documents} = useDocuments();
   const {docId} = useParamsDoc();
-  const [toggled, setToggled] = useState<string | null>(null);
+  const [tabToggled, setTabToggled] = useSidebarStore((state) => [
+    state.tabToggled,
+    state.setTabToggled,
+  ]);
   const pathname = usePathname();
 
   useEffect(() => {
     if (docId) {
       const currentTab = tabs.find((tab) => pathname.endsWith(`${docId}/${tab}`));
 
-      if (currentTab) setToggled(docId);
+      if (currentTab) setTabToggled(docId);
     }
-  }, [pathname, docId]);
+  }, [pathname, docId, setTabToggled]);
 
   return (
     <aside className='flex h-full w-full flex-col gap-5 p-2 px-1 text-sm text-foreground/80'>
@@ -79,13 +84,13 @@ function Sidebar() {
                     type='button'
                     onClick={(e) => {
                       e.preventDefault();
-                      setToggled((prevToggled) => (prevToggled === id ? null : id));
+                      setTabToggled((prevToggled) => (prevToggled === id ? "" : id));
                     }}
                   >
                     <ChevronRight
                       className={cn(
                         "absolute left-0.5 top-0.5 scale-0 transition-all duration-75 group-hover/item:scale-100 group-hover/item:duration-100",
-                        toggled == id && "rotate-90",
+                        tabToggled == id && "rotate-90",
                       )}
                       size={16}
                     />
@@ -106,7 +111,7 @@ function Sidebar() {
                     key={`${id}_${tab}`}
                     className={cn(
                       "hidden w-full items-center gap-2.5 rounded-md py-1.5 pr-2 text-sm font-medium hover:bg-foreground/[7%]",
-                      toggled === id && "flex",
+                      tabToggled === id && "flex",
                       pathname.endsWith(`${id}/${tab}`) && "flex",
                       pathname.endsWith(`${id}/${tab}`) &&
                         "bg-foreground/[7%] hover:bg-foreground/[12%]",

@@ -2,6 +2,7 @@
 import {motion} from "framer-motion";
 
 import {Flashcard} from "~/flashcard/types";
+import {formatDate} from "~/flashcard/utils";
 
 import {variants} from "./anim";
 
@@ -19,7 +20,6 @@ function FlashcardCard(flashcard: FlashcardCardProps) {
       )}
     >
       <p>{flashcard.topic}</p>
-
       <h3 className='text-pretty text-xl font-semibold'>{flashcard.question}</h3>
       <motion.p
         animate={flashcard.showAnswer ? "animate" : "initial"}
@@ -29,6 +29,7 @@ function FlashcardCard(flashcard: FlashcardCardProps) {
       >
         {flashcard.answer}
       </motion.p>
+      <p className='self-end text-pretty text-xs'>{formatDate(flashcard.dueAt, new Date())}</p>
     </motion.article>
   );
 }

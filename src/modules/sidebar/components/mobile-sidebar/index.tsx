@@ -4,11 +4,12 @@ import {ChevronsRight, ChevronsLeft, Menu} from "lucide-react";
 import {useMediaQuery} from "usehooks-ts";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@radix-ui/react-tooltip";
 
+import {useSidebarStore} from "~/sidebar/store/sidebar";
+
 import {Sidebar} from "../sidebar";
 
 import {transition, largeVariants, smallVariants} from "./anim";
 
-import {useSidebarStore} from "@/lib/store/sidebar";
 import {cn} from "@/lib/utils/cn";
 
 function MobileSidebar() {

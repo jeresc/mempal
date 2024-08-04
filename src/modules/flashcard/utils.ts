@@ -1,3 +1,4 @@
+import dayjs, {UnitType} from "dayjs";
 import compare from "just-compare";
 import {Card, Grade, Grades, State, fsrs} from "ts-fsrs";
 
@@ -86,4 +87,17 @@ export const getPossibleReviews = (flashcard: Flashcard) => {
   });
 
   return {possibleCards};
+};
+
+export const formatDate = (date: Date, now: Date) => {
+  const addS = (num: number) => (num > 1 ? "s" : "");
+  const times: UnitType[] = ["month", "day", "hour", "minute", "second"];
+
+  for (const time of times) {
+    const value = dayjs(date).diff(now, time);
+
+    if (value > 0) return `${value} ${time}${addS(value)}`;
+  }
+
+  return "Due now";
 };

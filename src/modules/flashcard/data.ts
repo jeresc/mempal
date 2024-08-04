@@ -56,11 +56,9 @@ export const addFlashcardsToDeck = async (
 
 export const updateFlashcards = async (
   deckId: Deck["id"],
-  flashcards: Omit<Flashcard, "id" | "deckId" | "createdAt" | "lastReviewedAt">[],
+  flashcards: Omit<Flashcard, "deckId" | "createdAt">[],
 ) => {
   const {firestore} = getFirebase();
-  const timestamp = Timestamp.now();
-  const flashcardIds: string[] = [];
 
   const docRef = doc(firestore, "decks", deckId);
   const subcollectionRef = collection(docRef, "flashcards");
@@ -68,24 +66,24 @@ export const updateFlashcards = async (
   const batch = writeBatch(firestore);
 
   for (const flashcard of flashcards) {
-    const flashcardId = generateFirestoreId();
+    const {lastReviewedAt, dueAt, ...rest} = flashcard;
 
-    flashcardIds.push(flashcardId);
+    const lastReviewedAtTimestamp = lastReviewedAt ? Timestamp.fromDate(lastReviewedAt) : undefined;
+    const dueAtTimestamp = Timestamp.fromDate(dueAt);
 
-    batch.set(doc(subcollectionRef, flashcardId), {
-      ...flashcard,
-      createdAt: timestamp,
-      id: flashcardId,
+    const flashcardRef = doc(subcollectionRef, flashcard.id);
+
+    batch.update(flashcardRef, {
+      ...rest,
+      lastReviewedAt: lastReviewedAtTimestamp,
+      dueAt: dueAtTimestamp,
     });
   }
 
   await batch.commit();
 
   return {
-    flashcards: flashcards.map((flashcard, i) => ({
-      ...flashcard,
-      id: flashcardIds[i],
-    })),
+    flashcards,
   };
 };
 
