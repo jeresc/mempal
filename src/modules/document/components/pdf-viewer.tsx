@@ -1,6 +1,6 @@
 "use client";
 import {Document, Page} from "react-pdf";
-import {MouseEvent, useState} from "react";
+import {MouseEvent, useRef, useState} from "react";
 
 import "react-pdf/dist/Page/TextLayer.css";
 import {ArrowLeft, ArrowRight, ZoomIn, ZoomOut} from "lucide-react";
@@ -60,47 +60,64 @@ function PdfViewer({file, startPage, endPage}: PdfViewerProps) {
     setMenuOpen(true);
   };
 
+  const rendererRef = useRef<HTMLDivElement>(null);
+
   return (
     <article className='relative flex h-full flex-col gap-2 rounded-md border border-border p-4 selection:bg-primary selection:text-white'>
-      <header className='flex items-center justify-between gap-2'>
-        <div className='flex items-center gap-2 rounded-sm border border-border p-2'>
-          <button type='button' onClick={prevPage}>
-            <ArrowLeft size={20} />
-          </button>
-          <p className='tabular-nums'>
-            Page {pageNumber} of {endPage - startPage + 1}
-          </p>
-          <button type='button' onClick={nextPage}>
-            <ArrowRight size={20} />
-          </button>
-        </div>
-        <div className='flex items-center gap-2 rounded-sm border border-border p-2'>
-          <button type='button' onClick={handleZoomOut}>
-            <ZoomOut size={20} />
-          </button>
-          <p className='tabular-nums'>{zoom}%</p>
-          <button type='button' onClick={handleZoomIn}>
-            <ZoomIn size={20} />
-          </button>
-        </div>
-      </header>
-      <SelectionPopover>
-        <section>
-          <Document
-            className='aspect-[6/7] max-h-[840px] w-full overflow-auto rounded-md bg-white'
-            file={file}
-            onLoadSuccess={onDocumentLoadSuccess}
-          >
-            <Page
-              className='flex h-full w-full justify-center'
-              pageNumber={pageNumber + startPage - 1}
-              renderAnnotationLayer={false}
-              scale={zoom / 100}
-              onMouseUp={handleMouseUp}
-            />
-          </Document>
-        </section>
-      </SelectionPopover>
+      {file && startPage && endPage ? (
+        <>
+          <header className='flex items-center justify-between gap-2'>
+            <div className='flex items-center gap-2 rounded-sm border border-border p-2'>
+              <button
+                className='disabled:opacity-50'
+                disabled={pageNumber <= 1}
+                type='button'
+                onClick={prevPage}
+              >
+                <ArrowLeft size={20} />
+              </button>
+              <p className='tabular-nums'>
+                Page {pageNumber} of {endPage - startPage + 1}
+              </p>
+              <button
+                className='disabled:opacity-50'
+                disabled={pageNumber >= endPage - startPage + 1}
+                type='button'
+                onClick={nextPage}
+              >
+                <ArrowRight size={20} />
+              </button>
+            </div>
+            <div className='flex items-center gap-2 rounded-sm border border-border p-2'>
+              <button type='button' onClick={handleZoomOut}>
+                <ZoomOut size={20} />
+              </button>
+              <p className='tabular-nums'>{zoom}%</p>
+              <button type='button' onClick={handleZoomIn}>
+                <ZoomIn size={20} />
+              </button>
+            </div>
+          </header>
+          <SelectionPopover container={rendererRef.current!}>
+            <section ref={rendererRef}>
+              <Document
+                className='aspect-[6/7] max-h-[840px] w-full overflow-auto rounded-md bg-white'
+                file={file}
+                onLoadSuccess={onDocumentLoadSuccess}
+              >
+                <Page
+                  className='h-full w-full'
+                  pageNumber={pageNumber + startPage - 1}
+                  renderAnnotationLayer={false}
+                  scale={zoom / 100}
+                  onMouseUp={handleMouseUp}
+                />
+              </Document>
+            </section>
+          </SelectionPopover>
+        </>
+      ) : null}
+      <p>{selectedText}</p>
     </article>
   );
 }

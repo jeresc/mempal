@@ -4,10 +4,16 @@ import {Copy, MessageSquareQuote} from "lucide-react";
 
 import {cn} from "@/lib/utils";
 
-function SelectionPopover({children}: {children: React.ReactNode}) {
+function SelectionPopover({
+  children,
+  container,
+}: {
+  children: React.ReactNode;
+  container?: HTMLElement;
+}) {
   return (
     <Selection.Root>
-      <Selection.Portal>
+      <Selection.Portal container={container}>
         <Selection.Content
           className={cn(
             "z-[999] flex w-full min-w-max gap-1 rounded-md bg-foreground p-1 text-slate-600/80 shadow-lg shadow-[#0005]",

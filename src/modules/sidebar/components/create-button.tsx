@@ -14,7 +14,7 @@ function CreateButton() {
       <span className='h-4.5 w-4.5 rounded-sm p-0.5'>
         <CirclePlus size={16} />
       </span>
-      Create new
+      Create document
     </button>
   );
 }
