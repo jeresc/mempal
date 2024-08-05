@@ -1,5 +1,4 @@
 import {Hero} from "~/landing/components/hero";
-import {About} from "~/landing/components/about";
 import {Features} from "~/landing/components/features";
 
 import {Header} from "@/components/ui/header";
@@ -14,7 +13,6 @@ export default function HomePage() {
         <Hero />
         <GradientBackground />
         <div className='min-h-screen'>
-          <About />
           <Features />
         </div>
         <Footer />

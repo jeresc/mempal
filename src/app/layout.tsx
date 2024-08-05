@@ -52,7 +52,11 @@ export default async function RootLayout({children}: RootLayoutProps) {
 
   return (
     <SessionProvider session={session}>
-      <html className={cn(inter.variable, outfit.variable, "font-inter")} lang='en'>
+      <html
+        suppressHydrationWarning
+        className={cn(inter.variable, outfit.variable, "font-inter")}
+        lang='en'
+      >
         <body className='m-auto grid h-full min-h-screen w-full grid-rows-[1fr,auto] antialiased'>
           <ReactQueryProvider>
             <ThemeProvider

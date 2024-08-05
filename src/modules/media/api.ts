@@ -7,7 +7,7 @@ import {addMedia, findMediaByIds} from "./data";
 
 import {computeSHA256} from "@/lib/utils/compute-sha256";
 
-export const createMedia = async (file: File, text: string) => {
+export const createMedia = async (file: File, text: string, startPage: number, endPage: number) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
@@ -33,6 +33,8 @@ export const createMedia = async (file: File, text: string) => {
         userId: user.id!,
         url: mediaUrl,
         text,
+        startPage,
+        endPage,
       }),
       fetch(signedUrl, {
         method: "PUT",

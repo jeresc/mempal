@@ -34,12 +34,14 @@ export const createDocument = async (
   id = generateFirestoreId(),
   text: string,
   topics: string[],
+  startPage: number,
+  endPage: number,
 ) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
 
-  const createMediaResult = await createMedia(file, text);
+  const createMediaResult = await createMedia(file, text, startPage, endPage);
 
   if (createMediaResult.error !== undefined)
     return {error: {message: createMediaResult.error.message}};

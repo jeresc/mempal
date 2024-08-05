@@ -3,7 +3,7 @@ import React from "react";
 import {useRouter} from "next/navigation";
 import {Cross1Icon} from "@radix-ui/react-icons";
 
-import {useMutateDocuments} from "~/document/hooks/use-mutate-documents";
+import {useAddDocument} from "~/document/hooks/use-add-document";
 import {useCreateDocument} from "~/document/store/create-document";
 import {useSidebarStore} from "~/sidebar/store/sidebar";
 
@@ -13,16 +13,19 @@ import {Button} from "@/components/ui/button";
 
 function TopicsSelector() {
   const router = useRouter();
-  const {mutate} = useMutateDocuments();
+  const {mutate: addDocument} = useAddDocument();
   const [newTopic, setNewTopic] = React.useState("");
-  const [file, text, charCount, topics, setTopics, reset] = useCreateDocument((state) => [
-    state.file,
-    state.text,
-    state.charCount,
-    state.topics,
-    state.setTopics,
-    state.reset,
-  ]);
+  const [file, text, charCount, topics, setTopics, reset, selectedRange] = useCreateDocument(
+    (state) => [
+      state.file,
+      state.text,
+      state.charCount,
+      state.topics,
+      state.setTopics,
+      state.reset,
+      state.selectedRange,
+    ],
+  );
   const [setTabToggled] = useSidebarStore((state) => [state.setTabToggled]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +37,14 @@ function TopicsSelector() {
 
       const docId = generateFirestoreId();
 
-      mutate({file, docId, text, topics});
+      addDocument({
+        file,
+        docId,
+        text,
+        topics,
+        startPage: selectedRange[0],
+        endPage: selectedRange[1],
+      });
       reset();
       router.push(`/d/${docId}`);
       setTabToggled(docId);
