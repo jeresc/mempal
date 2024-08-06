@@ -56,7 +56,7 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
           {debouncedIsLocked ? (
             <ResizablePanel
               className={cn(
-                "hidden h-full max-h-screen min-w-[248px] max-w-[480px] bg-[#181b20] px-1 sml:relative sml:flex",
+                "hidden h-full max-h-screen min-w-[248px] max-w-[480px] bg-secondary-background px-1 sml:relative sml:flex",
                 !isLocked &&
                   "w-0 min-w-0 max-w-0 -translate-x-full opacity-0 transition-[transform_width] duration-500",
               )}
@@ -91,7 +91,7 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
           ) : null}
           <ResizableHandle />
           <ResizablePanel
-            className='grid h-full w-full !overflow-y-scroll pt-8 [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
+            className='grid h-full w-full !overflow-y-scroll [&>*]:mx-auto [&>*]:max-w-[800px] md:[&>*]:max-w-[800px] xl:[&>*]:max-w-[960px]'
             defaultSize={75}
             order={2}
           >

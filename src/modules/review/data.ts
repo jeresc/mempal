@@ -19,7 +19,6 @@ import {generateFirestoreId} from "@/lib/utils/generate-id";
 export const addReviews = async (reviews: Omit<Review, "id">[]) => {
   const {firestore} = getFirebase();
   const reviewIds: string[] = [];
-  const now = Timestamp.now();
 
   const batch = writeBatch(firestore);
 
@@ -36,7 +35,6 @@ export const addReviews = async (reviews: Omit<Review, "id">[]) => {
       id: reviewId,
       dueAt,
       reviewedAt,
-      createdAt: now,
     });
   }
 
