@@ -4,11 +4,12 @@ import {ChevronsRight, ChevronsLeft, Menu} from "lucide-react";
 import {useMediaQuery} from "usehooks-ts";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@radix-ui/react-tooltip";
 
+import {useSidebarStore} from "~/sidebar/store/sidebar";
+
 import {Sidebar} from "../sidebar";
 
 import {transition, largeVariants, smallVariants} from "./anim";
 
-import {useSidebarStore} from "@/lib/store/sidebar";
 import {cn} from "@/lib/utils/cn";
 
 function MobileSidebar() {
@@ -37,13 +38,22 @@ function MobileSidebar() {
       >
         <Sidebar key='mobile-sidebar' />
         {Boolean(isLocked && isSmall) && (
-          <button
-            className='absolute left-[calc(100%-40px)] top-0 m-1 rounded-md hover:bg-border'
-            type='button'
-            onClick={() => setIsLocked(false)}
-          >
-            <ChevronsLeft size={30} />
-          </button>
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className='absolute left-[calc(100%-44px)] top-3 m-1 rounded-md hover:bg-border'
+                  type='button'
+                  onClick={() => setIsLocked(false)}
+                >
+                  <ChevronsLeft size={24} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent className='rounded-md bg-border p-1 px-2' side='right' sideOffset={4}>
+                <p className='text-sm text-foreground/80'>Unlock sidebar open</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
         {!isLocked && (
           <div

@@ -5,12 +5,12 @@ import {useState} from "react";
 import {CreateStep} from "./create-step";
 import {FirstCreateStep} from "./first-create-step";
 import {SecondCreateStep} from "./second-create-step";
-
-import {Separator} from "@/components/ui/separator";
+import {ThirdCreateStep} from "./third-create-step";
 
 const steps = [
   {number: 1, name: "Upload your file", completed: false, component: FirstCreateStep},
-  {number: 2, name: "Confirm details", completed: false, component: SecondCreateStep},
+  {number: 2, name: "Select pages to upload", completed: false, component: SecondCreateStep},
+  {number: 3, name: "Add document topics", completed: false, component: ThirdCreateStep},
 ];
 
 function CreateDocumentWizard() {
@@ -27,7 +27,7 @@ function CreateDocumentWizard() {
   };
 
   return (
-    <div className='flex h-full w-full flex-col gap-y-2'>
+    <div className='flex h-full w-full flex-col items-center justify-center gap-y-2'>
       {steps.map(({number, name, completed, component: Component}) => (
         <CreateStep
           key={number}

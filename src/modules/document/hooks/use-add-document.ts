@@ -1,14 +1,35 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {toast} from "sonner";
 
-import {createDocument} from "../api";
-import {Document} from "../types";
+import {createDocument} from "~/document/api";
+import {Document} from "~/document/types";
 
-const useMutateDocuments = () => {
+const useAddDocument = () => {
   const queryClient = useQueryClient();
 
-  const mutationFn = async ({file, docId, text}: {file: File; docId: string; text: string}) => {
-    const createDocumentResult = await createDocument(file, docId, text);
+  const mutationFn = async ({
+    file,
+    docId,
+    text,
+    topics,
+    startPage,
+    endPage,
+  }: {
+    file: File;
+    docId: string;
+    text: string;
+    topics: string[];
+    startPage: number;
+    endPage: number;
+  }) => {
+    const createDocumentResult = await createDocument(
+      file,
+      docId,
+      text,
+      topics,
+      startPage,
+      endPage,
+    );
 
     if (createDocumentResult.error !== undefined) throw Error(createDocumentResult.error.message);
 
@@ -49,4 +70,4 @@ const useMutateDocuments = () => {
   };
 };
 
-export {useMutateDocuments};
+export {useAddDocument};

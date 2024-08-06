@@ -8,6 +8,7 @@ interface CreateDocumentState {
   pages: number;
   text: string;
   selectedRange: [number, number];
+  topics: string[];
 }
 
 interface CreateDocumentActions {
@@ -16,6 +17,7 @@ interface CreateDocumentActions {
   setFile: (file: File | undefined) => void;
   setText: (text: string) => void;
   setSelectedRange: (newArrOrSetterFn: ReactStyleStateSetter<[number, number]>) => void;
+  setTopics: (newArrOrSetterFn: ReactStyleStateSetter<string[]>) => void;
   reset: () => void;
 }
 
@@ -25,6 +27,7 @@ const initialState: CreateDocumentState = {
   pages: 0,
   text: "",
   selectedRange: [1, 1],
+  topics: [],
 };
 
 export const useCreateDocument = create<CreateDocumentState & CreateDocumentActions>()((set) => ({
@@ -33,6 +36,13 @@ export const useCreateDocument = create<CreateDocumentState & CreateDocumentActi
   setCharCount: (charCount) => set({charCount}),
   setPages: (pages) => set({pages}),
   setText: (text) => set({text}),
+  setTopics: (newArrOrSetterFn) => {
+    set((state) => ({
+      topics:
+        typeof newArrOrSetterFn === "function" ? newArrOrSetterFn(state.topics) : newArrOrSetterFn,
+    }));
+  },
+
   setSelectedRange: (newArrOrSetterFn) => {
     set((state) => ({
       selectedRange:

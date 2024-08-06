@@ -11,8 +11,6 @@ export async function getTextFromMedia(file: File) {
   });
 
   return textResult.json().then((result) => {
-    console.log(result.text);
-
     return result.text;
   });
 }

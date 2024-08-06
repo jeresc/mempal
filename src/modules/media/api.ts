@@ -7,7 +7,7 @@ import {addMedia, findMediaByIds} from "./data";
 
 import {computeSHA256} from "@/lib/utils/compute-sha256";
 
-export const createMedia = async (file: File, text: string) => {
+export const createMedia = async (file: File, text: string, startPage: number, endPage: number) => {
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
@@ -25,13 +25,16 @@ export const createMedia = async (file: File, text: string) => {
       return {error: {message: signedUrlResult.error.message}};
 
     const signedUrl = signedUrlResult.success.url;
+    const mediaUrl = signedUrl.split("?")[0];
 
     const [mediaId] = await Promise.all([
       addMedia({
         type: "pdf",
         userId: user.id!,
-        url: signedUrl.split("?")[0],
+        url: mediaUrl,
         text,
+        startPage,
+        endPage,
       }),
       fetch(signedUrl, {
         method: "PUT",
@@ -44,7 +47,7 @@ export const createMedia = async (file: File, text: string) => {
 
     if (!mediaId) return {error: {message: "Failed to upload media"}};
 
-    return {success: {mediaId}};
+    return {success: {mediaId, mediaUrl}};
   } catch (e: unknown) {
     return {error: {message: "Failed to upload media"}};
   }

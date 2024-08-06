@@ -1,17 +1,13 @@
 "use client";
 import {Document, Page} from "react-pdf";
 import {ChevronLeft, ChevronRight} from "lucide-react";
-import {useRouter} from "next/navigation";
-import {useState} from "react";
 
 import usePagedDocument from "../hooks/use-paged-document";
-import {useMutateDocuments} from "../hooks/use-mutate-documents";
 
 import {Slider} from "@/components/ui/slider";
 import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils/cn";
-import {generateFirestoreId} from "@/lib/utils/generate-id";
-import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 
 const getPageNumbers = (
   pagesOffset: number,
@@ -67,7 +63,7 @@ const getPageNumbers = (
   return pageNumbers;
 };
 
-function PageSelector() {
+function PageSelector({nextStep}: {nextStep: () => void}) {
   const {
     file,
     pages,
@@ -76,43 +72,28 @@ function PageSelector() {
     maxPagesInView,
     totalPagesToShow,
     placeholdersNeeded,
+    text,
     onLoadSuccess,
     nextPage,
     previousPage,
     charCount,
     pagesOfPages,
     setPagesOffset,
-    text,
     selectedRange,
     setSelectedRange,
   } = usePagedDocument();
-
-  const router = useRouter();
-  const {mutate} = useMutateDocuments();
 
   if (!file) return null;
 
   const pageNumbers = getPageNumbers(pagesOffset, maxPagesInView, pagesOfPages);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!file) return;
-
-    try {
-      if (charCount > 50000 || !file || !text) return;
-
-      const docId = generateFirestoreId();
-
-      mutate({file, docId, text});
-      router.push(`/d/${docId}`);
-    } catch (e: unknown) {
-      // Handle errors here
-    }
-  };
-
   return (
     <section className='flex w-full flex-col gap-y-6'>
-      <div className='flex items-start gap-2'>
+      <p className='text-sm text-gray-400'>
+        Select the pages you want to include in your flashcard. You can also select a range of pages
+        to include.
+      </p>
+      <div className='flex items-center justify-between gap-2'>
         <Badge className='py-1 text-sm' variant={charCount > 50000 ? "destructive" : "default"}>
           Character Count: {charCount} / 50000
         </Badge>
@@ -143,6 +124,7 @@ function PageSelector() {
       >
         {pagesArray?.slice(pagesOffset, pagesOffset + totalPagesToShow).map((_, i) => (
           <button
+            /* eslint-disable-next-line react/no-array-index-key */
             key={i + 1 + pagesOffset}
             className={cn(
               "relative h-full w-full rounded-md border border-border p-1",
@@ -192,6 +174,7 @@ function PageSelector() {
         {placeholdersNeeded > 0 &&
           [...Array(placeholdersNeeded)].fill(0).map((_, i) => (
             <div
+              /* eslint-disable-next-line react/no-array-index-key */
               key={i + 1 + pagesOffset}
               className='h-full w-full rounded-md border border-border p-1'
             >
@@ -213,6 +196,7 @@ function PageSelector() {
           </button>
           {pageNumbers.map((number, index) => (
             <button
+              /* eslint-disable-next-line react/no-array-index-key */
               key={`select-page-${index}`}
               className={cn(
                 "flex w-full items-center justify-center rounded-md border px-1 py-0.5",
@@ -243,16 +227,9 @@ function PageSelector() {
           </button>
         </div>
       )}
-
-      <form onSubmit={onSubmit}>
-        <button
-          className='flex w-full items-center justify-center rounded-md border px-1 py-0.5 disabled:cursor-not-allowed disabled:opacity-30'
-          disabled={!file || !text || charCount > 50000}
-          type='submit'
-        >
-          Submit
-        </button>
-      </form>
+      <Button className='mt-2' disabled={charCount > 50000 || !file || !text} onClick={nextStep}>
+        Continue
+      </Button>
     </section>
   );
 }

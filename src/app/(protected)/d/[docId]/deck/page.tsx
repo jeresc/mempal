@@ -2,20 +2,20 @@
 
 import {useState} from "react";
 import {readStreamableValue} from "ai/rsc";
+import Link from "next/link";
 
 import {generateFlashcards} from "~/flashcard/actions/generate-flashcards";
 import {useParamsDoc} from "~/document/hooks/use-params-doc";
 import {useDocument} from "~/document/hooks/use-document";
-import {useMedia} from "~/media/hooks/use-media";
-import {addDeck} from "~/deck/data";
-import {addFlashcardsToDeck} from "~/flashcard/data";
-import {currentUser} from "~/auth/lib/auth";
-import {Flashcard} from "~/flashcard/types";
-import {useCurrentUser} from "~/auth/hooks/use-current-user";
+import {getMediaById} from "~/media/api";
+import {adaptGeneratedFlashcards} from "~/flashcard/utils";
+import {useFlashcardsByDeck} from "~/flashcard/hooks/use-flashcards-by-deck";
+import {GeneratedFlashcard} from "~/flashcard/components/generated-flashcards";
+import {useAddFlashcards} from "~/flashcard/hooks/use-add-flashcards";
+import {FlashcardCard} from "~/flashcard/components/flashcard-card";
 
-import {generateFirestoreId} from "@/lib/utils/generate-id";
-import {cn} from "@/lib/utils/cn";
-import {Skeleton} from "@/components/ui/skeleton";
+import {Switch} from "@/components/ui/switch";
+import {Button} from "@/components/ui/button";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -23,120 +23,125 @@ export const maxDuration = 30;
 export default function DeckPage() {
   const {docId} = useParamsDoc();
   const {document, isPending: isPendingDoc, error: errorDoc} = useDocument({docId});
-  const {
-    media,
-    isPending: isPendingMedia,
-    error: errorMedia,
-  } = useMedia({mediaId: document.mediaId!});
   const [generatedFlashcards, setGeneratedFlashcards] = useState<
     {question: string; answer: string; topic: string}[]
   >([]);
-  const user = useCurrentUser();
+  const {
+    flashcards,
+    isPending: isPendingFlashcards,
+    error: errorFlashcards,
+  } = useFlashcardsByDeck({
+    deckId: document.deckId!,
+  });
+  const {mutate: addFlashcards, isMutating: isMutatingAddFlashcards} = useAddFlashcards({
+    deckId: document.deckId!,
+  });
+  const [showAnswers, setShowAnswers] = useState(false);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const generateAndAddFlashcards = async ({
+    deckId,
+    mediaId,
+    topics,
+  }: {
+    deckId: string;
+    mediaId: string;
+    topics: string[];
+  }) => {
+    const getMediaResult = await getMediaById(mediaId);
 
-    try {
-      if (!user) return;
+    if (getMediaResult.error !== undefined) return {error: {message: getMediaResult.error.message}};
 
-      console.log(generatedFlashcards);
+    const {success: mediaSuccess} = getMediaResult;
 
-      const deckId = generateFirestoreId();
+    if (!mediaSuccess.media.text) return {error: {message: "No text found in media"}};
 
-      console.log("generating");
+    const {object} = await generateFlashcards({
+      topics: topics,
+      text: mediaSuccess.media.text,
+    });
 
-      await addDeck({documentId: docId, id: deckId, userId: user.id!});
+    for await (const {partialObject, finishedObject} of readStreamableValue(object)) {
+      if (partialObject) {
+        setGeneratedFlashcards(partialObject.flashcards);
+      }
 
-      const flashcards = generatedFlashcards.map(({question, answer, topic}) => ({
-        question,
-        answer,
-        topic,
-        score: 0,
-        repeatedTimes: 0,
-        deckId,
-      }));
+      if (finishedObject && finishedObject.flashcards) {
+        const flashcards = adaptGeneratedFlashcards(finishedObject.flashcards, deckId);
 
-      const flashcardsResult = await addFlashcardsToDeck(deckId, flashcards);
-
-      console.log(flashcardsResult);
-    } catch (e: unknown) {
-      // Handle errors here
-      console.log(e);
+        addFlashcards({flashcards});
+      }
     }
   };
 
-  if (isPendingDoc || isPendingMedia) return <div>Loading...</div>;
+  if (isPendingDoc) return <div>Loading...</div>;
 
-  if (errorDoc) return <div>Error: {errorDoc?.message || errorMedia?.message}</div>;
+  if (errorDoc) return <div>Error: {errorDoc?.message}</div>;
+
+  if (isPendingFlashcards) return <div>Loading...</div>;
 
   if (document.topics?.length === 0) return <div>In this document, there are no topics</div>;
 
-  return (
-    <div className='flex flex-col gap-4'>
-      <button
-        className='self-start rounded bg-primary px-3 py-1.5 font-semibold text-white'
-        type='button'
-        onClick={async () => {
-          const {object} = await generateFlashcards({
-            topics: document.topics!,
-            text: media.text!,
-          });
-
-          for await (const partialObject of readStreamableValue(object)) {
-            if (partialObject) {
-              setGeneratedFlashcards(partialObject.flashcards);
-            }
-          }
-        }}
-      >
-        Generate flashcards
-      </button>
-      <h2>Flashcards generated: {generatedFlashcards?.length ?? 0}</h2>
-      <div className='flex flex-col-reverse gap-4'>
-        {generatedFlashcards?.length > 0 &&
-          generatedFlashcards?.slice(-1).map((flashcard, index) => (
-            <div
-              key={index}
-              className={cn(
-                "flex min-h-[146px] flex-col justify-between gap-2 rounded-md border border-border p-4",
-              )}
-            >
-              <h3>
-                {flashcard?.question?.length > 0 ? (
-                  flashcard.question
-                ) : (
-                  <Skeleton className='h-4 w-[72%] bg-zinc-800' />
-                )}
-              </h3>
-              <p>
-                {flashcard?.answer?.length > 0 ? (
-                  flashcard.answer
-                ) : (
-                  <div className='flex flex-col'>
-                    <Skeleton className='h-4 w-[87%] bg-zinc-800' />
-                    <Skeleton className='h-4 w-[59%] bg-zinc-800' />
-                  </div>
-                )}
-              </p>
-              <p>
-                {flashcard?.topic?.length > 0 ? (
-                  flashcard.topic
-                ) : (
-                  <Skeleton className='h-4 w-36 bg-zinc-800' />
-                )}
-              </p>
-            </div>
-          ))}
-      </div>
-
-      <form onSubmit={onSubmit}>
+  if (flashcards?.length === 0)
+    return (
+      <section>
+        <h2>Create a deck</h2>
         <button
-          className='flex w-full items-center justify-center rounded-md border px-1 py-0.5 disabled:cursor-not-allowed disabled:opacity-30'
-          type='submit'
+          className='self-start rounded bg-primary px-3 py-1.5 font-semibold text-white'
+          type='button'
+          onClick={async () => {
+            await generateAndAddFlashcards({
+              deckId: document.deckId!,
+              mediaId: document.mediaId!,
+              topics: document.topics!,
+            });
+          }}
         >
-          Generate flashcards
+          Generate flashcards and add to deck
         </button>
-      </form>
-    </div>
+        <h2>Flashcards generated: {generatedFlashcards?.length ?? 0}</h2>
+        <div className='flex flex-col-reverse gap-4'>
+          {generatedFlashcards?.length > 0 &&
+            generatedFlashcards
+              ?.slice(-1)
+              .map((flashcard, index) => (
+                <GeneratedFlashcard
+                  key={index}
+                  answer={flashcard?.answer}
+                  question={flashcard?.question}
+                  topic={flashcard?.topic}
+                />
+              ))}
+        </div>
+      </section>
+    );
+
+  return (
+    <main className='flex flex-col gap-4'>
+      <div className='flex items-center justify-between gap-2 rounded-md border border-border p-2'>
+        <h1>
+          {Boolean(document.title) ? (
+            <span className='text-pretty'>{document.title}&apos;s Flashcards</span>
+          ) : (
+            "Flashcards"
+          )}
+        </h1>
+        <div className='flex items-center gap-2 '>
+          <Switch checked={showAnswers} onCheckedChange={(checked) => setShowAnswers(checked)} />
+          <p className='leading-none'>Show answers</p>
+
+          <Button asChild className='ml-2 h-7 px-2 py-1.5 leading-none'>
+            <Link href={`/flashcards/${document.deckId}`}>Review</Link>
+          </Button>
+        </div>
+      </div>
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+        {flashcards?.length > 0 &&
+          [...flashcards]
+            .sort((a, b) => a.dueAt.getTime() - b.dueAt.getTime())
+            .map((flashcard, index) => (
+              <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
+            ))}
+      </div>
+    </main>
   );
 }

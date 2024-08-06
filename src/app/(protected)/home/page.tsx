@@ -1,5 +1,3 @@
-import {Chat} from "~/chat/components/chat";
-
 export default function HomePage() {
-  return <Chat />;
+  return <p>Home</p>;
 }

@@ -3,7 +3,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {patchDocument} from "../api";
 import {Document} from "../types";
 
-const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Document>}) => {
+const useUpdateDocument = ({docId}: {docId: string; initialData?: Partial<Document>}) => {
   const queryClient = useQueryClient();
 
   const mutationFn = async ({data}: {data: Partial<Omit<Document, "id" | "createdAt">>}) => {
@@ -47,11 +47,8 @@ const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Docume
 
       return {previousDocuments, oldDocument};
     },
-    onSuccess: (data) => {
-      console.log("mutation success", data);
-    },
-    onError: (error, _, context) => {
-      console.error(error);
+    onSuccess: (_data) => {},
+    onError: (_error, _, context) => {
       if (context?.previousDocuments != null && context?.oldDocument != null)
         queryClient.setQueryData(["documents"], context?.previousDocuments);
       if (context?.oldDocument != null)
@@ -66,4 +63,4 @@ const useMutateDocument = ({docId}: {docId: string; initialData?: Partial<Docume
   return {mutateDocument: mutate, isMutating};
 };
 
-export {useMutateDocument};
+export {useUpdateDocument};

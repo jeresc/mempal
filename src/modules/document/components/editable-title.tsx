@@ -4,14 +4,14 @@ import ContentEditable from "react-contenteditable";
 import {useCallback, useEffect, useState} from "react";
 import {useDebounceValue} from "usehooks-ts";
 
-import {useMutateDocument} from "../hooks/use-mutate-document";
+import {useUpdateDocument} from "../hooks/use-update-document";
 
 import {cn} from "@/lib/utils/cn";
 
 function EditableTitle({title, id}: {title: string; id: string}) {
   const [content, setContent] = useState(title);
   const [debouncedTitle, setDebouncedTitle] = useDebounceValue(title, 1000);
-  const {mutateDocument} = useMutateDocument({docId: id, initialData: {title}});
+  const {mutateDocument} = useUpdateDocument({docId: id, initialData: {title}});
 
   useEffect(() => {
     if (content === title) return;
@@ -36,7 +36,7 @@ function EditableTitle({title, id}: {title: string; id: string}) {
   return (
     <div className='relative'>
       <ContentEditable
-        className='min-h-[40px] text-4xl font-medium'
+        className='min-h-[40px] border-0 text-4xl font-bold outline-none ring-0 focus:outline-none focus:ring-0'
         html={content}
         tagName='h1'
         onBlur={onContentChange}

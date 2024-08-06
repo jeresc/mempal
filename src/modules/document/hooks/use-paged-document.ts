@@ -36,6 +36,7 @@ function usePagedDocument() {
 
   useEffect(() => {
     setSelectedRange([1, pages]);
+    setPagesOffset(0);
   }, [pages, setSelectedRange]);
 
   useEffect(() => {
@@ -46,9 +47,7 @@ function usePagedDocument() {
         const texts = await pdfToText(file);
 
         setAllPageTexts(texts);
-      } catch (error) {
-        console.error("Error fetching all text:", error);
-      }
+      } catch (error) {}
     };
 
     fetchAllTexts();
@@ -102,7 +101,7 @@ function usePagedDocument() {
 
   const totalPagesToShow = Math.min(maxPagesInView, pages - pagesOffset);
   const placeholdersNeeded = maxPagesInView - totalPagesToShow;
-  const pagesOfPages = Math.ceil(pages / maxPagesInView);
+  const pagesOfPages = Math.ceil(pages / maxPagesInView) || 1;
 
   const nextPage = () => {
     setPagesOffset((prevOffset) => prevOffset + maxPagesInView);

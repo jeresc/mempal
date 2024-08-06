@@ -6,6 +6,8 @@ export type FirestoreMedia = {
   type: string;
   createdAt: Timestamp;
   userId: string;
+  startPage: number;
+  endPage: number;
 };
 
 export type Media = Omit<FirestoreMedia, "createdAt"> & {

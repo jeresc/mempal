@@ -8,6 +8,16 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  safelist: [
+    "bg-sky-500/85",
+    "bg-lime-500/85",
+    "bg-amber-500/85",
+    "bg-red-500/85",
+    "hover:bg-red-500/60",
+    "hover:bg-amber-500/60",
+    "hover:bg-lime-500/60",
+    "hover:bg-sky-500/60",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -80,10 +90,20 @@ const config = {
           from: {height: "var(--radix-accordion-content-height)"},
           to: {height: "0"},
         },
+        "slide-down-and-fade": {
+          from: {opacity: "0", transform: "translateY(-2px)"},
+          to: {opacity: "100%", transform: "translateY(0)"},
+        },
+        "slide-up-and-fade": {
+          from: {opacity: "100%", transform: "translateY(0)"},
+          to: {opacity: "0", transform: "translateY(-2px)"},
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-down-and-fade": "slide-down-and-fade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-up-and-fade": "slide-up-and-fade 400ms cubic-bezier(0.16, 1, 0.3, 1)",
       },
       backgroundImage: {
         cyanBlue: "linear-gradient(to right, #00bcd4, #1e3a8a, #00bcd4)",
