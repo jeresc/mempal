@@ -1,25 +1,34 @@
 "use server";
-
 import {streamText} from "ai";
 import {createStreamableValue} from "ai/rsc";
 
-import {openai} from "~/ai/api";
+import {model} from "~/ai/api";
 
 export interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-export async function continueConversation(history: Message[]) {
+export const continueConversation = async (history: Message[]) => {
   "use server";
 
   const stream = createStreamableValue();
 
   (async () => {
     const {textStream} = await streamText({
-      model: openai("gpt-3.5-turbo"),
-      system: "You are a dude that doesn't drop character until the DVD commentary.",
+      model,
+      system:
+        'Sos un matematico. Tu tarea es responder preguntas sobre matemáticas, utilizando el contexto de la conversación anterior. Si no sabes una respuesta, debes decir "No sé". Si no puedes responder, debes decir "No puedo responder".',
       messages: history,
+      onFinish: ({usage}) => {
+        const {promptTokens, completionTokens, totalTokens} = usage;
+
+        // your own logic, e.g. for saving the chat history or recording usage
+        /* eslint-disable no-console */
+        console.log("Prompt tokens:", promptTokens);
+        console.log("Completion tokens:", completionTokens);
+        console.log("Total tokens:", totalTokens);
+      },
     });
 
     for await (const text of textStream) {
@@ -33,4 +42,4 @@ export async function continueConversation(history: Message[]) {
     messages: history,
     newMessage: stream.value,
   };
-}
+};

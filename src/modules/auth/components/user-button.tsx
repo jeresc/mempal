@@ -4,8 +4,7 @@ import {FaUser} from "react-icons/fa";
 import {ExitIcon} from "@radix-ui/react-icons";
 
 import {useCurrentUser} from "~/auth/hooks/use-current-user";
-
-import LogoutButton from "./logout-button";
+import {LogoutButton} from "~/auth/components/logout-button";
 
 import {Avatar, AvatarImage, AvatarFallback} from "@/components/ui/avatar";
 import {

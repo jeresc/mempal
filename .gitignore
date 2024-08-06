@@ -12,6 +12,9 @@
 /.next/
 /out/
 
+# db
+postgres_data
+
 # production
 /build
 
@@ -34,3 +37,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+.idea
+**/node_modules/*
+
+.runtimeconfig.json
+.firebase/
+
+# debug
+ui-debug.log
+firestore-debug.log
+firebase-debug.log

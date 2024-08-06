@@ -5,11 +5,11 @@ import {Outfit} from "next/font/google";
 import "./globals.css";
 import {SessionProvider} from "next-auth/react";
 
-import {Header} from "@/components/ui/header";
 import {Toaster} from "@/components/ui/sonner";
 import {cn} from "@/lib/utils";
 import {auth} from "@/auth";
 import {ThemeProvider} from "@/modules/theme/context";
+import ReactQueryProvider from "@/components/providers/react-query-provider";
 
 const outfit = Outfit({subsets: ["latin"], variable: "--font-outfit"});
 
@@ -52,21 +52,23 @@ export default async function RootLayout({children}: RootLayoutProps) {
 
   return (
     <SessionProvider session={session}>
-      <html className={cn(inter.variable, outfit.variable, "font-inter")} lang='en'>
-        <body className='m-auto grid min-h-screen max-w-7xl grid-rows-[auto,1fr,auto] px-4 antialiased lg:px-8'>
-          <ThemeProvider
-            disableTransitionOnChange
-            enableSystem
-            attribute='class'
-            defaultTheme='light'
-          >
-            <Header />
-            <main className='h-full py-12'>{children}</main>
-            <Toaster />
-            <footer className='px-2 text-center leading-[4rem] opacity-70'>
-              © {new Date().getFullYear()} Mempal
-            </footer>
-          </ThemeProvider>
+      <html
+        suppressHydrationWarning
+        className={cn(inter.variable, outfit.variable, "font-inter")}
+        lang='en'
+      >
+        <body className='m-auto grid h-full min-h-screen w-full grid-rows-[1fr,auto] antialiased'>
+          <ReactQueryProvider>
+            <ThemeProvider
+              disableTransitionOnChange
+              enableSystem
+              attribute='class'
+              defaultTheme='dark'
+            >
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </ReactQueryProvider>
         </body>
       </html>
     </SessionProvider>

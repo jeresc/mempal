@@ -1,6 +1,6 @@
 "use server";
 import * as z from "zod";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt-edge";
 
 import {
   deletePasswordResetTokenById,
@@ -45,7 +45,7 @@ export const newPassword = async (
     return {error: "Email does not exist!", success: ""};
   }
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+  const hashedPassword = bcrypt.hashSync(password, 12);
 
   await db.user.update({
     where: {id: existingUser.id},

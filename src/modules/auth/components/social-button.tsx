@@ -17,7 +17,7 @@ function SocialButton({provider, children}: SocialButtonProps) {
 
   return (
     <Button
-      className='flex h-11 w-full items-center justify-center gap-x-2 text-[15px] text-foreground/80 hover:bg-primary/10'
+      className='flex h-11 w-full items-center justify-center gap-x-2 text-[15px] leading-none hover:bg-primary/10'
       size='lg'
       variant='outline'
       onClick={() => onClick(provider)}

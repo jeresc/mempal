@@ -1,0 +1,32 @@
+"use client";
+import {motion} from "framer-motion";
+
+import {GradientBackground} from "~/landing/components/gradient-background";
+import {Pricing} from "~/landing/components/pricing";
+
+import {Footer} from "@/components/ui/footer";
+import {Header} from "@/components/ui/header";
+import {fadeInHorizontalOnce} from "@/utils/anim";
+
+export default function PricingPage() {
+  return (
+    <div className='flex h-full w-full flex-col items-center'>
+      <Header />
+      <GradientBackground />
+      <motion.div
+        className='container'
+        initial='initial'
+        variants={fadeInHorizontalOnce}
+        viewport={{
+          once: true,
+        }}
+        whileInView='animate'
+      >
+        <Pricing />
+      </motion.div>
+      <div className='w-full max-w-7xl px-4 py-12 sm:px-8'>
+        <Footer />
+      </div>
+    </div>
+  );
+}
