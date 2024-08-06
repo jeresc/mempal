@@ -2,6 +2,7 @@
 import {TrendingUp} from "lucide-react";
 import {Bar, BarChart, CartesianGrid, LabelList, XAxis} from "recharts";
 import dayjs from "dayjs";
+import {useEffect, useState} from "react";
 
 import {
   Card,
@@ -57,7 +58,7 @@ function ReviewCharts({reviewsByDay}: {reviewsByDay: ReviewsByDay[]}) {
         };
       } else {
         return {
-          day: review.day,
+          day,
           reviews: 0,
         };
       }
@@ -66,11 +67,13 @@ function ReviewCharts({reviewsByDay}: {reviewsByDay: ReviewsByDay[]}) {
 
   const {wish} = useDate();
 
+  if (!chartData.length) return null;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className='text-2xl'>{wish}</CardTitle>
-        <CardDescription>Reviews by day of the week</CardDescription>
+        <CardDescription>Reviews of the week by day</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer className='min-h-[200px] w-full' config={chartConfig}>
@@ -93,7 +96,7 @@ function ReviewCharts({reviewsByDay}: {reviewsByDay: ReviewsByDay[]}) {
             <Bar dataKey='reviews' fill='var(--color-reviews)' radius={8}>
               {/*
               <LabelList className='fill-foreground' fontSize={16} offset={12} position='top' />
-            */}
+              */}
             </Bar>
           </BarChart>
         </ChartContainer>

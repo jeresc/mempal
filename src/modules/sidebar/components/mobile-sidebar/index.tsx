@@ -49,7 +49,11 @@ function MobileSidebar() {
                   <ChevronsLeft size={24} />
                 </button>
               </TooltipTrigger>
-              <TooltipContent className='rounded-md bg-border p-1 px-2' side='right' sideOffset={4}>
+              <TooltipContent
+                className='rounded-md bg-secondary-background p-1 px-2'
+                side='right'
+                sideOffset={4}
+              >
                 <p className='text-sm text-foreground/80'>Unlock sidebar open</p>
               </TooltipContent>
             </Tooltip>
@@ -70,24 +74,24 @@ function MobileSidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <motion.button
-                className='group/menu fixed left-0 top-0 z-10 m-1 rounded-md hover:bg-border'
+                className='group/menu fixed left-0 top-0.5 z-10 m-1 rounded-md hover:bg-border'
                 type='button'
                 onClick={() => setIsLocked(true)}
                 onMouseEnter={() => setIsOpen(true)}
                 onMouseLeave={() => setIsOpen(false)}
               >
                 <ChevronsRight
-                  className='absolute left-0 top-0 m-[3px] opacity-0 transition-all duration-300 group-hover/menu:opacity-100 group-hover/menu:duration-200'
-                  size={28}
+                  className='absolute left-0 top-0 m-[3px] opacity-0 transition-all duration-0 group-hover/menu:opacity-100'
+                  size={26}
                 />
                 <Menu
-                  className='m-[3px] opacity-100 transition-all duration-100 group-hover/menu:opacity-0 group-hover/menu:duration-200'
-                  size={28}
+                  className='m-[3px] opacity-100 transition-all duration-0 group-hover/menu:opacity-0'
+                  size={26}
                 />
               </motion.button>
             </TooltipTrigger>
             <TooltipContent
-              className='z-90 rounded-md bg-border p-1 px-2'
+              className='z-10 rounded-md border border-border bg-secondary-background p-1 px-2'
               side='right'
               sideOffset={6}
             >

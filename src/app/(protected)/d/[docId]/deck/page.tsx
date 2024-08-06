@@ -130,7 +130,7 @@ export default function DeckPage() {
           <p className='leading-none'>Show answers</p>
 
           <Button asChild className='ml-2 h-7 px-2 py-1.5 leading-none'>
-            <Link href={`/flashcards/${document.deckId}`}>Review</Link>
+            <Link href={`/flashcards/${document.deckId}`}>Practice</Link>
           </Button>
         </div>
       </div>
