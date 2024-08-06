@@ -12,6 +12,6 @@ const openai = createOpenAI({
 });
 
 const model = google("models/gemini-1.5-pro-latest");
-// const model = openai("gpt-4o-mini");
+//const model = openai("gpt-4o-mini");
 
 export {model, openai};
