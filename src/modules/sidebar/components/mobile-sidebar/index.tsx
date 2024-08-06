@@ -27,7 +27,7 @@ function MobileSidebar() {
       <motion.div
         animate={isLocked ? "locked" : isOpen ? "open" : "closed"}
         className={cn(
-          "fixed left-0 top-0 z-10 flex h-full w-full max-w-[300px] flex-col gap-2 border border-border bg-[#181b20] px-1 text-foreground/80 sm:max-w-[248px]",
+          "fixed left-0 top-0 z-10 flex h-full w-full max-w-[300px] flex-col gap-2 border border-border bg-secondary-background px-1 text-foreground/80 sm:max-w-[248px]",
           isLocked && "border-r",
         )}
         initial={false}

@@ -7,7 +7,7 @@ function CreateButton() {
 
   return (
     <button
-      className='mt-0.5 flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-bold text-foreground hover:cursor-pointer hover:bg-primary/80'
+      className='mt-0.5 flex w-full items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-bold text-primary hover:cursor-pointer hover:bg-primary/10 dark:text-foreground dark:hover:bg-primary/80'
       type='button'
       onClick={() => router.push("/new-document")}
     >
