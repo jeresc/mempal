@@ -6,6 +6,8 @@ import {Cross1Icon} from "@radix-ui/react-icons";
 import {useAddDocument} from "~/document/hooks/use-add-document";
 import {useCreateDocument} from "~/document/store/create-document";
 import {useSidebarStore} from "~/sidebar/store/sidebar";
+import {useUpdateSubscription} from "~/subscription/hooks/use-update-subscription";
+import {useSubscription} from "~/subscription/hooks/use-subscription";
 
 import {generateFirestoreId} from "@/lib/utils/generate-id";
 import {Input} from "@/components/ui/input";
@@ -14,6 +16,8 @@ import {Button} from "@/components/ui/button";
 function TopicsSelector() {
   const router = useRouter();
   const {mutate: addDocument} = useAddDocument();
+  const {mutate: updateSubscription} = useUpdateSubscription();
+  const {subscription} = useSubscription();
   const [newTopic, setNewTopic] = React.useState("");
   const [file, text, charCount, topics, setTopics, reset, selectedRange] = useCreateDocument(
     (state) => [
@@ -31,6 +35,7 @@ function TopicsSelector() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!file) return;
+    if (!subscription) return;
 
     try {
       if (charCount > 50000 || !file || !text || !topics.length) return;
@@ -44,6 +49,11 @@ function TopicsSelector() {
         topics,
         startPage: selectedRange[0],
         endPage: selectedRange[1],
+      });
+      updateSubscription({
+        data: {
+          documentsCreated: subscription?.documentsCreated + 1,
+        },
       });
       reset();
       router.push(`/d/${docId}`);

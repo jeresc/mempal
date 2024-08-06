@@ -5,6 +5,8 @@ import {collection, query, where, getDocs, QuerySnapshot} from "firebase/firesto
 import {currentUser} from "~/auth/lib/auth";
 import {createMedia} from "~/media/api";
 import {createDeck} from "~/deck/api";
+import {getSubscription} from "~/subscription/api";
+import {findActiveSubscriptionByUserId} from "~/subscription/data";
 
 import {Document, FirestoreDocument} from "./types";
 import {addDocument, findDocumentByIds, updateDocument} from "./data";
@@ -40,6 +42,14 @@ export const createDocument = async (
   const user = await currentUser();
 
   if (!user) return {error: {message: "User not found"}};
+
+  const subscription = await findActiveSubscriptionByUserId(user.id!);
+
+  if (!subscription) return {error: {message: "Subscription not found"}};
+
+  if (subscription.documentsCreated >= 4) {
+    return {error: {message: "You have reached the maximum number of documents"}};
+  }
 
   const createMediaResult = await createMedia(file, text, startPage, endPage);
 
