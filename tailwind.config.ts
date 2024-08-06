@@ -67,6 +67,10 @@ const config = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        "secondary-background": {
+          DEFAULT: "hsl(var(--secondary-background))",
+          foreground: "hsl(var(--secondary-background-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
