@@ -23,7 +23,7 @@ const useUpdateSubscription = () => {
   const {mutate, isPending: isMutating} = useMutation({
     mutationFn,
     onMutate: async ({data: newData}) => {
-      await Promise.all([queryClient.cancelQueries({queryKey: ["subscription", userId]})]);
+      await Promise.all([queryClient.cancelQueries({queryKey: ["subscriptions", userId]})]);
 
       const oldSubscription = queryClient.getQueryData(["subscriptions", userId]);
 
