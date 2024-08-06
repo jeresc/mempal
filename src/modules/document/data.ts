@@ -3,6 +3,7 @@
 import {
   QuerySnapshot,
   Timestamp,
+  addDoc,
   collection,
   doc,
   documentId,
@@ -13,7 +14,9 @@ import {
   where,
 } from "firebase/firestore";
 
-import {Document, FirestoreDocument} from "./types";
+import {Message} from "~/chat/actions/continue-conversation";
+
+import {Chat, Document, FirestoreDocument} from "./types";
 
 import {getFirebase} from "@/lib/firebase";
 
@@ -55,5 +58,30 @@ export const updateDocument = async (
 
   await updateDoc(doc(firestore, "documents", docId), {
     ...data,
+  });
+};
+
+export const addChatToDocument = async (docId: string, chatData: {history: Message[]}) => {
+  const {firestore} = getFirebase();
+  const documentRef = doc(firestore, "documents", docId);
+  const chatCollectionRef = collection(documentRef, "chats");
+
+  await addDoc(chatCollectionRef, chatData);
+};
+
+export const getChatsByDocumentId = async (docId: string): Promise<Chat[]> => {
+  const {firestore} = getFirebase();
+  const documentRef = doc(firestore, "documents", docId);
+  const chatCollectionRef = collection(documentRef, "chats");
+
+  const querySnap = (await getDocs(chatCollectionRef)) as QuerySnapshot;
+
+  return querySnap.docs.map((doc) => {
+    const data = doc.data();
+
+    return {
+      id: doc.id,
+      history: data.history || [],
+    } as Chat;
   });
 };

@@ -2,15 +2,18 @@
 "use server";
 import {streamText} from "ai";
 import {createStreamableValue} from "ai/rsc";
+import {collection, addDoc, doc} from "firebase/firestore";
 
 import {model} from "~/ai/api";
+
+import {getFirebase} from "@/lib/firebase";
 
 export interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-export const continueConversation = async (history: Message[]) => {
+export const continueConversation = async (history: Message[], docId: string) => {
   "use server";
 
   const stream = createStreamableValue();
@@ -27,6 +30,8 @@ export const continueConversation = async (history: Message[]) => {
     `;
 
   (async () => {
+    const {firestore} = getFirebase();
+
     const {textStream} = await streamText({
       model,
       system: systemPrompt,
@@ -42,11 +47,30 @@ export const continueConversation = async (history: Message[]) => {
       },
     });
 
+    let assistantMessage = "";
+
     for await (const text of textStream) {
+      assistantMessage += text;
       stream.update(text);
     }
 
     stream.done();
+
+    console.log("Assistant message:", assistantMessage);
+
+    // if (!docId) {
+    //   throw new Error("docId is not provided");
+    // }
+
+    const documentRef = doc(firestore, "documents", docId);
+
+    const chatCollectionRef = collection(documentRef, "chats");
+
+    await addDoc(chatCollectionRef, {
+      history: [...history, {role: "assistant", content: assistantMessage}],
+    });
+
+    console.log("Message successfully added to Firestore");
   })();
 
   return {

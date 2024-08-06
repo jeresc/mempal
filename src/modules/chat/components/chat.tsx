@@ -1,18 +1,20 @@
 "use client";
 
 import {readStreamableValue} from "ai/rsc";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {FaArrowDown, FaArrowUp, FaStop} from "react-icons/fa";
 import ReactTextareaAutosize from "react-textarea-autosize";
+import {useParams} from "next/navigation";
 
 import {type Message, continueConversation} from "~/chat/actions/continue-conversation";
 import {MarkdownRenderer} from "~/chat/components/markdown-renderer";
+import {useAddChatMessage, useChat} from "~/document/hooks/use-chat";
 
 import {useSidebarStore} from "@/lib/store/sidebar";
 import {cn} from "@/lib/utils";
 
 function Chat() {
-  const [conversation, setConversation] = useState<Message[]>([]);
+  // const [conversation, setConversation] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,20 @@ function Chat() {
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
+  const params = useParams();
+  const docId = params.docId as string;
+
+  const {data: chatData, isLoading} = useChat(docId);
+  const addChatMessageMutation = useAddChatMessage();
+
+  const conversation: Message[] = useMemo(() => {
+    if (isLoading || !chatData ? [] : !chatData[0]?.history) {
+      return [];
+    }
+
+    return chatData?.[0].history || [];
+  }, [isLoading, chatData]);
+
   const handleSendMessageInRealTime = async () => {
     if (abortController) {
       abortController.abort();
@@ -34,10 +50,10 @@ function Chat() {
     setAbortController(newAbortController);
     setIsGenerating(true);
 
-    const {messages, newMessage} = await continueConversation([
-      ...conversation,
-      {role: "user", content: input},
-    ]);
+    const {messages, newMessage} = await continueConversation(
+      [...conversation, {role: "user", content: input}],
+      docId,
+    );
 
     setInput("");
 
@@ -52,7 +68,11 @@ function Chat() {
           break;
         }
         textContent += delta;
-        setConversation([...messages, {role: "assistant", content: textContent}]);
+
+        addChatMessageMutation.mutate({
+          docId,
+          history: [...messages, {role: "assistant", content: textContent}],
+        });
       }
       setIsGenerating(false);
     })();
