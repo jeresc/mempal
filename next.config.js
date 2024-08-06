@@ -5,7 +5,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: "50mb",
     },
-    optimizePackageImports: ["@radix-ui/react-icons"],
+    optimizePackageImports: ["@radix-ui/react-icons", "react-icons/*"],
   },
   /*
     "react-icons/md",

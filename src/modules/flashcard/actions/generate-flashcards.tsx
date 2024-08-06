@@ -11,6 +11,9 @@ export const generateFlashcards = async ({topics, text}: {topics: string[]; text
   "use server";
 
   const stream = createStreamableValue();
+  let flashcardsToGenerate = topics.length < 6 ? topics.length * 6 : topics.length * 4;
+
+  if (process.env.NODE_ENV !== "production") flashcardsToGenerate = topics.length;
 
   (async () => {
     const {partialObjectStream} = await streamObject({
@@ -18,7 +21,7 @@ export const generateFlashcards = async ({topics, text}: {topics: string[]; text
       prompt: `
       You are a question-answer pairs generator bot. You have been given a text and a list of topics. Your mission is to generate question-answer pairs for each topic that has been given to you.
 
-      The question must be a question that can be answered with the text. The answer must be an answer to the question. I gave you a list of ${topics.length} topics, so you must generate ${topics.length}.
+      The question must be a question that can be answered with the text. The answer must be an answer to the question. I gave you a list of ${topics.length} topics, so you must generate ${flashcardsToGenerate}.
 
       Here is the text:
       ${text}

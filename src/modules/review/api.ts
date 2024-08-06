@@ -1,7 +1,7 @@
 "use server";
 
 import {currentUser} from "~/auth/lib/auth";
-import {addReviews, findsReviews} from "~/review/data";
+import {addReviews, findReviews} from "~/review/data";
 
 import {Review} from "./types";
 
@@ -10,7 +10,7 @@ export const getReviews = async () => {
 
   if (!user) return {error: {message: "User not found"}};
 
-  const reviews = await findsReviews(user.id!);
+  const reviews = await findReviews(user.id!);
 
   return {success: {reviews}};
 };

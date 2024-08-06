@@ -48,7 +48,7 @@ export const addReviews = async (reviews: Omit<Review, "id">[]) => {
   };
 };
 
-export const findsReviews = async (userId: string) => {
+export const findReviews = async (userId: string) => {
   const {firestore} = getFirebase();
 
   const weekAgo = Timestamp.fromDate(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));

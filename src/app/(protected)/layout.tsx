@@ -78,7 +78,7 @@ export default function ProtectedLayout({children}: {children: React.ReactNode})
                     </button>
                   </TooltipTrigger>
                   <TooltipContent
-                    className='rounded-md bg-border p-1 px-2'
+                    className='z-20 rounded-md border bg-secondary-background p-1 px-2'
                     side='right'
                     sideOffset={4}
                   >

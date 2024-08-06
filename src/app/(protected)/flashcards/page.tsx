@@ -11,7 +11,7 @@ export interface ReviewsByDay {
 }
 
 export default function FlashcardsPage() {
-  const {reviews} = useReviews();
+  const {reviews, isPending: isPendingReviews} = useReviews();
   const [reviewsByDay, setReviewsByDay] = useState<ReviewsByDay[]>([]);
 
   useEffect(() => {
@@ -33,9 +33,11 @@ export default function FlashcardsPage() {
     setReviewsByDay(reviewsByDayArray);
   }, [reviews]);
 
+  if (isPendingReviews) return <div>Loading...</div>;
+
   return (
-    <section className='flex w-full flex-col gap-4 p-4'>
-      <ReviewCharts reviewsByDay={reviewsByDay} />
+    <section className='flex w-full gap-4 p-4'>
+      {reviewsByDay?.length > 0 && <ReviewCharts reviewsByDay={reviewsByDay} />}
     </section>
   );
 }

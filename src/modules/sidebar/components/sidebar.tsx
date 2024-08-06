@@ -38,7 +38,7 @@ function Sidebar() {
   }, [pathname, docId, setTabToggled]);
 
   return (
-    <aside className='flex h-full w-full flex-col gap-5 p-2 px-1 text-sm text-foreground/80'>
+    <aside className='flex h-full w-full flex-col gap-5 p-2 px-1 text-sm text-foreground/70 dark:text-foreground/80'>
       <AccountCapsule />
       <div className='flex w-full flex-col gap-0.5'>
         {links.map(({href, icon, text}) => (
@@ -48,6 +48,7 @@ function Sidebar() {
       </div>
       {error ? <p>An error has occurred: {error.message}</p> : null}
       <div className='flex flex-col gap-0.5'>
+        <p className='py-1 pl-1 text-sm text-foreground/50'>Documents</p>
         {/*eslint-disable-next-line react/no-array-index-key*/}
         {isPending ? [...Array(10)].map((_, i) => <DocumentItemSkeleton key={i} />) : null}
         {documents?.length > 0 &&
