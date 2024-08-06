@@ -10,7 +10,7 @@ import {useReviewFlashcards} from "../store/review-flashcards";
 
 export type PossibleReview = {
   card: Flashcard & {grade: Grade};
-  log: Review;
+  log: Omit<Review, "id" | "userId">;
 };
 
 interface ReviewFlashcardCardProps {

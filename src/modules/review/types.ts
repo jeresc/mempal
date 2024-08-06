@@ -16,7 +16,7 @@ export type FirestoreReview = {
   reviewedAt: Timestamp; // Date of the review
 };
 
-export type Review = Omit<FirestoreReview, "reviewedAt" | "dueAt" | "createdAt"> & {
+export type Review = Omit<FirestoreReview, "reviewedAt" | "dueAt"> & {
   reviewedAt: Date;
   dueAt: Date;
 };

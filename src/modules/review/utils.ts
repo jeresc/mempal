@@ -2,7 +2,9 @@ import {ReviewLog} from "ts-fsrs";
 
 import {Review} from "~/review/types";
 
-export const adaptFsrsToReview = (review: ReviewLog): Omit<Review, "flashcardId" | "deckId"> => {
+export const adaptFsrsToReview = (
+  review: ReviewLog,
+): Omit<Review, "flashcardId" | "deckId" | "userId"> => {
   const {
     elapsed_days,
     last_elapsed_days,
