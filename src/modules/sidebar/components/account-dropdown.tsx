@@ -23,12 +23,12 @@ function AccountDropdown({children}: {children: React.ReactNode}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className='w-56 bg-background'>
+      <DropdownMenuContent className='w-56 bg-secondary-background'>
         <DropdownMenuGroup>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent className='-mt-1 ml-2 bg-background'>
+              <DropdownMenuSubContent className='-mt-1 ml-2 bg-secondary-background'>
                 <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
                   <DropdownMenuRadioItem value='light'>Light</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value='dark'>Dark</DropdownMenuRadioItem>

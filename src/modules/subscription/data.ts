@@ -73,7 +73,7 @@ export const addSubscription = async (id: string = generateFirestoreId(), userId
     userId,
     tier: Tier.Free,
     documentsCreated: 0,
-    createdAt: timestamp,
+    createdAt: timestamp.toDate(),
   };
 };
 
