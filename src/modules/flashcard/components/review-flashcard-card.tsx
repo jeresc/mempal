@@ -7,7 +7,7 @@ import {ChevronLeft} from "lucide-react";
 import {formatDate} from "~/flashcard/utils";
 import {Flashcard} from "~/flashcard/types";
 
-import {useReviewCard} from "../hooks/use-review-card";
+import {PossibleReview, useReviewCard} from "../hooks/use-review-card";
 
 import {Button} from "@/components/ui/button";
 import {cn} from "@/lib/utils/cn";
@@ -21,7 +21,7 @@ const rating: Record<number, {label: string; color: string}> = {
 
 interface ReviewFlashcardCardProps {
   flashcard: Flashcard;
-  onReview: (flashcard: Flashcard & {grade: Grade}) => void;
+  onReview: (review: PossibleReview) => void;
   onBack: () => void;
   currentFlashcardIndex: number;
   dueFlashcardsLength: number;
@@ -82,7 +82,9 @@ function ReviewFlashcardCard({
           <div className='flex flex-col gap-1 sm:flex-row'>
             {possibleReviews.map((possibleReview, index) => {
               const {label, color} = rating[index + 1];
-              const {dueAt, id, grade} = possibleReview;
+              const {
+                card: {dueAt, id, grade},
+              } = possibleReview;
 
               return (
                 <Button

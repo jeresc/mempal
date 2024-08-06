@@ -12,21 +12,21 @@ import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components
 import {cn} from "@/lib/utils/cn";
 
 const asciiArtArray = [
-  "                _                       ",
-  "                \\`*-.                   ",
-  "                 )  _`-.                ",
-  "                .  : `. .               ",
-  "                : _   '  \\              ",
-  "                ; *` _.   `*-._         ",
-  "                `-.-'          `-.      ",
-  "                  ;       `       `.    ",
-  "                  :.       .        \\   ",
-  "                  . \\  .   :   .-'   .  ",
-  "                  '  `+.;  ;  '      :  ",
-  "                  :  '  |    ;       ;-. ",
-  "                  ; '   : :`-:     _.`* ; ",
-  "      [aletin] .*' /  .*' ; .*`- +'  `*' ",
-  "               `*-*   `*-*  `*-*'        ",
+  "                _",
+  "                \\`*-.",
+  "                 )  _`-.",
+  "                .  : `. .",
+  "                : _   '  \\",
+  "                ; *` _.   `*-._",
+  "                `-.-'          `-.",
+  "                  ;       `       `.",
+  "                  :.       .        \\",
+  "                  . \\  .   :   .-'   .",
+  "                  '  `+.;  ;  '      :",
+  "                  :  '  |    ;       ;-.",
+  "                  ; '   : :`-:     _.`* ;",
+  "      [aletin] .*' /  .*' ; .*`- +'  `*'",
+  "               `*-*   `*-*  `*-*'",
 ];
 
 export default function ProtectedLayout({children}: {children: React.ReactNode}) {

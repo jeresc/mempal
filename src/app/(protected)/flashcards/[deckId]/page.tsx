@@ -10,8 +10,6 @@ import {useFlashcardsByDeck} from "~/flashcard/hooks/use-flashcards-by-deck";
 import {useReviewFlashcards} from "~/flashcard/store/review-flashcards";
 import {ReviewQueueSkeleton} from "~/flashcard/components/review-queue-skeleton";
 
-import {Skeleton} from "@/components/ui/skeleton";
-
 export default function DeckReviewPage() {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -26,18 +24,21 @@ export default function DeckReviewPage() {
     currentFlashcardIndex,
     setCurrentFlashcardIndex,
     setDueFlashcards,
+    setLogs,
   ] = useReviewFlashcards((state) => [
     state.dueFlashcards,
     state.upsertDueFlashcard,
     state.currentFlashcardIndex,
     state.setCurrentFlashcardIndex,
     state.setDueFlashcards,
+    state.setLogs,
   ]);
 
   useEffect(() => {
     setDueFlashcards([]);
+    setLogs([]);
     setCurrentFlashcardIndex(-1);
-  }, [deckId, setDueFlashcards, setCurrentFlashcardIndex]);
+  }, [deckId, setDueFlashcards, setCurrentFlashcardIndex, setLogs]);
 
   useEffect(() => {
     setIsMounted(true);

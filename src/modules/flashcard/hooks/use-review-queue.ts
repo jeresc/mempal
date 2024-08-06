@@ -1,10 +1,11 @@
 import confetti from "canvas-confetti";
-import {Grade} from "ts-fsrs";
 import {useEffect} from "react";
 
 import {useReviewFlashcards} from "~/flashcard/store/review-flashcards";
-import {Flashcard} from "~/flashcard/types";
 import {useUpdateFlashcards} from "~/flashcard/hooks/use-update-flashcards";
+import {useAddReviews} from "~/review/hooks/use-add-reviews";
+
+import {PossibleReview} from "./use-review-card";
 
 const useReviewQueue = ({deckId}: {deckId: string}) => {
   const [
@@ -17,6 +18,9 @@ const useReviewQueue = ({deckId}: {deckId: string}) => {
     dueFlashcards,
     setDueFlashcards,
     setCurrentFlashcardIndex,
+    logs,
+    setLogs,
+    addLog,
   ] = useReviewFlashcards((state) => [
     state.currentFlashcardIndex,
     state.reviewedFlashcards,
@@ -27,8 +31,12 @@ const useReviewQueue = ({deckId}: {deckId: string}) => {
     state.dueFlashcards,
     state.setDueFlashcards,
     state.setCurrentFlashcardIndex,
+    state.logs,
+    state.setLogs,
+    state.addLog,
   ]);
-  const {mutate} = useUpdateFlashcards({deckId});
+  const {mutate: updateFlashcards} = useUpdateFlashcards({deckId});
+  const {mutate: addReviews} = useAddReviews();
 
   useEffect(() => {
     if (
@@ -49,23 +57,42 @@ const useReviewQueue = ({deckId}: {deckId: string}) => {
         return {...rest};
       });
 
-      mutate({flashcards: updatedFlashcards});
+      updateFlashcards({flashcards: updatedFlashcards});
+      addReviews({reviews: logs});
+
       setReviewedFlashcards([]);
       setDueFlashcards([]);
+      setLogs([]);
     }
-  }, [reviewedFlashcards, dueFlashcards.length, mutate]);
+  }, [
+    reviewedFlashcards,
+    dueFlashcards.length,
+    updateFlashcards,
+    setDueFlashcards,
+    setReviewedFlashcards,
+    addReviews,
+    logs,
+    setLogs,
+  ]);
 
-  const onReview = (flashcard: Flashcard & {grade: Grade}) => {
+  const onReview = (review: PossibleReview) => {
     nextFlashcard(dueFlashcards.length);
-    const reviewedFlashcardIndex = reviewedFlashcards.findIndex(({id}) => id === flashcard.id);
 
-    if (reviewedFlashcardIndex === -1) addReviewedFlashcard(flashcard);
-    else
+    const {card: flashcard, log} = review;
+    const reviewedFlashcardIndex = reviewedFlashcards.findIndex(({id}) => id === flashcard.id);
+    const logIndex = logs.findIndex(({flashcardId}) => flashcardId === flashcard.id);
+
+    if (reviewedFlashcardIndex === -1) {
+      addReviewedFlashcard(flashcard);
+    } else
       setReviewedFlashcards((prev) => [
         ...prev.slice(0, reviewedFlashcardIndex),
         flashcard,
         ...prev.slice(reviewedFlashcardIndex + 1),
       ]);
+
+    if (logIndex === -1) addLog(log);
+    else setLogs((prev) => [...prev.slice(0, logIndex), log, ...prev.slice(logIndex + 1)]);
   };
 
   const onBack = () => {

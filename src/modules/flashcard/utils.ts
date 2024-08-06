@@ -1,6 +1,6 @@
 import dayjs, {UnitType} from "dayjs";
 import compare from "just-compare";
-import {Card, Grade, Grades, State, fsrs} from "ts-fsrs";
+import {Card, Grade, Grades, ReviewLog, State, fsrs} from "ts-fsrs";
 
 import {Flashcard} from "~/flashcard/types";
 
@@ -67,26 +67,32 @@ export const adaptCardToFlashcard = <T extends Card>(
   };
 };
 
-type PossibleReviews = {
-  possibleCards: (Card &
-    Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays"> & {grade: Grade})[];
+type PossibleReview = {
+  card: Card & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays"> & {grade: Grade};
+  log: ReviewLog & {deckId: string; flashcardId: string};
 };
 
 export const getPossibleReviews = (flashcard: Flashcard) => {
   const f = fsrs();
-  const possibleCards: PossibleReviews["possibleCards"] = [];
+  const possibleReviews: PossibleReview[] = [];
 
   const scheduledCards = f.repeat(adaptFlashcardToFsrs(flashcard), new Date());
 
   Grades.forEach((grade) => {
-    const {card} = scheduledCards[grade] as unknown as {
+    const {card, log} = scheduledCards[grade] as unknown as {
       card: Card & Omit<Flashcard, "dueAt" | "lastReviewedAt" | "scheduledDays">;
+      log: ReviewLog;
     };
 
-    possibleCards.push({...card, grade});
+    const possibleReview: PossibleReview = {
+      card: {...card, grade},
+      log: {...log, deckId: flashcard.deckId, flashcardId: flashcard.id},
+    };
+
+    possibleReviews.push(possibleReview);
   });
 
-  return {possibleCards};
+  return {possibleReviews};
 };
 
 export const formatDate = (date: Date, now: Date) => {

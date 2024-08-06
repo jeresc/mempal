@@ -3,21 +3,24 @@ import {useEffect, useState} from "react";
 
 import {Flashcard} from "~/flashcard/types";
 import {adaptCardToFlashcard, getPossibleReviews} from "~/flashcard/utils";
+import {adaptFsrsToReview} from "~/review/utils";
+import {Review} from "~/review/types";
 
 import {useReviewFlashcards} from "../store/review-flashcards";
 
-export type PossibleReview = Flashcard & {grade: Grade};
-
-export type PossibleReviews = PossibleReview[];
+export type PossibleReview = {
+  card: Flashcard & {grade: Grade};
+  log: Review;
+};
 
 interface ReviewFlashcardCardProps {
   flashcard: Flashcard;
-  onReview: (flashcard: Flashcard & {grade: Grade}) => void;
+  onReview: (review: PossibleReview) => void;
   onBack: () => void;
 }
 
 const useReviewCard = ({flashcard, onReview, onBack}: ReviewFlashcardCardProps) => {
-  const [possibleReviews, setPossibleReviews] = useState<PossibleReviews>([]);
+  const [possibleReviews, setPossibleReviews] = useState<PossibleReview[]>([]);
   const [now, setNow] = useState<null | Date>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [reviewedFlashcards] = useReviewFlashcards((state) => [state.reviewedFlashcards]);
@@ -26,14 +29,25 @@ const useReviewCard = ({flashcard, onReview, onBack}: ReviewFlashcardCardProps) 
 
   useEffect(() => {
     setNow(new Date());
-    const {possibleCards} = getPossibleReviews(flashcard);
+    const {possibleReviews} = getPossibleReviews(flashcard);
 
+    const reviews = possibleReviews.map(({card, log}) => {
+      const {grade, ...fsrsCard} = card;
+
+      return {
+        card: {...adaptCardToFlashcard(fsrsCard), grade},
+        log: {...adaptFsrsToReview(log), flashcardId: flashcard.id, deckId: flashcard.deckId},
+      };
+    });
+
+    /*
     const flashcards = possibleCards.map(({grade, ...card}) => ({
       ...adaptCardToFlashcard(card),
       grade,
     }));
+    */
 
-    setPossibleReviews(flashcards);
+    setPossibleReviews(reviews);
   }, [flashcard]);
 
   useEffect(() => {

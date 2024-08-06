@@ -2,14 +2,16 @@ import {create} from "zustand";
 import {Grade} from "ts-fsrs";
 
 import {Flashcard} from "../types";
+import {PossibleReview} from "../hooks/use-review-card";
 
 type ReactStyleStateSetter<T> = T | ((prev: T) => T);
 
 interface ReviewFlashcardsState {
   currentFlashcardIndex: number;
   dueFlashcards: Flashcard[];
-  reviewedFlashcards: (Flashcard & {grade: Grade})[];
-  possibleReviews: (Flashcard & {grade: Grade})[];
+  reviewedFlashcards: PossibleReview["card"][];
+  possibleReviews: PossibleReview["card"][];
+  logs: PossibleReview["log"][];
 }
 
 interface ReviewFlashcardsActions {
@@ -24,11 +26,14 @@ interface ReviewFlashcardsActions {
   setDueFlashcards: (dueFlashcards: Flashcard[]) => void;
   upsertDueFlashcard: (dueFlashcard: Flashcard) => void;
   reset: () => void;
+  setLogs: (newArrOrSetterFn: ReactStyleStateSetter<PossibleReview["log"][]>) => void;
+  addLog: (log: PossibleReview["log"]) => void;
 }
 
 const initialState: ReviewFlashcardsState = {
   currentFlashcardIndex: -1,
   reviewedFlashcards: [],
+  logs: [],
   possibleReviews: [],
   dueFlashcards: [],
 };
@@ -67,5 +72,12 @@ export const useReviewFlashcards = create<ReviewFlashcardsState & ReviewFlashcar
 
         return {dueFlashcards: state.dueFlashcards};
       }),
+    setLogs: (newArrOrSetterFn) => {
+      set((state) => ({
+        logs:
+          typeof newArrOrSetterFn === "function" ? newArrOrSetterFn(state.logs) : newArrOrSetterFn,
+      }));
+    },
+    addLog: (log) => set((state) => ({logs: [...state.logs, log]})),
   }),
 );

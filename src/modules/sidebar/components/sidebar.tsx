@@ -49,7 +49,7 @@ function Sidebar() {
       {error ? <p>An error has occurred: {error.message}</p> : null}
       <div className='flex flex-col gap-0.5'>
         {/*eslint-disable-next-line react/no-array-index-key*/}
-        {isPending ? [...Array(5)].map((_, i) => <DocumentItemSkeleton key={i} />) : null}
+        {isPending ? [...Array(10)].map((_, i) => <DocumentItemSkeleton key={i} />) : null}
         {documents?.length > 0 &&
           documents.map(({id, title}) => (
             <DocumentItem key={id} id={id} pathname={pathname} title={title} />

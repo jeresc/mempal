@@ -21,8 +21,10 @@ export default function DocumentPage() {
   if (errorDoc) return <div>Error: {errorDoc?.message}</div>;
 
   return (
-    <main className='flex h-full w-full flex-col gap-2'>
-      <EditableTitle id={document.id!} title={document.title!} />
+    <main className='flex h-full w-full flex-col gap-2 pt-8'>
+      <header className='rounded-md border border-border px-4 py-2'>
+        <EditableTitle id={document.id!} title={document.title!} />
+      </header>
       <PdfViewer endPage={media.endPage!} file={document.mediaUrl!} startPage={media.startPage!} />
     </main>
   );

@@ -3,9 +3,6 @@ import {Skeleton} from "@/components/ui/skeleton";
 
 const tabs = ["chat", "deck"];
 
-const randomWidthBetween = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min + 1) + min);
-
 function DocumentItemSkeleton() {
   return (
     <div className='flex flex-col gap-0.5'>
@@ -17,7 +14,7 @@ function DocumentItemSkeleton() {
         <div className='flex h-full w-full items-center justify-start gap-2'>
           <Skeleton className='h-4 w-4' />
 
-          <Skeleton className='h-4 ' style={{width: `${randomWidthBetween(60, 85)}%`}} />
+          <Skeleton className='h-4' randomWidth={[60, 85]} />
         </div>
       </span>
       <ul className='flex flex-col gap-0.5'>
