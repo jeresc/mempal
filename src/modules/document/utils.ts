@@ -1,5 +1,4 @@
 import {pdfjs} from "react-pdf";
-import {toast} from "sonner";
 
 const pdfToText = async (file: File | Blob | MediaSource): Promise<string[]> => {
   const blobUrl = URL.createObjectURL(file);
@@ -34,7 +33,7 @@ const pdfToText = async (file: File | Blob | MediaSource): Promise<string[]> => 
     return pageTexts;
   } catch (error) {
     hadParsingError = true;
-    toast.error("Error extracting text from PDF: " + error);
+    // toast.error("Error extracting text from PDF: " + error);
   }
 
   // Clean up the blob URL

@@ -1,5 +1,4 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {toast} from "sonner";
 
 import {addFlashcardsToDeck} from "~/flashcard/data";
 import {Flashcard} from "~/flashcard/types";
@@ -42,7 +41,7 @@ const useAddFlashcards = ({deckId}: {deckId: string}) => {
       return {previousFlashcards};
     },
     onSuccess: () => {
-      toast.success("Flashcards added successfully");
+      // toast.success("Flashcards added successfully");
     },
     onError: (error, _, context) => {
       console.error("Error adding flashcards:", error);

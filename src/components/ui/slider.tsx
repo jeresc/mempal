@@ -26,7 +26,7 @@ const Slider = React.forwardRef<
       {Boolean(selectedValues[0]) && (
         <Badge
           className={cn(
-            "absolute bottom-5 right-1/2 translate-x-1/2 rounded-sm bg-primary px-1.5 py-1 font-semibold tabular-nums leading-none text-foreground transition-all duration-200",
+            "absolute bottom-5 right-1/2 translate-x-1/2 rounded-sm bg-primary px-1.5 py-1 font-semibold tabular-nums leading-none text-white transition-all duration-200",
             selectedValues[1] - selectedValues[0] < 13 &&
               props.max! > 100 &&
               selectedValues[0] != selectedValues[1] &&
@@ -42,7 +42,7 @@ const Slider = React.forwardRef<
       {Boolean(selectedValues[1]) && (
         <Badge
           className={cn(
-            "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-sm bg-primary px-1.5 py-1 font-semibold tabular-nums leading-none text-foreground transition-all duration-200",
+            "absolute bottom-5 left-1/2 -translate-x-1/2 rounded-sm bg-primary px-1.5 py-1 font-semibold tabular-nums leading-none text-white transition-all duration-200",
             selectedValues[1] - selectedValues[0] < 13 &&
               props.max! > 100 &&
               selectedValues[0] != selectedValues[1] &&

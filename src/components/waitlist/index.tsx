@@ -6,7 +6,6 @@ import type {SubmitErrorHandler} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import confetti from "canvas-confetti";
-import {toast} from "sonner";
 import {LoaderCircle, MailWarning} from "lucide-react";
 import {useTransition} from "react";
 
@@ -38,11 +37,6 @@ function WaitlistForm() {
       registerWaitlistUser(values)
         .then((data) => {
           if (data.error) {
-            toast(
-              <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
-                <MailWarning size={18} /> <p>{data.error}</p>
-              </div>,
-            );
           }
 
           if (data.success) {
@@ -58,22 +52,12 @@ function WaitlistForm() {
         })
         .catch(() => {
           form.reset();
-          toast(
-            <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
-              <MailWarning size={18} /> <p>Something went wrong, try again later</p>
-            </div>,
-          );
         });
     });
   }
 
   const onError: SubmitErrorHandler<z.infer<typeof WaitlistSchema>> = (errors) => {
-    if (errors.email)
-      toast(
-        <div className='flex items-center gap-2 font-outfit text-base leading-none text-[#0009]'>
-          <MailWarning size={18} /> <p>{errors.email.message}</p>
-        </div>,
-      );
+    if (errors.email) return;
   };
 
   return (

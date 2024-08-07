@@ -16,9 +16,10 @@ function SelectionPopover({
       <Selection.Portal container={container}>
         <Selection.Content
           className={cn(
-            "z-[999] flex w-full min-w-max gap-1 rounded-md bg-foreground p-1 text-slate-600/80 shadow-lg shadow-[#0005]",
+            "z-[999] flex w-full min-w-max gap-1 rounded-lg bg-white p-1 text-slate-600/80 shadow-md shadow-[#0005]",
             "data-[state=closed]:animate-slide-up-and-fade data-[state=open]:animate-slide-down-and-fade",
           )}
+          sideOffset={4}
         >
           <button
             className='h-full w-full rounded-sm px-1.5 py-1 text-base hover:bg-primary/10'
@@ -32,7 +33,7 @@ function SelectionPopover({
           >
             <MessageSquareQuote size={18} />
           </button>
-          <Selection.Arrow className='fill-foreground' />
+          <Selection.Arrow className='fill-white' />
         </Selection.Content>
       </Selection.Portal>
       <Selection.Trigger>{children}</Selection.Trigger>

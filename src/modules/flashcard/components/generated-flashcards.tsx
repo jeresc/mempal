@@ -18,20 +18,16 @@ function GeneratedFlashcard({
         "flex min-h-[146px] flex-col justify-between gap-2 rounded-md border border-border p-4 transition-all duration-300",
       )}
     >
-      {question !== undefined ? (
-        <h3>{question}</h3>
-      ) : (
-        <Skeleton className='h-4 w-[72%] bg-zinc-800' />
-      )}
+      {question !== undefined ? <h3>{question}</h3> : <Skeleton className='h-4 w-[72%]' />}
       {answer !== undefined ? (
         <p className='min-h-12 self-start'>{answer}</p>
       ) : (
         <div className='flex flex-col gap-1'>
-          <Skeleton className='h-5 w-[87%] bg-zinc-800' />
-          <Skeleton className='h-5 w-[59%] bg-zinc-800' />
+          <Skeleton className='h-5 w-[87%]' />
+          <Skeleton className='h-5 w-[59%]' />
         </div>
       )}
-      {topic?.length !== undefined ? <p>{topic}</p> : <Skeleton className='h-4 w-36 bg-zinc-800' />}
+      {topic?.length !== undefined ? <p>{topic}</p> : <Skeleton className='h-4 w-36' />}
     </motion.div>
   );
 }

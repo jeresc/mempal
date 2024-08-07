@@ -11,12 +11,18 @@ interface SidebarState {
   toggleLocked: () => void;
   setTabToggled: (newStringOrSetterFn: ReactStyleStateSetter<string>) => void;
   tabToggled: string;
+  lockedPercentage: number;
+  setLockedPercentage: (newPercentage: number) => void;
 }
 
 export const useSidebarStore = create<SidebarState>()((set) => ({
   isOpen: false,
   isLocked: false,
   tabToggled: "",
+  lockedPercentage: 0,
+  setLockedPercentage: (newPercentage) => {
+    set({lockedPercentage: newPercentage});
+  },
   setIsOpen: (state) => {
     set({isOpen: state});
   },

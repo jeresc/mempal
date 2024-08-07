@@ -16,7 +16,7 @@ function FlashcardCard(flashcard: FlashcardCardProps) {
   return (
     <motion.article
       className={cn(
-        "flex flex-col justify-between gap-2 rounded-md border border-border p-4 text-xs ",
+        "flex flex-col justify-between gap-2 rounded-xl border border-border p-4 text-xs ",
       )}
     >
       <p>{flashcard.topic}</p>

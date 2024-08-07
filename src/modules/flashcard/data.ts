@@ -5,15 +5,17 @@ import {
   Timestamp,
   collection,
   doc,
-  documentId,
   getDocs,
+  limit,
+  orderBy,
   query,
+  startAt,
   updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
 
-import {Deck, FirestoreDeck} from "~/deck/types";
+import {Deck} from "~/deck/types";
 import {FirestoreFlashcard, Flashcard} from "~/flashcard/types";
 
 import {getFirebase} from "@/lib/firebase";
@@ -94,6 +96,41 @@ export const findFlashcardsByDeckId = async (deckId: Deck["id"]) => {
   const flashcardsRef = collection(docRef, "flashcards");
 
   const q = query(flashcardsRef, where("deckId", "==", deckId));
+
+  const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreFlashcard>;
+
+  return querySnap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+    createdAt: doc.data().createdAt.toDate(),
+    dueAt: doc.data().dueAt?.toDate(),
+    lastReviewedAt: doc.data().lastReviewedAt?.toDate(),
+  }));
+};
+
+export const findFlashcardsByPage = async ({
+  deckId,
+  page,
+  perPage,
+  order,
+}: {
+  deckId: Deck["id"];
+  page: number;
+  perPage: number;
+  order: "desc" | "asc";
+}) => {
+  const {firestore} = getFirebase();
+
+  const docRef = doc(firestore, "decks", deckId);
+  const flashcardsRef = collection(docRef, "flashcards");
+
+  const q = query(
+    flashcardsRef,
+    orderBy("createdAt", order),
+    where("deckId", "==", deckId),
+    limit(perPage),
+    startAt(page),
+  );
 
   const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreFlashcard>;
 

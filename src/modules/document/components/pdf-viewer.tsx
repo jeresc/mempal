@@ -63,7 +63,7 @@ function PdfViewer({file, startPage, endPage}: PdfViewerProps) {
   const rendererRef = useRef<HTMLDivElement>(null);
 
   return (
-    <article className='relative flex h-full flex-col gap-2 rounded-md border border-border p-4 selection:bg-primary selection:text-white'>
+    <article className='relative flex h-full flex-col gap-2 rounded-md border border-border p-2 selection:bg-primary selection:text-white sm:p-4'>
       {file && startPage && endPage ? (
         <>
           <header className='flex items-center justify-between gap-2'>
@@ -101,7 +101,7 @@ function PdfViewer({file, startPage, endPage}: PdfViewerProps) {
           <SelectionPopover container={rendererRef.current!}>
             <section ref={rendererRef}>
               <Document
-                className='aspect-[6/7] max-h-[840px] w-full overflow-auto rounded-md bg-white'
+                className='aspect-[6/7] max-h-[840px] w-full overflow-auto rounded-md border border-border bg-white'
                 file={file}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
@@ -117,7 +117,6 @@ function PdfViewer({file, startPage, endPage}: PdfViewerProps) {
           </SelectionPopover>
         </>
       ) : null}
-      <p>{selectedText}</p>
     </article>
   );
 }

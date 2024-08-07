@@ -4,7 +4,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Loader2} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {toast} from "sonner";
 
 import {changePassword} from "~/auth/actions/change-password";
 import {FormError} from "~/auth/components/form-error";
@@ -57,7 +56,7 @@ export function ChangePasswordDialog() {
           }
 
           if (data.success) {
-            toast.success(data.success);
+            // toast.success(data.success);
             setOpen(false);
             form.reset();
           }

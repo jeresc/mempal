@@ -22,7 +22,7 @@ export default function DocumentPage() {
 
   return (
     <main className='flex h-full w-full flex-col gap-2'>
-      <header className='rounded-md border border-border px-4 py-2'>
+      <header className='rounded-md border border-border px-2 py-1 sm:px-4 sm:py-2'>
         <EditableTitle id={document.id!} title={document.title!} />
       </header>
       <PdfViewer endPage={media.endPage!} file={document.mediaUrl!} startPage={media.startPage!} />

@@ -1,5 +1,4 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {toast} from "sonner";
 
 import {Review} from "~/review/types";
 import {createReviews} from "~/review/api";
@@ -32,7 +31,7 @@ const useAddReviews = () => {
       return {previousReviews};
     },
     onSuccess: () => {
-      toast.success("Reviews added successfully");
+      // toast.success("Reviews added successfully");
     },
     onError: (error, _, context) => {
       console.error("Error adding flashcards:", error);

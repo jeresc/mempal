@@ -25,6 +25,9 @@ const config = {
       padding: "2rem",
     },
     extend: {
+      padding: {
+        "1.25": "0.3125rem",
+      },
       fontFamily: {
         inter: [
           "var(--font-inter)",

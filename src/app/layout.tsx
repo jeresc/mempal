@@ -5,7 +5,7 @@ import {Outfit} from "next/font/google";
 import "./globals.css";
 import {SessionProvider} from "next-auth/react";
 
-import {Toaster} from "@/components/ui/sonner";
+import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
 import {auth} from "@/auth";
 import {ThemeProvider} from "@/modules/theme/context";
@@ -65,8 +65,8 @@ export default async function RootLayout({children}: RootLayoutProps) {
               attribute='class'
               defaultTheme='system'
             >
-              <Toaster />
               {children}
+              <Toaster />
             </ThemeProvider>
           </ReactQueryProvider>
         </body>

@@ -23,6 +23,7 @@ const nextConfig = {
 
     return config;
   },
+  transpilePackages: ["lucide-react"],
 };
 
 module.exports = nextConfig;

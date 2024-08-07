@@ -28,7 +28,7 @@ function AccountDropdown({children}: {children: React.ReactNode}) {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
             <DropdownMenuPortal>
-              <DropdownMenuSubContent className='-mt-1 ml-2 bg-secondary-background'>
+              <DropdownMenuSubContent className='-mt-1 ml-1.5 bg-secondary-background'>
                 <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
                   <DropdownMenuRadioItem value='light'>Light</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value='dark'>Dark</DropdownMenuRadioItem>
