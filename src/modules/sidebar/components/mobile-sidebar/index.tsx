@@ -1,7 +1,6 @@
 "use client";
 import {motion} from "framer-motion";
 import {ChevronsRight, ChevronsLeft, Menu} from "lucide-react";
-import {useMediaQuery} from "usehooks-ts";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@radix-ui/react-tooltip";
 
 import {useSidebarStore} from "~/sidebar/store/sidebar";
@@ -11,6 +10,7 @@ import {Sidebar} from "../sidebar";
 import {transition, largeVariants, smallVariants} from "./anim";
 
 import {cn} from "@/lib/utils/cn";
+import {useIsSmall} from "@/lib/hooks/use-is-small";
 
 function MobileSidebar() {
   const [isOpen, isLocked, setIsOpen, setIsLocked] = useSidebarStore((state) => [
@@ -19,7 +19,7 @@ function MobileSidebar() {
     state.setIsOpen,
     state.setIsLocked,
   ]);
-  const isSmall = useMediaQuery("(max-width: 860px)");
+  const {isSmall} = useIsSmall();
   const variants = isSmall ? smallVariants : largeVariants;
 
   return (
@@ -85,7 +85,7 @@ function MobileSidebar() {
                   size={26}
                 />
                 <Menu
-                  className='m-[3px] opacity-100 transition-all duration-0 group-hover/menu:opacity-0'
+                  className='m-[3px] h-[26px] w-[26px] opacity-100 transition-all duration-0 group-hover/menu:opacity-0'
                   size={26}
                 />
               </motion.button>

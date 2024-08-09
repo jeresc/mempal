@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  startAfter,
   startAt,
   updateDoc,
   where,
@@ -95,7 +96,7 @@ export const findFlashcardsByDeckId = async (deckId: Deck["id"]) => {
   const docRef = doc(firestore, "decks", deckId);
   const flashcardsRef = collection(docRef, "flashcards");
 
-  const q = query(flashcardsRef, where("deckId", "==", deckId));
+  const q = query(flashcardsRef);
 
   const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreFlashcard>;
 
@@ -110,12 +111,12 @@ export const findFlashcardsByDeckId = async (deckId: Deck["id"]) => {
 
 export const findFlashcardsByPage = async ({
   deckId,
-  page,
+  start,
   perPage,
   order,
 }: {
   deckId: Deck["id"];
-  page: number;
+  start: number;
   perPage: number;
   order: "desc" | "asc";
 }) => {
@@ -124,13 +125,7 @@ export const findFlashcardsByPage = async ({
   const docRef = doc(firestore, "decks", deckId);
   const flashcardsRef = collection(docRef, "flashcards");
 
-  const q = query(
-    flashcardsRef,
-    orderBy("createdAt", order),
-    where("deckId", "==", deckId),
-    limit(perPage),
-    startAt(page),
-  );
+  const q = query(flashcardsRef, orderBy("elapsedDays", "desc"), startAt(0), limit(6));
 
   const querySnap = (await getDocs(q)) as QuerySnapshot<FirestoreFlashcard>;
 

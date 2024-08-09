@@ -1,13 +1,15 @@
 import React from "react";
-import {useMediaQuery} from "usehooks-ts";
 import Link from "next/link";
 import {TooltipProvider} from "@radix-ui/react-tooltip";
 
 import {useSidebarStore} from "~/sidebar/store/sidebar";
 import {useCreateFlashcard} from "~/flashcard/store/create-flashcard";
 import {DeckToolbarButton} from "~/flashcard/components/deck-toolbar-button";
+import {DeckToolbarPagination} from "~/flashcard/components/deck-toolbar-pagination";
 
 import {Button} from "@/components/ui/button";
+import {useIsSmall} from "@/lib/hooks/use-is-small";
+import {Separator} from "@/components/ui/separator";
 
 interface DeckToolbarProps {
   setShowAnswers: (showAnswers: boolean) => void;
@@ -20,7 +22,7 @@ function DeckToolbar({setShowAnswers, showAnswers, deckId}: DeckToolbarProps) {
     state.isLocked,
     state.lockedPercentage,
   ]);
-  const isSmall = useMediaQuery("(max-width: 860px)");
+  const {isSmall} = useIsSmall();
   const openDrawer = useCreateFlashcard((state) => state.openDrawer);
 
   return (
@@ -55,7 +57,11 @@ function DeckToolbar({setShowAnswers, showAnswers, deckId}: DeckToolbarProps) {
               onClick={() => setShowAnswers(!showAnswers)}
             />
 
-            <Button asChild className='ml-3 h-8 rounded-2xl px-2.5 leading-none'>
+            <Separator className='mx-1.5 h-7 w-0.5' orientation='vertical' />
+
+            <DeckToolbarPagination />
+
+            <Button asChild className='ml-1 h-8 rounded-2xl px-2.5 leading-none'>
               <Link href={`/flashcards/${deckId}`}>Practice</Link>
             </Button>
           </div>

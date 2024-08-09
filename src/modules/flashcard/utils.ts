@@ -17,17 +17,24 @@ const initialFlashcard: Omit<Flashcard, "id" | "question" | "answer" | "topic" |
   elapsedDays: 0,
 };
 
-export const adaptGeneratedFlashcards = (
-  generatedFlashcards: {question: string; answer: string; topic: string}[],
+export const adaptGeneratedFlashcard = (
+  {question, answer, topic}: {question: string; answer: string; topic: string},
   deckId: string,
 ) => {
-  return generatedFlashcards.map(({question, answer, topic}) => ({
+  return {
     question,
     answer,
     topic,
     deckId,
     ...initialFlashcard,
-  }));
+  };
+};
+
+export const adaptGeneratedFlashcards = (
+  generatedFlashcards: {question: string; answer: string; topic: string}[],
+  deckId: string,
+) => {
+  return generatedFlashcards.map((flashcard) => adaptGeneratedFlashcard(flashcard, deckId));
 };
 
 export const compareFlashcards = (oldFlashcard: Flashcard, newFlashcard: Flashcard) => {

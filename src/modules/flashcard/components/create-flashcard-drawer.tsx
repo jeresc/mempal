@@ -1,6 +1,6 @@
-import * as React from "react";
-import {MinusIcon, PlusIcon} from "@radix-ui/react-icons";
-import {Bar, BarChart, ResponsiveContainer} from "recharts";
+import React from "react";
+
+import {CreateFlashcardForm} from "./create-flashcard-form";
 
 import {Button} from "@/components/ui/button";
 import {
@@ -11,117 +11,29 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 
-const data = [
-  {
-    goal: 400,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 239,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 349,
-  },
-];
-
-function CreateFlashcardDrawer({
-  open,
-  setOpen,
-}: {
+interface CreateFlashcardDrawerProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  const [goal, setGoal] = React.useState(350);
+}
 
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)));
-  }
-
+function CreateFlashcardDrawer({open, setOpen}: CreateFlashcardDrawerProps) {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent>
-        <div className='mx-auto w-full max-w-sm'>
+        <div className='mx-auto w-full max-w-md'>
           <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            <DrawerTitle>Create flashcard</DrawerTitle>
+            <DrawerDescription>Select a topic and add a question & answer.</DrawerDescription>
           </DrawerHeader>
           <div className='p-4 pb-0'>
-            <div className='flex items-center justify-center space-x-2'>
-              <Button
-                className='h-8 w-8 shrink-0 rounded-full'
-                disabled={goal <= 200}
-                size='icon'
-                variant='outline'
-                onClick={() => onClick(-10)}
-              >
-                <MinusIcon className='h-4 w-4' />
-                <span className='sr-only'>Decrease</span>
-              </Button>
-              <div className='flex-1 text-center'>
-                <div className='text-7xl font-bold tracking-tighter'>{goal}</div>
-                <div className='text-[0.70rem] uppercase text-muted-foreground'>Calories/day</div>
-              </div>
-              <Button
-                className='h-8 w-8 shrink-0 rounded-full'
-                disabled={goal >= 400}
-                size='icon'
-                variant='outline'
-                onClick={() => onClick(10)}
-              >
-                <PlusIcon className='h-4 w-4' />
-                <span className='sr-only'>Increase</span>
-              </Button>
-            </div>
-            <div className='mt-3 h-[120px]'>
-              <ResponsiveContainer height='100%' width='100%'>
-                <BarChart data={data}>
-                  <Bar
-                    dataKey='goal'
-                    style={
-                      {
-                        fill: "hsl(var(--foreground))",
-                        opacity: 0.9,
-                      } as React.CSSProperties
-                    }
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <CreateFlashcardForm />
           </div>
           <DrawerFooter>
-            <Button>Submit</Button>
+            <Button className='w-full' form='create-flashcard-form' type='submit'>
+              Create
+            </Button>
             <DrawerClose asChild>
               <Button variant='outline'>Cancel</Button>
             </DrawerClose>

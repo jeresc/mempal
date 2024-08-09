@@ -2,10 +2,14 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 import {addFlashcardsToDeck} from "~/flashcard/data";
 import {Flashcard} from "~/flashcard/types";
-
-import {adaptGeneratedFlashcards} from "../utils";
+import {adaptGeneratedFlashcards} from "~/flashcard/utils";
+import {useCreateFlashcard} from "~/flashcard/store/create-flashcard";
+import {usePaginatedFlashcardsStore} from "~/flashcard/store/paginated-flashcards";
 
 const useAddFlashcards = ({deckId}: {deckId: string}) => {
+  const setOpenDrawer = useCreateFlashcard((state) => state.setDrawerOpen);
+  const setPage = usePaginatedFlashcardsStore((state) => state.setPage);
+
   const queryClient = useQueryClient();
 
   const mutationFn = async ({
@@ -18,25 +22,22 @@ const useAddFlashcards = ({deckId}: {deckId: string}) => {
     return flashcardsResult.flashcards;
   };
 
-  const {mutate, isPending: isMutating} = useMutation({
+  const {
+    mutate,
+    isPending: isMutating,
+    mutateAsync,
+  } = useMutation({
     mutationFn,
-    mutationKey: ["flashcards", deckId],
+    mutationKey: ["flashcards", deckId, 1],
     onMutate: async ({flashcards}) => {
-      await Promise.all([queryClient.cancelQueries({queryKey: ["flashcards", deckId]})]);
-      const previousFlashcards = queryClient.getQueryData(["flashcards", deckId]);
+      await Promise.all([queryClient.cancelQueries({queryKey: ["flashcards", deckId, 1]})]);
+      const previousFlashcards = queryClient.getQueryData(["flashcards", deckId, 1]);
 
-      await queryClient.setQueryData(
-        ["flashcards", deckId],
-        (oldFlashcardsResult: {success: {flashcards: Flashcard[]}}) => {
-          if (oldFlashcardsResult === undefined)
-            return adaptGeneratedFlashcards(flashcards, deckId);
+      await queryClient.setQueryData(["flashcards", deckId], (oldFlashcards: Flashcard[]) => {
+        if (oldFlashcards === undefined) return adaptGeneratedFlashcards(flashcards, deckId);
 
-          console.log(oldFlashcardsResult);
-          const oldFlashcards = oldFlashcardsResult.success.flashcards;
-
-          return [...oldFlashcards, ...adaptGeneratedFlashcards(flashcards, deckId)];
-        },
-      );
+        return [...adaptGeneratedFlashcards(flashcards, deckId), ...oldFlashcards].slice(0, 6);
+      });
 
       return {previousFlashcards};
     },
@@ -50,11 +51,14 @@ const useAddFlashcards = ({deckId}: {deckId: string}) => {
       }
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries({queryKey: ["flashcards", deckId]});
+      setOpenDrawer(false);
+      setPage(1);
+
+      await queryClient.invalidateQueries({queryKey: ["flashcards", deckId, 1]});
     },
   });
 
-  return {mutate, isMutating};
+  return {mutate, isMutating, mutateAsync};
 };
 
 export {useAddFlashcards};

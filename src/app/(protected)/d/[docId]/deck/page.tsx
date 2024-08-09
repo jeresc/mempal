@@ -8,29 +8,38 @@ import {useParamsDoc} from "~/document/hooks/use-params-doc";
 import {useDocument} from "~/document/hooks/use-document";
 import {getMediaById} from "~/media/api";
 import {adaptGeneratedFlashcards} from "~/flashcard/utils";
-import {useFlashcardsByDeck} from "~/flashcard/hooks/use-flashcards-by-deck";
 import {useAddFlashcards} from "~/flashcard/hooks/use-add-flashcards";
 import {FlashcardCard} from "~/flashcard/components/flashcard-card";
 import {PlaceholderFlashcardCard} from "~/flashcard/components/placeholder-flashcard-card";
 import {DeckToolbar} from "~/flashcard/components/deck-toolbar";
 import {CreateFlashcardDrawer} from "~/flashcard/components/create-flashcard-drawer";
 import {useCreateFlashcard} from "~/flashcard/store/create-flashcard";
+import {CreateFlashcardDialog} from "~/flashcard/components/create-flashcard-dialog";
+import {usePaginatedFlashcardsStore} from "~/flashcard/store/paginated-flashcards";
+import {usePaginatedFlashcards} from "~/flashcard/hooks/use-paginated-flashcards";
+
+import {useIsSmall} from "@/lib/hooks/use-is-small";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
+const perPage = 6;
 
 export default function DeckPage() {
   const [isDrawerOpen, setDrawerOpen] = useCreateFlashcard((state) => [
     state.isDrawerOpen,
     state.setDrawerOpen,
   ]);
+  const {isSmall} = useIsSmall();
   const {docId} = useParamsDoc();
   const {document, isPending: isPendingDoc, error: errorDoc} = useDocument({docId});
   const [generatedFlashcards, setGeneratedFlashcards] = useState<
     {question: string; answer: string; topic: string}[]
   >([]);
-  const {flashcards, isPending: isPendingFlashcards} = useFlashcardsByDeck({
+  const page = usePaginatedFlashcardsStore((state) => state.page);
+  const {flashcards, isPending: isPendingFlashcards} = usePaginatedFlashcards({
     deckId: document.deckId!,
+    page,
+    perPage,
   });
   const {mutate: addFlashcards} = useAddFlashcards({
     deckId: document.deckId!,
@@ -82,10 +91,17 @@ export default function DeckPage() {
 
   return (
     <main className='flex flex-col gap-2'>
-      <CreateFlashcardDrawer
-        open={isDrawerOpen}
-        setOpen={setDrawerOpen as Dispatch<SetStateAction<boolean>>}
-      />
+      {isSmall ? (
+        <CreateFlashcardDrawer
+          open={isDrawerOpen}
+          setOpen={setDrawerOpen as Dispatch<SetStateAction<boolean>>}
+        />
+      ) : (
+        <CreateFlashcardDialog
+          open={isDrawerOpen}
+          setOpen={setDrawerOpen as Dispatch<SetStateAction<boolean>>}
+        />
+      )}
       <header className='border-boder rounded-md border px-4 py-2'>
         <h1 className='flex items-center gap-2 text-4xl font-bold'>
           {Boolean(document.title) ? (
@@ -129,15 +145,15 @@ export default function DeckPage() {
 
       <div className='grid max-h-[calc(100vh-140px)] grid-cols-1 gap-2 overflow-y-auto sm:grid-cols-2'>
         {/* <CreateFlashcardCard /> */}
-        {[...Array(6).keys()].map((index) => (
-          <PlaceholderFlashcardCard key={"placeholder-" + index} />
-        ))}
         {flashcards?.length > 0 &&
-          [...flashcards]
-            .sort((a, b) => a.dueAt.getTime() - b.dueAt.getTime())
-            .map((flashcard, index) => (
-              <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
-            ))}
+          [...flashcards].map((flashcard, index) => (
+            <FlashcardCard key={flashcard.id ?? index} {...flashcard} showAnswer={showAnswers} />
+          ))}
+        {[...Array(flashcards?.length > 0 ? Math.max(6 - flashcards.length) : 6).keys()].map(
+          (index) => (
+            <PlaceholderFlashcardCard key={"placeholder-" + index} />
+          ),
+        )}
       </div>
       <DeckToolbar
         deckId={document.deckId!}
